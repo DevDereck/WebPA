@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 200" role="img" aria-labelledby="logoTitle logoDesc">
+  <title id="logoTitle">Iglesia Cristiana Piedra Angular</title>
+  <desc id="logoDesc">Logo con un hexágono turquesa, una cruz centrada y el texto Iglesia Cristiana Piedra Angular</desc>
+  <defs>
+    <linearGradient id="hexGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#39d6cf" />
+      <stop offset="100%" stop-color="#0f9ea5" />
+    </linearGradient>
+  </defs>
+  <g fill="none" fill-rule="evenodd" transform="translate(10 10)">
+    <path d="M120 0 238 68.5 238 205.5 120 274 2 205.5 2 68.5z" fill="url(#hexGradient)" stroke="#0d7b82" stroke-width="8" stroke-linejoin="round" />
+    <path d="M120 44c9 0 16 7 16 16v56h40c9 0 16 7 16 16s-7 16-16 16h-40v44c0 9-7 16-16 16s-16-7-16-16v-44H64c-9 0-16-7-16-16s7-16 16-16h40V60c0-9 7-16 16-16z" fill="#fff" />
+    <g transform="translate(280 46)" fill="#0f6570" font-family="'Segoe UI', 'Inter', Arial, sans-serif">
+      <text font-size="42" font-weight="600" x="0" y="50">Iglesia Cristiana</text>
+      <text font-size="54" font-weight="700" x="0" y="120">Piedra Angular</text>
+    </g>
+  </g>
+</svg>
