@@ -1,409 +1,220 @@
-diff --git a/index.html b/index.html
-new file mode 100644
-index 0000000000000000000000000000000000000000..e8a60d5b22e659d4d6c529855b4623506e3c41ff
---- /dev/null
-+++ b/index.html
-@@ -0,0 +1,403 @@
-+<!DOCTYPE html>
-+<html lang="es">
-+<head>
-+  <meta charset="UTF-8" />
-+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-+  <title>Iglesia Cristiana Piedra Angular</title>
-+  <link rel="stylesheet" href="style.css" />
-+  <link rel="preconnect" href="https://fonts.googleapis.com" />
-+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-+</head>
-+<body>
-+  <header class="topbar">
-+    <div class="topbar__badge">BIENVENIDOS</div>
-+    <div class="brand">
-+      <img src="assets/logo.svg" alt="Logo Iglesia Cristiana Piedra Angular" class="brand__logo" />
-+      <div class="brand__text">
-+        <span class="brand__overline">Iglesia Cristiana</span>
-+        <h1>Piedra Angular</h1>
-+      </div>
-+    </div>
-+    <button class="menu-toggle" aria-label="Abrir menú de navegación"><span></span></button>
-+    <nav class="nav" id="mainNav">
-+      <a href="#inicio">Inicio</a>
-+      <a href="#sobre">Sobre nosotros</a>
-+      <a href="#ministerios">Ministerios</a>
-+      <a href="#galeria">Galería</a>
-+      <a href="#contacto">Contacto</a>
-+      <a href="#ubicacion">Dirección</a>
-+    </nav>
-+    <a class="btn btn--ghost" href="#contacto">Planifica tu visita</a>
-+  </header>
-+
-+  <main>
-+    <section id="inicio" class="hero fade-in">
-+      <div class="hero__content">
-+        <div class="pill">Una iglesia para cada generación</div>
-+        <h2>Fe vibrante, comunidad cálida y propósito claro</h2>
-+        <p class="lead">Nos reunimos cada semana para adorar juntos, crecer en la Palabra y servir a nuestra ciudad con excelencia y alegría.</p>
-+        <div class="hero__actions">
-+          <a class="btn" href="#ministerios">Descubre ministerios</a>
-+          <a class="btn btn--outline" href="#galeria">Ver galería</a>
-+        </div>
-+        <div class="hero__stats">
-+          <div class="stat">
-+            <span class="stat__number">+20</span>
-+            <span class="stat__label">Años sirviendo</span>
-+          </div>
-+          <div class="stat">
-+            <span class="stat__number">4</span>
-+            <span class="stat__label">Reuniones semanales</span>
-+          </div>
-+          <div class="stat">
-+            <span class="stat__number">12</span>
-+            <span class="stat__label">Ministerios activos</span>
-+          </div>
-+        </div>
-+        <div class="highlights">
-+          <div class="highlight">
-+            <strong>Domingo</strong>
-+            <p class="muted">Celebración familiar · 10:00 AM · Auditorio principal</p>
-+          </div>
-+          <div class="highlight">
-+            <strong>Miércoles</strong>
-+            <p class="muted">Estudio bíblico y grupos · 7:30 PM</p>
-+          </div>
-+          <div class="highlight">
-+            <strong>Viernes</strong>
-+            <p class="muted">Noche de adoración · 8:00 PM</p>
-+          </div>
-+        </div>
-+      </div>
-+      <div class="hero__media">
-+        <div class="hero__card">
-+          <p class="overline">Próximo servicio</p>
-+          <h3>Domingo · 10:00 AM</h3>
-+          <p class="muted">Calle Esperanza 123, Col. Centro · Ciudad</p>
-+          <div class="schedule">
-+            <div class="contact-block">
-+              <span class="contact-icon">📅</span>
-+              <div>
-+                <strong>Reunión en vivo</strong>
-+                <p class="muted">Auditorio y transmisión online</p>
-+              </div>
-+            </div>
-+            <div class="contact-block">
-+              <span class="contact-icon">🤝</span>
-+              <div>
-+                <strong>Próximo paso</strong>
-+                <p class="muted">Clase de bienvenida · 12:30 PM</p>
-+              </div>
-+            </div>
-+          </div>
-+          <a class="btn" href="#contacto">Confirma tu visita</a>
-+        </div>
-+        <div class="hero__image" role="img" aria-label="Comunidad reunida en adoración">
-+          <img src="assets/image_6.png" alt="Reunión de la iglesia" />
-+        </div>
-+      </div>
-+    </section>
-+
-+    <section id="sobre" class="section">
-+      <div class="section__header">
-+        <p class="eyebrow">Quiénes somos</p>
-+        <h2>Una familia que ama a Dios y a las personas</h2>
-+        <p class="lead">Creamos espacios para encontrarnos con Jesús, crecer en comunidad y servir con creatividad en cada área de la iglesia.</p>
-+      </div>
-+      <div class="about">
-+        <div class="card card--soft">
-+          <h3>Nuestra misión</h3>
-+          <p class="muted">Inspirar a cada persona a conocer a Cristo, crecer en comunidad y servir con excelencia.</p>
-+          <ul class="list">
-+            <li>Fidelidad a la Palabra de Dios.</li>
-+            <li>Creatividad para alcanzar a la ciudad.</li>
-+            <li>Excelencia en la adoración y el servicio.</li>
-+            <li>Unidad generacional y familiar.</li>
-+          </ul>
-+          <div class="detail-panel" id="detalleMinisterio">
-+            <h4>Ministerio destacado</h4>
-+            <p class="muted">Selecciona un ministerio para ver detalles, horarios y contacto.</p>
-+          </div>
-+        </div>
-+        <div class="about__gallery">
-+          <img src="assets/image_1.png" alt="Jóvenes participando en actividades" />
-+          <img src="assets/image_3.png" alt="Equipo sirviendo" />
-+          <img src="assets/image_2.png" alt="Voluntarios sonriendo" />
-+          <img src="assets/image_5.png" alt="Reunión de adoración" />
-+        </div>
-+      </div>
-+    </section>
-+
-+    <section id="ministerios" class="section section--alt">
-+      <div class="section__header">
-+        <p class="eyebrow">Vida de la iglesia</p>
-+        <h2>Ministerios para cada paso de fe</h2>
-+        <p class="lead">Conecta con tu llamado: alabanza, formación, familia, misiones y más.</p>
-+      </div>
-+      <div class="grid grid--3">
-+        <article class="card ministry" data-name="Alabanza" data-horario="Jueves · 8:00 PM" data-contacto="alabanza@piedraangular.org">
-+          <img src="assets/image_4.png" alt="Equipo de alabanza" class="ministry__bg" />
-+          <div class="badge">Alabanza</div>
-+          <h3>Adoración vibrante</h3>
-+          <p>Sonido moderno y atmósfera de honra para exaltar a Jesús.</p>
-+          <button class="btn btn--text">Ver detalles</button>
-+        </article>
-+        <article class="card ministry" data-name="Juventud" data-horario="Sábados · 6:00 PM" data-contacto="juventud@piedraangular.org">
-+          <img src="assets/image_1.png" alt="Ministerio de jóvenes" class="ministry__bg" />
-+          <div class="badge">Juventud</div>
-+          <h3>Tribus con propósito</h3>
-+          <p>Encuentros creativos que impulsan la fe y liderazgo de los jóvenes.</p>
-+          <button class="btn btn--text">Ver detalles</button>
-+        </article>
-+        <article class="card ministry" data-name="Niños" data-horario="Domingo · 10:00 AM" data-contacto="ninos@piedraangular.org">
-+          <img src="assets/image_2.png" alt="Ministerio de niños" class="ministry__bg" />
-+          <div class="badge">Niños</div>
-+          <h3>Exploradores de fe</h3>
-+          <p>Ambientes seguros y divertidos para descubrir a Jesús.</p>
-+          <button class="btn btn--text">Ver detalles</button>
-+        </article>
-+        <article class="card ministry" data-name="Familias" data-horario="Viernes · 7:00 PM" data-contacto="familias@piedraangular.org">
-+          <img src="assets/image_3.png" alt="Ministerio de familias" class="ministry__bg" />
-+          <div class="badge">Familias</div>
-+          <h3>Hogares fuertes</h3>
-+          <p>Talleres, consejería y espacios para matrimonios y padres.</p>
-+          <button class="btn btn--text">Ver detalles</button>
-+        </article>
-+        <article class="card ministry" data-name="Misiones" data-horario="Sábado · 9:00 AM" data-contacto="misiones@piedraangular.org">
-+          <img src="assets/image_5.png" alt="Ministerio de misiones" class="ministry__bg" />
-+          <div class="badge">Misiones</div>
-+          <h3>Amor en acción</h3>
-+          <p>Proyectos locales y globales para llevar esperanza.</p>
-+          <button class="btn btn--text">Ver detalles</button>
-+        </article>
-+        <article class="card ministry" data-name="Creatividad" data-horario="Martes · 7:30 PM" data-contacto="creatividad@piedraangular.org">
-+          <img src="assets/image_6.png" alt="Ministerio de creatividad" class="ministry__bg" />
-+          <div class="badge">Creatividad</div>
-+          <h3>Arte y producción</h3>
-+          <p>Diseño, media y producción para compartir el mensaje.</p>
-+          <button class="btn btn--text">Ver detalles</button>
-+        </article>
-+      </div>
-+    </section>
-+
-+    <section id="galeria" class="section">
-+      <div class="section__header">
-+        <p class="eyebrow">Momentos</p>
-+        <h2>Galería de ministerios</h2>
-+        <p class="lead">Descubre cómo vivimos la fe: adoración, servicio, discipulado y comunidad.</p>
-+      </div>
-+      <div class="gallery">
-+        <div class="gallery__item" data-ministry="Alabanza">
-+          <img src="assets/image_4.png" alt="Alabanza en vivo" />
-+          <div class="gallery__overlay">
-+            <h4>Alabanza</h4>
-+            <p>Worship en vivo con nuestro equipo creativo.</p>
-+          </div>
-+        </div>
-+        <div class="gallery__item" data-ministry="Juventud">
-+          <img src="assets/image_1.png" alt="Encuentro de juventud" />
-+          <div class="gallery__overlay">
-+            <h4>Juventud</h4>
-+            <p>Conexiones, talleres y discipulado para jóvenes.</p>
-+          </div>
-+        </div>
-+        <div class="gallery__item" data-ministry="Niños">
-+          <img src="assets/image_2.png" alt="Actividades de niños" />
-+          <div class="gallery__overlay">
-+            <h4>Niños</h4>
-+            <p>Clases creativas y dinámicas para los pequeños.</p>
-+          </div>
-+        </div>
-+        <div class="gallery__item" data-ministry="Familias">
-+          <img src="assets/image_3.png" alt="Reunión de familias" />
-+          <div class="gallery__overlay">
-+            <h4>Familias</h4>
-+            <p>Charlas y acompañamiento para hogares saludables.</p>
-+          </div>
-+        </div>
-+        <div class="gallery__item" data-ministry="Misiones">
-+          <img src="assets/image_5.png" alt="Salida de misiones" />
-+          <div class="gallery__overlay">
-+            <h4>Misiones</h4>
-+            <p>Amor en acción en nuestra ciudad y más allá.</p>
-+          </div>
-+        </div>
-+        <div class="gallery__item" data-ministry="Creatividad">
-+          <img src="assets/image_6.png" alt="Equipo creativo" />
-+          <div class="gallery__overlay">
-+            <h4>Creatividad</h4>
-+            <p>Producción, media y artes visuales para inspirar.</p>
-+          </div>
-+        </div>
-+      </div>
-+    </section>
-+
-+    <section id="contacto" class="section section--alt">
-+      <div class="section__header">
-+        <p class="eyebrow">Hablemos</p>
-+        <h2>Contacto y oración</h2>
-+        <p class="lead">Escríbenos si necesitas oración, información o quieres servir.</p>
-+      </div>
-+      <div class="grid grid--2 contact">
-+        <form class="card form" id="contactForm">
-+          <label for="nombre">Nombre</label>
-+          <input id="nombre" name="nombre" type="text" placeholder="Tu nombre" required />
-+
-+          <label for="correo">Correo electrónico</label>
-+          <input id="correo" name="correo" type="email" placeholder="tucorreo@example.com" required />
-+
-+          <label for="ministerio">Ministerio de interés</label>
-+          <select id="ministerio" name="ministerio" required>
-+            <option value="">Selecciona una opción</option>
-+            <option>Alabanza</option>
-+            <option>Juventud</option>
-+            <option>Niños</option>
-+            <option>Familias</option>
-+            <option>Misiones</option>
-+            <option>Creatividad</option>
-+          </select>
-+
-+          <label for="mensaje">Mensaje</label>
-+          <textarea id="mensaje" name="mensaje" rows="4" placeholder="¿Cómo podemos ayudarte?" required></textarea>
-+
-+          <div id="formStatus" class="form__status"></div>
-+          <button type="submit" class="btn">Enviar mensaje</button>
-+          <p class="small muted">*Formulario demostrativo. Conéctalo a tu servicio preferido.</p>
-+        </form>
-+        <div class="card contact-info">
-+          <h3>Visítanos</h3>
-+          <p class="muted">Calle Esperanza 123, Col. Centro, Ciudad.</p>
-+          <div class="contact-block">
-+            <span class="contact-icon">📞</span>
-+            <div>
-+              <strong>Teléfono</strong>
-+              <p class="muted">+52 55 1234 5678</p>
-+            </div>
-+          </div>
-+          <div class="contact-block">
-+            <span class="contact-icon">📧</span>
-+            <div>
-+              <strong>Correo</strong>
-+              <p class="muted">contacto@piedraangular.org</p>
-+            </div>
-+          </div>
-+          <div class="contact-block">
-+            <span class="contact-icon">⏰</span>
-+            <div>
-+              <strong>Horarios de oficina</strong>
-+              <p class="muted">Mar - Vie · 10:00 AM - 6:00 PM</p>
-+            </div>
-+          </div>
-+          <a class="btn btn--outline" href="#ubicacion">Cómo llegar</a>
-+        </div>
-+      </div>
-+    </section>
-+
-+    <section id="ubicacion" class="section">
-+      <div class="section__header">
-+        <p class="eyebrow">Estamos cerca de ti</p>
-+        <h2>Dirección</h2>
-+        <p class="lead">Encuéntranos en el corazón de la ciudad. Hay estacionamiento y acceso en transporte público.</p>
-+      </div>
-+      <div class="visit card">
-+        <div class="visit__map">
-+          <div class="map__placeholder">Mapa interactivo</div>
-+          <p class="small muted">Reemplaza este recuadro con tu mapa embebido favorito.</p>
-+        </div>
-+        <div class="visit__info">
-+          <h3>Cómo llegar</h3>
-+          <ul class="list">
-+            <li>Estación Metro Central a 5 min caminando.</li>
-+            <li>Líneas de autobús 12, 34 y 55 pasan frente al templo.</li>
-+            <li>Estacionamiento gratuito durante las reuniones dominicales.</li>
-+          </ul>
-+          <a class="btn" href="https://maps.google.com" target="_blank" rel="noreferrer">Ver en Google Maps</a>
-+        </div>
-+      </div>
-+    </section>
-+  </main>
-+
-+  <footer class="footer">
-+    <div class="footer__brand">
-+      <img src="assets/logo.svg" alt="Logo Iglesia Cristiana Piedra Angular" />
-+      <div>
-+        <strong>Iglesia Cristiana Piedra Angular</strong>
-+        <p class="small">Amar a Dios. Amar a las personas. Servir a la ciudad.</p>
-+      </div>
-+    </div>
-+    <div class="footer__cols">
-+      <div>
-+        <h4>Explora</h4>
-+        <a href="#inicio">Inicio</a><br />
-+        <a href="#ministerios">Ministerios</a><br />
-+        <a href="#galeria">Galería</a>
-+      </div>
-+      <div>
-+        <h4>Conecta</h4>
-+        <a href="#contacto">Contacto</a><br />
-+        <a href="#ubicacion">Dirección</a><br />
-+        <a href="mailto:contacto@piedraangular.org">Escríbenos</a>
-+      </div>
-+      <div>
-+        <h4>Redes</h4>
-+        <a href="#">Facebook</a><br />
-+        <a href="#">Instagram</a><br />
-+        <a href="#">YouTube</a>
-+      </div>
-+    </div>
-+    <p class="small">© 2024 Iglesia Cristiana Piedra Angular. Todos los derechos reservados.</p>
-+  </footer>
-+
-+  <script>
-+    const menuToggle = document.querySelector('.menu-toggle');
-+    const nav = document.getElementById('mainNav');
-+    const detailPanel = document.getElementById('detalleMinisterio');
-+    const form = document.getElementById('contactForm');
-+    const formStatus = document.getElementById('formStatus');
-+
-+    menuToggle.addEventListener('click', () => {
-+      nav.classList.toggle('is-open');
-+    });
-+
-+    nav.querySelectorAll('a').forEach((link) => {
-+      link.addEventListener('click', () => nav.classList.remove('is-open'));
-+    });
-+
-+    document.querySelectorAll('.ministry').forEach((card) => {
-+      card.addEventListener('click', () => {
-+        const nombre = card.dataset.name;
-+        const horario = card.dataset.horario;
-+        const contacto = card.dataset.contacto;
-+        detailPanel.innerHTML = `
-+          <h4>${nombre}</h4>
-+          <p class="muted">Reuniones: ${horario}</p>
-+          <p class="muted">Contacto: ${contacto}</p>
-+          <p class="muted">¡Te esperamos! Escríbenos para sumarte o recibir más información.</p>
-+        `;
-+      });
-+    });
-+
-+    form.addEventListener('submit', (event) => {
-+      event.preventDefault();
-+      const nombre = form.nombre.value.trim();
-+      const correo = form.correo.value.trim();
-+      const ministerio = form.ministerio.value;
-+      const mensaje = form.mensaje.value.trim();
-+
-+      if (!nombre || !correo || !ministerio || !mensaje) {
-+        showStatus('Por favor completa todos los campos obligatorios.', false);
-+        return;
-+      }
-+
-+      showStatus(`Gracias, ${nombre}. Hemos recibido tu mensaje sobre ${ministerio}.`, true);
-+      form.reset();
-+    });
-+
-+    function showStatus(text, success) {
-+      formStatus.textContent = text;
-+      formStatus.className = 'form__status is-visible ' + (success ? 'form__status--success' : 'form__status--error');
-+    }
-+  </script>
-+</body>
-+</html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iglesia Cristiana Piedra Angular</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="assets/logo.svg" alt="Logo Iglesia Cristiana Piedra Angular" class="brand__logo" />
+      <div class="brand__text">
+        <span class="brand__overline">Bienvenidos</span>
+        <h1>Iglesia Cristiana Piedra Angular</h1>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#inicio">Inicio</a>
+      <a href="#sobre">Sobre nosotros</a>
+      <a href="#ministerios">Ministerios</a>
+      <a href="#contacto">Contacto</a>
+      <a href="#ubicacion">Dirección</a>
+    </nav>
+    <a class="btn btn--outline" href="#contacto">Agenda una visita</a>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero">
+      <div class="hero__content">
+        <p class="eyebrow">Una comunidad que ama y sirve</p>
+        <h2>Encuentra esperanza y propósito en Jesús</h2>
+        <p class="lead">Somos una familia de fe apasionada por compartir el amor de Cristo, levantar a las personas y servir a nuestra ciudad.</p>
+        <div class="hero__actions">
+          <a class="btn" href="#ministerios">Explora ministerios</a>
+          <a class="btn btn--ghost" href="#sobre">Conócenos</a>
+        </div>
+        <div class="hero__highlights">
+          <div class="highlight-card">
+            <span class="highlight__number">+20</span>
+            <span class="highlight__label">Años edificando</span>
+          </div>
+          <div class="highlight-card">
+            <span class="highlight__number">4</span>
+            <span class="highlight__label">Reuniones semanales</span>
+          </div>
+          <div class="highlight-card">
+            <span class="highlight__number">12</span>
+            <span class="highlight__label">Ministerios activos</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero__panel card">
+        <p class="overline">Próxima reunión</p>
+        <h3>Domingo 10:00 AM</h3>
+        <p class="muted">Auditorio principal · Calle Esperanza 123, Ciudad</p>
+        <div class="schedule">
+          <div>
+            <strong>Miércoles</strong>
+            <span>Estudio bíblico · 7:30 PM</span>
+          </div>
+          <div>
+            <strong>Viernes</strong>
+            <span>Oración y adoración · 8:00 PM</span>
+          </div>
+        </div>
+        <a class="btn" href="#contacto">Confirma tu visita</a>
+      </div>
+    </section>
+
+    <section id="sobre" class="section">
+      <div class="section__header">
+        <p class="eyebrow">Quiénes somos</p>
+        <h2>Sobre nosotros</h2>
+        <p class="lead">Creemos en un evangelio vivo que transforma vidas a través de la Palabra, la oración y el servicio.</p>
+      </div>
+      <div class="grid grid--2">
+        <div class="card card--soft">
+          <h3>Nuestra misión</h3>
+          <p>Ser una iglesia saludable que inspira a las personas a conocer a Cristo, crecer en comunidad y servir con excelencia en cada área de la vida.</p>
+        </div>
+        <div class="card card--soft">
+          <h3>Nuestros valores</h3>
+          <ul class="list">
+            <li>Fidelidad a la Palabra de Dios.</li>
+            <li>Amor práctico y compasión hacia todos.</li>
+            <li>Excelencia y creatividad para servir.</li>
+            <li>Unidad generacional y familiar.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="ministerios" class="section section--alt">
+      <div class="section__header">
+        <p class="eyebrow">Vida de la iglesia</p>
+        <h2>Ministerios</h2>
+        <p class="lead">Espacios para cada etapa de la vida. ¡Encuentra tu lugar y sirve con nosotros!</p>
+      </div>
+      <div class="grid grid--3">
+        <article class="card ministry">
+          <h3>Alabanza</h3>
+          <p>Adoración vibrante que nos conecta con el corazón de Dios.</p>
+        </article>
+        <article class="card ministry">
+          <h3>Juventud</h3>
+          <p>Encuentros creativos y discipulado intencional para jóvenes.</p>
+        </article>
+        <article class="card ministry">
+          <h3>Niños</h3>
+          <p>Ambientes seguros y divertidos para que los más pequeños crezcan en fe.</p>
+        </article>
+        <article class="card ministry">
+          <h3>Familia</h3>
+          <p>Mentorías, talleres y consejería para fortalecer hogares.</p>
+        </article>
+        <article class="card ministry">
+          <h3>Misiones</h3>
+          <p>Proyectos locales y globales para llevar esperanza donde hace falta.</p>
+        </article>
+        <article class="card ministry">
+          <h3>Grupos en casa</h3>
+          <p>Comunidades pequeñas que crecen juntas cada semana.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contacto" class="section">
+      <div class="section__header">
+        <p class="eyebrow">Hablemos</p>
+        <h2>Contacto y oración</h2>
+        <p class="lead">Escríbenos si necesitas oración, más información o quieres servir.</p>
+      </div>
+      <div class="grid grid--2">
+        <form class="card card--soft form">
+          <label for="nombre">Nombre</label>
+          <input id="nombre" name="nombre" type="text" placeholder="Tu nombre" />
+
+          <label for="correo">Correo electrónico</label>
+          <input id="correo" name="correo" type="email" placeholder="tucorreo@example.com" />
+
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" rows="4" placeholder="¿Cómo podemos ayudarte?"></textarea>
+
+          <button type="submit" class="btn">Enviar mensaje</button>
+          <p class="small muted">*Formulario demostrativo. Conéctalo a tu servicio preferido.</p>
+        </form>
+        <div class="card contact-info">
+          <h3>Visítanos</h3>
+          <p class="muted">Calle Esperanza 123, Col. Centro, Ciudad.</p>
+          <div class="contact-block">
+            <span class="contact-icon">📞</span>
+            <div>
+              <strong>Teléfono</strong>
+              <p class="muted">+52 55 1234 5678</p>
+            </div>
+          </div>
+          <div class="contact-block">
+            <span class="contact-icon">📧</span>
+            <div>
+              <strong>Correo</strong>
+              <p class="muted">contacto@piedraangular.org</p>
+            </div>
+          </div>
+          <div class="contact-block">
+            <span class="contact-icon">⏰</span>
+            <div>
+              <strong>Horarios de oficina</strong>
+              <p class="muted">Mar - Vie · 10:00 AM - 6:00 PM</p>
+            </div>
+          </div>
+          <a class="btn btn--outline" href="#ubicacion">Cómo llegar</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="ubicacion" class="section section--alt">
+      <div class="section__header">
+        <p class="eyebrow">Estamos cerca de ti</p>
+        <h2>Dirección</h2>
+        <p class="lead">Encuéntranos en el corazón de la ciudad. Hay estacionamiento y acceso en transporte público.</p>
+      </div>
+      <div class="grid grid--2">
+        <div class="card card--soft">
+          <h3>Cómo llegar</h3>
+          <ul class="list">
+            <li>Estación Metro Central a 5 min caminando.</li>
+            <li>Líneas de autobús 12, 34 y 55 pasan frente al templo.</li>
+            <li>Estacionamiento gratuito durante las reuniones dominicales.</li>
+          </ul>
+          <a class="btn" href="https://maps.google.com" target="_blank" rel="noreferrer">Ver en Google Maps</a>
+        </div>
+        <div class="map card">
+          <div class="map__placeholder">Mapa interactivo</div>
+          <p class="small muted">Reemplaza este recuadro con tu mapa embebido favorito.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__brand">
+      <img src="assets/logo.svg" alt="Logo Iglesia Cristiana Piedra Angular" />
+      <div>
+        <strong>Iglesia Cristiana Piedra Angular</strong>
+        <p class="small muted">Amar a Dios. Amar a las personas. Servir a la ciudad.</p>
+      </div>
+    </div>
+    <div class="footer__links">
+      <a href="#inicio">Inicio</a>
+      <a href="#ministerios">Ministerios</a>
+      <a href="#contacto">Contacto</a>
+    </div>
+    <p class="small muted">© 2024 Iglesia Cristiana Piedra Angular. Todos los derechos reservados.</p>
+  </footer>
+</body>
+</html>
