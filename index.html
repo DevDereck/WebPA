@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -68,14 +68,14 @@
             </div>
             <div class="stat">
               <span class="stat__number">2</span>
-              <span class="stat__label">Reuniones semanales</span>
+              <span class="stat__label">Cultos semanales</span>
             </div>
           </div>
         </div>
         <div class="hero__visual">
           <div class="hero__badge">
             <p class="overline">Próximo servicio</p>
-            <h3>Domingo · 9:30 AM</h3>
+            <h3 id="nextService">Cargando...</h3>
             <p class="muted">Primero Piso Ferretería Rugama, Mercedes Norte, Heredia, CR</p>
           </div>
           <div class="hero__photo"></div>
@@ -370,7 +370,7 @@
           </form>
           <div class="card contact-info">
             <h3>Visítanos</h3>
-            <p class="muted">Primer Piso Ferretría Rugama, Mercedes Norte, Heredia, CR</p>
+            <p class="muted">Primer Piso Ferretería Rugama, Mercedes Norte, Heredia, CR</p>
             <div class="contact-block">
               
               <div>
@@ -437,41 +437,58 @@
     </main>
 
     <footer class="footer">
-      <div class="footer__brand">
-        <img
-          src="assets/Logo_ICPA-.png"
-          alt="Logo Iglesia Cristiana Piedra Angular"
-        />
-        <div>
-          <strong>Iglesia Cristiana Piedra Angular</strong>
-          <p class="small">
-            Trabajando juntos para la gloria de Dios!
-          </p>
+      <div class="footer__top">
+        <div class="footer__socials">
+          <h3>Síguenos</h3>
+          <div class="socials-grid">
+            <a href="https://youtube.com/@iglesiacristianapiedraangu9334?si=5d5lXCdx5iflnE1p" target="_blank" rel="noreferrer" class="social-icon" aria-label="YouTube">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/piedra_angular.cr?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noreferrer" class="social-icon" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.117.6c-.779.263-1.459.686-1.887 1.168-.547.572-.966 1.308-1.184 2.165-.266.879-.467 1.755-.52 2.951-.054 1.27-.064 1.644-.064 4.971s.01 3.7.064 4.971c.054 1.194.255 2.071.52 2.95.218.859.637 1.599 1.184 2.171.528.479 1.204.91 1.887 1.168.712.254 1.582.456 2.857.517 1.27.061 1.645.074 4.971.074s3.7-.013 4.971-.074c1.278-.061 2.149-.263 2.857-.517.683-.258 1.359-.689 1.887-1.168.547-.572.966-1.312 1.184-2.171.266-.879.467-1.756.52-2.951.054-1.27.064-1.644.064-4.971s-.015-3.701-.064-4.971c-.054-1.194-.254-2.071-.52-2.951-.218-.859-.637-1.599-1.184-2.171-.528-.479-1.204-.91-1.887-1.168-.712-.254-1.582-.456-2.857-.517C15.7.015 15.327 0 12 0zm0 2.16c3.203 0 3.585.009 4.849.064 1.17.054 1.805.244 2.227.408.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.355 1.056.408 2.227.055 1.264.064 1.645.064 4.849s-.009 3.585-.064 4.849c-.054 1.17-.244 1.805-.408 2.227-.217.562-.477.96-.896 1.382-.42.419-.819.679-1.381.896-.422.164-1.056.355-2.227.408-1.264.055-1.645.064-4.849.064s-3.585-.009-4.849-.064c-1.17-.054-1.805-.244-2.227-.408-.562-.217-.96-.477-1.382-.896-.419-.42-.679-.819-.896-1.381-.164-.422-.355-1.056-.408-2.227-.055-1.264-.064-1.645-.064-4.849s.009-3.585.064-4.849c.054-1.17.244-1.805.408-2.227.217-.562.477-.96.896-1.382.42-.419.819-.679 1.381-.896.422-.164 1.056-.355 2.227-.408 1.264-.055 1.645-.064 4.849-.064l0 0z"/><circle cx="12" cy="12" r="3.5"/><circle cx="18.5" cy="5.5" r="0.972"/></svg>
+            </a>
+            <a href="https://www.facebook.com/profile.php?id=61578581634760" target="_blank" rel="noreferrer" class="social-icon" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="https://wa.me/50687838225" target="_blank" rel="noreferrer" class="social-icon" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.52 3.48C18.25 1.23 15.17 0 11.99 0 5.43 0 .16 5.25.16 11.81c0 2.08.54 4.11 1.57 5.9L.16 24l6.35-1.97c1.72.94 3.66 1.43 5.68 1.43 6.56 0 11.83-5.25 11.83-11.81 0-3.15-1.23-6.22-3.47-8.45zm-8.53 18.16c-1.77 0-3.5-.47-5.01-1.36l-.36-.21-3.73 1.16 1.18-3.6-.23-.38C2.97 15.07 2.49 13.47 2.49 11.81 2.49 6.97 6.43 3.12 11.3 3.12c2.43 0 4.71.95 6.43 2.67 1.72 1.72 2.67 4 2.67 6.43 0 4.84-3.94 8.77-8.81 8.77z"/><path d="M17.18 14.18c-.26-.13-1.54-.76-1.78-.85-.24-.09-.42-.14-.59.14-.17.28-.66.84-.81.98-.14.14-.29.16-.55.03-.26-.13-1.09-.4-2.08-1.29-.77-.69-1.29-1.53-1.43-1.8-.15-.26-.02-.4.11-.53.11-.11.26-.29.39-.43.12-.14.17-.24.26-.39.09-.16.05-.29-.02-.41-.07-.12-.59-1.42-.81-1.94-.21-.5-.43-.43-.59-.43h-.51c-.17 0-.43.06-.66.3-.23.25-.87.85-.87 2.07 0 1.22.89 2.39 1.01 2.56.12.16 1.7 2.59 4.12 3.63 2.42 1.04 2.42.69 2.86.65.44-.04 1.42-.58 1.62-1.13.2-.56.2-1.03.14-1.13-.06-.11-.23-.17-.49-.29z"/></svg>
+            </a>
+          </div>
         </div>
       </div>
-      <div class="footer__cols">
-        <div>
+
+      <div class="footer__middle">
+        <div class="footer__col">
           <h4>Explora</h4>
-          <a href="#inicio">Inicio</a><br />
-          <a href="#ministerios">Ministerios</a><br />
-          <a href="#galeria">Galería</a>
+          <ul>
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#ministerios">Ministerios</a></li>
+            <li><a href="#galeria">Galería</a></li>
+            <li><a href="#sobre">Sobre nosotros</a></li>
+          </ul>
         </div>
-        <div>
+        <div class="footer__col">
           <h4>Conecta</h4>
-          <a href="#contacto">Contacto</a><br />
-          <a href="#ubicacion">Dirección</a><br />
-          <a href="mailto:warner.solis@piedraangularcr.org">Escríbenos</a>
+          <ul>
+            <li><a href="#contacto">Contacto</a></li>
+            <li><a href="#ubicacion">Dirección</a></li>
+            <li><a href="mailto:warner.solis@piedraangularcr.org">Escríbenos</a></li>
+            <li><a href="https://wa.me/50687838225" target="_blank">WhatsApp</a></li>
+          </ul>
         </div>
-        <div>
-          <h4>Redes</h4>
-          <a href="https://www.facebook.com/profile.php?id=61578581634760">Facebook</a><br />
-          <a href="https://www.instagram.com/piedra_angular.cr?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">Instagram</a><br />
-          <a href="https://youtube.com/@iglesiacristianapiedraangu9334?si=5d5lXCdx5iflnE1p">YouTube</a>
+        <div class="footer__col">
+          <h4>Información</h4>
+          <ul>
+            <li><strong>Teléfono:</strong> +506 8783 8225</li>
+            <li><strong>Ubicación:</strong> Heredia, CR</li>
+            <li><strong>Horarios:</strong> Dom 9:30 AM - Mar 7:00 PM</li>
+          </ul>
         </div>
       </div>
-      <p class="small">
-        © 2025 Iglesia Cristiana Piedra Angular. Todos los derechos reservados.
-      </p>
+
+      <div class="footer__bottom">
+        <p id="copyright">&copy; 2025 Iglesia Cristiana Piedra Angular. Todos los derechos reservados.</p>
+      </div>
     </footer>
 
     <script src="script.js"></script>
