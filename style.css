@@ -1112,6 +1112,184 @@ main {
   }
 }
 
+/* Slider styles for galleries marked with data-slider="true" */
+.gallery[data-slider="true"] {
+  position: relative;
+  overflow: hidden;
+  padding: 8px 0;
+}
+
+.gallery[data-slider="true"] .gallery__track {
+  display: flex;
+  gap: 14px;
+  transition: transform 0.48s cubic-bezier(.22,.94,.35,1);
+  will-change: transform;
+  padding: 8px;
+}
+
+.gallery[data-slider="true"] .gallery__track .gallery__item {
+  flex: 0 0 100%;
+  max-width: 100%;
+  padding-top: 60%;
+}
+
+@media (min-width: 700px) {
+  .gallery[data-slider="true"] .gallery__track .gallery__item {
+    flex: 0 0 calc(50% - 7px);
+    max-width: calc(50% - 7px);
+    padding-top: 56%;
+  }
+}
+
+@media (min-width: 1100px) {
+  .gallery[data-slider="true"] .gallery__track .gallery__item {
+    flex: 0 0 calc(33.333% - 9.33px);
+    max-width: calc(33.333% - 9.33px);
+    padding-top: 52%;
+  }
+}
+
+.slider-controls {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.slider-controls button {
+  pointer-events: auto;
+  background: rgba(5,34,56,0.6);
+  color: white;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: inline-grid;
+  place-items: center;
+  box-shadow: 0 8px 20px rgba(5,34,56,0.28);
+  cursor: pointer;
+}
+
+.slider-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.slider-dots button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.55);
+  cursor: pointer;
+}
+
+.slider-dots button.is-active {
+  background: var(--accent);
+}
+
+/* Center / peek mode for sliders (use on containers with data-slider="true" data-slider-mode="center") */
+[data-slider="true"][data-slider-mode="center"] {
+  position: relative;
+  overflow: hidden;
+  padding: 24px 0;
+}
+
+[data-slider="true"][data-slider-mode="center"] .gallery__track {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  padding: 8px 20px;
+}
+
+[data-slider="true"][data-slider-mode="center"] .gallery__track > * {
+  flex: 0 0 62%;
+  max-width: 62%;
+  padding-top: 46%;
+  border-radius: 16px;
+}
+
+@media (max-width: 1100px) {
+  [data-slider="true"][data-slider-mode="center"] .gallery__track > * {
+    flex: 0 0 75%;
+    max-width: 75%;
+    padding-top: 56%;
+  }
+}
+
+@media (max-width: 700px) {
+  [data-slider="true"][data-slider-mode="center"] .gallery__track > * {
+    flex: 0 0 92%;
+    max-width: 92%;
+    padding-top: 66%;
+  }
+}
+
+/* Responsive image inside gallery items for better face cropping */
+.gallery__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+  display: block;
+}
+
+/* Active slide styling (scale & shadow) */
+/* smoother track and image transitions for a "nice" slide effect */
+.gallery[data-slider="true"] .gallery__track {
+  transition: transform 0.58s cubic-bezier(.22,.88,.36,1), opacity 0.36s ease;
+  will-change: transform;
+}
+
+.gallery__track .gallery__item {
+  transition: transform 0.6s cubic-bezier(.22,.88,.36,1), box-shadow 0.36s ease, opacity 0.36s ease;
+  transform-origin: center center;
+  backface-visibility: hidden;
+}
+
+.gallery__img {
+  transition: transform 0.6s cubic-bezier(.22,.88,.36,1), filter 0.45s ease, opacity 0.45s ease;
+  will-change: transform, filter, opacity;
+  transform-origin: center center;
+}
+
+.gallery__track .gallery__item:not(.is-active) {
+  transform: translateY(6px) scale(.995);
+  opacity: 0.96;
+}
+
+.gallery__track .gallery__item:not(.is-active) .gallery__img {
+  transform: scale(1.02) translateY(6px);
+  filter: saturate(.92) contrast(.96) brightness(.96);
+}
+
+.gallery__track .gallery__item.is-active {
+  transform: translateY(0) scale(1.02);
+  box-shadow: 0 28px 64px rgba(5,34,56,0.26);
+  z-index: 2;
+}
+
+.gallery__track .gallery__item.is-active .gallery__img {
+  transform: scale(1.06) translateY(0);
+  filter: none;
+  opacity: 1;
+}
+
+.gallery__item:focus {
+  outline: 3px solid rgba(20,184,166,0.18);
+  outline-offset: 6px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;

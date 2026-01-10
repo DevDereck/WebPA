@@ -138,6 +138,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentYear = new Date().getFullYear();
     copyrightEl.textContent = `© ${currentYear} Iglesia Cristiana Piedra Angular. Todos los derechos reservados.`;
   }
+    // Reemplazar icono de Instagram por uno más simple (si aparece como SVG problemático)
+    const instaSvg = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 6.5a4 4 0 1 0 0 8.001A4 4 0 0 0 12 8.5zm4.75-2.25a1.25 1.25 0 1 0 0 2.5 1.25 1.25 0 0 0 0-2.5z"/></svg>';
+    document.querySelectorAll('a.social-icon[aria-label="Instagram"]').forEach(a => {
+      try { a.innerHTML = instaSvg; } catch (e) { /* ignore */ }
+    });
+  // Inicializar sliders en elementos marcados
+  try { initSliders(); } catch (e) { /* fail silently */ }
 });
 
 function setDetail({ nombre, horario, contacto, descripcion }) {
@@ -166,6 +173,16 @@ document.querySelector('.grid.grid--3')?.addEventListener('click', (e) => {
   }
 });
 
+// Mapeo de ministerios a URLs
+const ministryURLs = {
+  'Alabanza': 'alabanza.html',
+  'PETRA': 'petra.html',
+  'Niños': 'rockids.html',
+  'Discipulado': 'discipulado.html',
+  'Misiones': 'misiones.html',
+  'Piedras Preciosas': 'piedras-preciosas.html'
+};
+
 const galleryDetails = {
   Alabanza: 'Encuentros de adoración en vivo, audiciones y entrenamientos del equipo.',
   Juventud: 'Noches juveniles, campamentos y talleres creativos para líderes en formación.',
@@ -180,13 +197,253 @@ document.querySelector('.gallery')?.addEventListener('click', (e) => {
   const item = e.target.closest('.gallery__item');
   if (item) {
     const ministry = item.dataset.ministry;
-    galleryInfo.innerHTML = `
-      <h3>${ministry}</h3>
-      <p class="muted">${galleryDetails[ministry] || 'Descubre cómo servir junto al equipo.'}</p>
-    `;
-    galleryInfo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const url = ministryURLs[ministry];
+    if (url) {
+      window.location.href = url;
+    }
   }
 });
+
+/* Slider initializer for elements marked with data-slider="true" */
+function initSliders() {
+  const galleries = document.querySelectorAll('[data-slider="true"]');
+  if (!galleries.length) return;
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  galleries.forEach((gallery) => {
+    if (gallery.dataset._inited) return;
+    gallery.dataset._inited = '1';
+
+    // prefer explicit gallery__item, otherwise use direct children as slides
+    let items = Array.from(gallery.querySelectorAll('.gallery__item'));
+    if (!items.length) {
+      // collect direct children that look like slides (exclude controls/dots/track)
+      items = Array.from(gallery.querySelectorAll(':scope > *')).filter((el) => {
+        return !el.classList.contains('slider-controls') && !el.classList.contains('slider-dots') && !el.classList.contains('gallery__track');
+      });
+    }
+    if (!items.length) return;
+
+    // make items focusable and inject responsive <img> from inline --photo when present
+    items.forEach((item) => {
+      item.tabIndex = 0;
+      if (!item.querySelector('img')) {
+        const inlineStyle = item.getAttribute('style') || '';
+        const m = inlineStyle.match(/--photo:\s*url\(['"]?(.*?)['"]?\)/i);
+        if (m && m[1]) {
+          try {
+            const img = document.createElement('img');
+            img.className = 'gallery__img';
+            img.src = m[1];
+            img.loading = 'lazy';
+            img.alt = item.dataset.ministry || '';
+            item.insertBefore(img, item.firstChild);
+            // remove the inline custom property so background doesn't duplicate
+            item.style.removeProperty('--photo');
+          } catch (e) {
+            // ignore failures creating images
+          }
+        }
+      }
+    });
+
+    // wrap items in track (avoid double-wrap)
+    let track = gallery.querySelector('.gallery__track');
+    if (!track) {
+      track = document.createElement('div');
+      track.className = 'gallery__track';
+      items.forEach((it) => track.appendChild(it));
+      gallery.appendChild(track);
+    }
+
+    // controls (create once)
+    if (!gallery.querySelector('.slider-controls')) {
+      const controls = document.createElement('div');
+      controls.className = 'slider-controls';
+      const prevBtn = document.createElement('button');
+      prevBtn.type = 'button';
+      prevBtn.className = 'slider-prev';
+      prevBtn.setAttribute('aria-label', 'Anterior');
+      prevBtn.innerHTML = '‹';
+      const nextBtn = document.createElement('button');
+      nextBtn.type = 'button';
+      nextBtn.className = 'slider-next';
+      nextBtn.setAttribute('aria-label', 'Siguiente');
+      nextBtn.innerHTML = '›';
+      controls.appendChild(prevBtn);
+      controls.appendChild(nextBtn);
+      gallery.appendChild(controls);
+    }
+
+    // dots
+    if (!gallery.querySelector('.slider-dots')) {
+      const dotsWrap = document.createElement('div');
+      dotsWrap.className = 'slider-dots';
+      gallery.appendChild(dotsWrap);
+    }
+
+    const dotsWrap = gallery.querySelector('.slider-dots');
+
+    let index = 0;
+    let visible = 1;
+    let maxIndex = Math.max(0, items.length - visible);
+    let autoTimer = null;
+    let isHover = false;
+    const GAP = 14; // gap in CSS
+    const centerMode = gallery.dataset.sliderMode === 'center';
+
+    function recalc() {
+      const itemRect = items[0].getBoundingClientRect();
+      const galleryWidth = gallery.clientWidth;
+      if (centerMode) {
+        visible = 1;
+        maxIndex = Math.max(0, items.length - 1);
+      } else {
+        visible = Math.max(1, Math.floor(galleryWidth / (itemRect.width + 0.5)));
+        maxIndex = Math.max(0, items.length - visible);
+      }
+      if (index > maxIndex) index = maxIndex;
+      buildDots();
+      update();
+    }
+
+    function buildDots() {
+      dotsWrap.innerHTML = '';
+      const pages = centerMode ? (items.length) : (maxIndex + 1);
+      for (let i = 0; i < pages; i++) {
+        const b = document.createElement('button');
+        b.type = 'button';
+        if (i === index) b.classList.add('is-active');
+        b.addEventListener('click', () => { index = i; update(); resetAutoplay(); });
+        dotsWrap.appendChild(b);
+      }
+    }
+
+    function update() {
+      const itemRect = items[0].getBoundingClientRect();
+      const itemW = itemRect.width + GAP;
+      let translate = 0;
+      if (centerMode) {
+        const galleryW = gallery.clientWidth;
+        const centerOffset = (galleryW - itemRect.width) / 2;
+        translate = -index * itemW + centerOffset;
+      } else {
+        translate = -index * itemW;
+      }
+      // add animating class to enable blur effect during transition
+      gallery.classList.add('is-animating');
+      // apply transform (this will trigger CSS transition)
+      track.style.transform = `translateX(${translate}px)`;
+      // update dots active
+      Array.from(dotsWrap.children).forEach((b, i) => b.classList.toggle('is-active', i === index));
+      // mark active slide for styling and ensure focused slide is in view
+      items.forEach((el, i) => el.classList.toggle('is-active', i === index));
+
+      // remove animating class when transition ends (or fallback timeout)
+      const onEnd = () => {
+        gallery.classList.remove('is-animating');
+        track.removeEventListener('transitionend', onEnd);
+        if (gallery._animTimeout) { clearTimeout(gallery._animTimeout); gallery._animTimeout = null; }
+      };
+      track.addEventListener('transitionend', onEnd);
+      if (gallery._animTimeout) clearTimeout(gallery._animTimeout);
+      gallery._animTimeout = setTimeout(() => { gallery.classList.remove('is-animating'); }, 900);
+    }
+
+    function prev() {
+      index = Math.max(0, index - 1);
+      update();
+      resetAutoplay();
+    }
+
+    function next() {
+      index = Math.min(maxIndex, index + 1);
+      if (index >= maxIndex) index = (index === maxIndex ? 0 : index);
+      update();
+      resetAutoplay();
+    }
+
+    const prevBtn = gallery.querySelector('.slider-prev');
+    const nextBtn = gallery.querySelector('.slider-next');
+    prevBtn && prevBtn.addEventListener('click', prev);
+    nextBtn && nextBtn.addEventListener('click', next);
+
+    // autoplay
+    function startAutoplay() {
+      if (prefersReduced) return;
+      stopAutoplay();
+      autoTimer = setInterval(() => {
+        if (!isHover) {
+          index = index >= maxIndex ? 0 : index + 1;
+          update();
+        }
+      }, 4500);
+    }
+
+    function stopAutoplay() {
+      if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+    }
+
+    function resetAutoplay() {
+      stopAutoplay();
+      startAutoplay();
+    }
+
+    // pause on hover/focus
+    gallery.addEventListener('mouseenter', () => { isHover = true; stopAutoplay(); });
+    gallery.addEventListener('mouseleave', () => { isHover = false; startAutoplay(); });
+    gallery.addEventListener('focusin', () => { isHover = true; stopAutoplay(); });
+    gallery.addEventListener('focusout', () => { isHover = false; startAutoplay(); });
+
+    // keyboard navigation: left/right when gallery focused
+    gallery.tabIndex = 0;
+    gallery.setAttribute('role', 'region');
+    gallery.setAttribute('aria-label', gallery.getAttribute('aria-label') || 'Galería deslizante');
+    gallery.addEventListener('keydown', (ev) => {
+      if (ev.key === 'ArrowLeft') { ev.preventDefault(); prev(); }
+      if (ev.key === 'ArrowRight') { ev.preventDefault(); next(); }
+    });
+
+    // focus on individual slides sets index
+    items.forEach((it, ii) => {
+      it.addEventListener('focus', () => { index = ii; update(); });
+    });
+
+    // touch / swipe support
+    let startX = 0;
+    let deltaX = 0;
+    gallery.addEventListener('touchstart', (ev) => {
+      startX = ev.touches[0].clientX;
+      deltaX = 0;
+      stopAutoplay();
+    }, { passive: true });
+    gallery.addEventListener('touchmove', (ev) => {
+      deltaX = ev.touches[0].clientX - startX;
+    }, { passive: true });
+    gallery.addEventListener('touchend', () => {
+      if (Math.abs(deltaX) > 40) {
+        if (deltaX < 0) next(); else prev();
+      }
+      deltaX = 0;
+      startAutoplay();
+    });
+
+    // resize handling
+    const onResize = debounce(() => recalc(), 120);
+    window.addEventListener('resize', onResize);
+
+    // initial setup
+    // ensure track has will-change for smooth animation
+    track.style.transition = prefersReduced ? 'none' : 'transform 0.48s cubic-bezier(.22,.94,.35,1)';
+    track.style.willChange = 'transform';
+    // small timeout to allow layout
+    setTimeout(() => {
+      recalc();
+      startAutoplay();
+    }, 50);
+  });
+}
 
 form.addEventListener('submit', (event) => {
   event.preventDefault();
