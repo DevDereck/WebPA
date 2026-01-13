@@ -1290,6 +1290,41 @@ main {
   outline-offset: 6px;
 }
 
+@media (max-width: 700px) {
+  .gallery__img {
+    object-position: center top;
+  }
+
+  .ministry::before {
+    background-position: center top;
+  }
+
+  /* Ajustes específicos por ministerio para mejor enfoque de rostros */
+  .ministry[data-ministry="Alabanza"]::before {
+    background-position: center 30%;
+  }
+
+  .ministry[data-ministry="PETRA"]::before {
+    background-position: center 19%;
+  }
+
+  .ministry[data-ministry="Niños"]::before {
+    background-position: center 38%;
+  }
+
+  .ministry[data-ministry="Discipulado"]::before {
+    background-position: center 50%;
+  }
+
+  .ministry[data-ministry="Misiones"]::before {
+    background-position: center 50%;
+  }
+
+  .ministry[data-ministry="Damas"]::before {
+    background-position: center 50%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation: none !important;
