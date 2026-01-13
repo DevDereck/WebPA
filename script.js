@@ -50,14 +50,24 @@ function calculateNextService() {
   
   const daysOfWeek = today.getDay();
   let nextService = new Date(today);
+  const now = new Date();
+  const currentHour = now.getHours() + now.getMinutes() / 60;
   
   // 0 = Domingo, 2 = Martes
   const sundayTime = 9.5; // 9:30 AM
   const tuesdayTime = 19; // 7:00 PM
   
-  // Si hoy es domingo antes de las 9:30 AM
+  // Si hoy es domingo
   if (daysOfWeek === 0) {
-    const currentHour = new Date().getHours() + new Date().getMinutes() / 60;
+    // Entre las 8:30 AM y las 9:30 AM: mostrar minutos que faltan
+    if (currentHour >= 8.5 && currentHour < sundayTime) {
+      const minutesUntilService = Math.ceil((sundayTime - currentHour) * 60);
+      const plural = minutesUntilService === 1 ? 'minuto' : 'minutos';
+      cachedNextService = `Hoy · Faltan ${minutesUntilService} ${plural}`;
+      return cachedNextService;
+    }
+    
+    // Antes de las 8:30 AM: mostrar hora del servicio
     if (currentHour < sundayTime) {
       nextService = new Date(today);
       nextService.setHours(9, 30, 0, 0);
@@ -66,9 +76,17 @@ function calculateNextService() {
     }
   }
   
-  // Si hoy es martes antes de las 7:00 PM
+  // Si hoy es martes
   if (daysOfWeek === 2) {
-    const currentHour = new Date().getHours() + new Date().getMinutes() / 60;
+    // Entre las 6:00 PM y las 7:00 PM: mostrar minutos que faltan
+    if (currentHour >= 18 && currentHour < tuesdayTime) {
+      const minutesUntilService = Math.ceil((tuesdayTime - currentHour) * 60);
+      const plural = minutesUntilService === 1 ? 'minuto' : 'minutos';
+      cachedNextService = `Hoy · Faltan ${minutesUntilService} ${plural}`;
+      return cachedNextService;
+    }
+    
+    // Antes de las 6:00 PM: mostrar hora del servicio
     if (currentHour < tuesdayTime) {
       nextService = new Date(today);
       nextService.setHours(19, 0, 0, 0);
@@ -445,12 +463,14 @@ function initSliders() {
   });
 }
 
-form.addEventListener('submit', (event) => {
+form.addEventListener('submit', async (event) => {
   event.preventDefault();
+  
   const nombre = form.nombre.value.trim();
-  const correo = form.correo.value.trim();
+  const correo = form.email.value.trim();
+  const telefono = form.phone.value.trim();
   const ministerio = form.ministerio.value;
-  const mensaje = form.mensaje.value.trim();
+  const mensaje = form.message.value.trim();
 
   if (!nombre || !correo || !ministerio || !mensaje) {
     showStatus('Por favor completa todos los campos obligatorios.', false);
@@ -463,8 +483,44 @@ form.addEventListener('submit', (event) => {
     return;
   }
 
-  showStatus(`Gracias, ${nombre}. Hemos recibido tu mensaje sobre ${ministerio}.`, true);
-  form.reset();
+  const submitBtn = form.querySelector('button[type="submit"]');
+  const originalText = submitBtn.textContent;
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Enviando...';
+
+  try {
+    const response = await fetch('https://formsubmit.co/ajax/dereckvargas500@gmail.com', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        nombre: nombre,
+        email: correo,
+        phone: telefono,
+        ministerio: ministerio,
+        message: mensaje
+      })
+    });
+
+    if (response.ok) {
+      showStatus(`¡Gracias, ${nombre}! Hemos recibido tu mensaje.`, true);
+      form.reset();
+      document.getElementById('formStatus').style.display = 'block';
+      setTimeout(() => {
+        document.getElementById('formStatus').style.display = 'none';
+      }, 5000);
+    } else {
+      showStatus('Error al enviar. Intenta nuevamente.', false);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    showStatus('Error de conexión. Intenta nuevamente.', false);
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalText;
+  }
 });
 
 function showStatus(text, success) {

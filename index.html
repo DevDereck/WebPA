@@ -51,7 +51,7 @@
           <p class="pill">Una iglesia para la Gloria de Dios</p>
           <h1>Fe vibrante, comunidad cálida y propósito claro</h1>
           <p class="lead">
-            Trabajando juntos para la gloria de Dios.
+            Trabajando juntos para el Señor.
           </p>
           <div class="hero__actions">
             <a class="btn" href="#ministerios">Explorar ministerios</a>
@@ -76,7 +76,7 @@
           <div class="hero__badge">
             <p class="overline">Próximo servicio</p>
             <h3 id="nextService">Cargando...</h3>
-            <p class="muted">Primero Piso Ferretería Rugama, Mercedes Norte, Heredia, CR</p>
+            <p class="muted">Primer Piso Ferretería Rugama, Mercedes Norte, Heredia, CR</p>
           </div>
           <div class="hero__photo"></div>
         </div>
@@ -116,11 +116,12 @@
               <span>Adoración</span>
               <span>Discipulado</span>
               <span>Amor al prójimo</span>
+              <span>Excelencia</span>
               <span>Familia</span>
               <span>Fidelidad</span>
             </div>
             <div class="detail-panel" id="detalleMinisterio">
-              <h4>Ministerio destacado</h4>
+              <h4>Ministerio Destacado</h4>
               <p class="muted">
                 Selecciona un ministerio para ver detalles, horarios y contacto.
               </p>
@@ -148,7 +149,7 @@
           <p class="eyebrow">Vida de la iglesia</p>
           <h2>Ministerios para cada paso de fe</h2>
           <p class="lead">
-            Conecta con tu llamado: alabanza, discipulado, familia, misiones y
+            Conecta con tu llamado: alabanza, discipulado, jóvenes, misiones y
             más.
           </p>
         </div>
@@ -234,9 +235,9 @@
       <section id="galeria" class="section">
         <div class="section__header">
           <p class="eyebrow">Momentos</p>
-          <h2>Galería de ministerios</h2>
+          <h2>Galería de Ministerios</h2>
           <p class="lead">
-            Descubre cómo vivimos la fe: adoración, servicio, discipulado y
+            Descubre cómo vivimos la fe: adoración, servicio, unidad, discipulado y
             comunidad.
           </p>
         </div>
@@ -268,7 +269,7 @@
           >
             <div class="gallery__info">
               <h4>RocKids</h4>
-              <p>Clases creativas cristocentricas y dinámicas para los más pequeños.</p>
+              <p>Clases creativas cristocéntricas y dinámicas para los más pequeños.</p>
             </div>
           </div>
           <div
@@ -298,14 +299,14 @@
           >
             <div class="gallery__info">
               <h4>Piedras Preciosas</h4>
-              <p>Reunión de mujeres adultas, compartir y aprendizaje juntas.</p>
+              <p>Compañerismo entre mujeres adultas, dinámicas y aprendizaje juntas.</p>
             </div>
           </div>
         </div>
         <div class="info-card" id="galleryInfo">
           <h3>Explora cada ministerio</h3>
           <p class="muted">
-            Haz clic en una foto para obtener información rápida y conecta con
+            Haz clic en una foto para obtener información y conecta con
             su equipo.
           </p>
         </div>
@@ -320,7 +321,7 @@
           </p>
         </div>
         <div class="grid grid--2 contact">
-          <form class="card form" id="contactForm">
+          <form class="card form" id="contactForm" action="https://formsubmit.co/dereckvargas500@gmail.com" method="POST">
             <label for="nombre">Nombre</label>
             <input
               id="nombre"
@@ -333,10 +334,18 @@
             <label for="correo">Correo electrónico</label>
             <input
               id="correo"
-              name="correo"
+              name="email"
               type="email"
               placeholder="tucorreo@example.com"
               required
+            />
+
+            <label for="telefono">Teléfono celular</label>
+            <input
+              id="telefono"
+              name="phone"
+              type="tel"
+              placeholder="+506 8000 0000"
             />
 
             <label for="ministerio">Ministerio de interés</label>
@@ -354,7 +363,7 @@
             <label for="mensaje">Mensaje</label>
             <textarea
               id="mensaje"
-              name="mensaje"
+              name="message"
               rows="4"
               placeholder="¿Cómo podemos ayudarte?"
               required
