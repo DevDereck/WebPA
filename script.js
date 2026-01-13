@@ -1,11 +1,3 @@
-// Lazy load para iframes de maps
-window.addEventListener('load', () => {
-  const iframes = document.querySelectorAll('iframe');
-  iframes.forEach((iframe) => {
-    iframe.setAttribute('loading', 'lazy');
-  });
-});
-
 // Debounce para eventos de resize
 function debounce(func, wait) {
   let timeout;
@@ -19,9 +11,8 @@ function debounce(func, wait) {
   };
 }
 
-// Observador de intersección para elementos lazy
-if ('IntersectionObserver' in window) {
-  const lazyImages = document.querySelectorAll('img[data-src]');
+// Observador de intersección para elementos lazy (si existen)
+if ('IntersectionObserver' in window && document.querySelectorAll('img[data-src]').length) {
   const imageObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -32,16 +23,20 @@ if ('IntersectionObserver' in window) {
       }
     });
   });
-  lazyImages.forEach((img) => imageObserver.observe(img));
+  document.querySelectorAll('img[data-src]').forEach(img => imageObserver.observe(img));
 }
 
-// Cache para el servicio calculado
+// Cache para el servicio calculado con timestamp para invalidar cada minuto
 let cachedNextService = null;
+let cacheTime = 0;
 
 // Función para calcular el próximo servicio
 function calculateNextService() {
-  // Retornar cache si existe
-  if (cachedNextService) {
+  const now = new Date();
+  const nowTime = now.getTime();
+  
+  // Invalidar cache cada minuto
+  if (cachedNextService && (nowTime - cacheTime) < 60000) {
     return cachedNextService;
   }
   
@@ -49,29 +44,28 @@ function calculateNextService() {
   today.setHours(0, 0, 0, 0);
   
   const daysOfWeek = today.getDay();
-  let nextService = new Date(today);
-  const now = new Date();
   const currentHour = now.getHours() + now.getMinutes() / 60;
   
-  // 0 = Domingo, 2 = Martes
-  const sundayTime = 9.5; // 9:30 AM
-  const tuesdayTime = 19; // 7:00 PM
+  const SUNDAY_TIME = 9.5; // 9:30 AM
+  const TUESDAY_TIME = 19; // 7:00 PM
+  let nextService = new Date(today);
   
   // Si hoy es domingo
   if (daysOfWeek === 0) {
     // Entre las 8:30 AM y las 9:30 AM: mostrar minutos que faltan
-    if (currentHour >= 8.5 && currentHour < sundayTime) {
-      const minutesUntilService = Math.ceil((sundayTime - currentHour) * 60);
+    if (currentHour >= 8.5 && currentHour < SUNDAY_TIME) {
+      const minutesUntilService = Math.ceil((SUNDAY_TIME - currentHour) * 60);
       const plural = minutesUntilService === 1 ? 'minuto' : 'minutos';
       cachedNextService = `Hoy · Faltan ${minutesUntilService} ${plural}`;
+      cacheTime = nowTime;
       return cachedNextService;
     }
     
     // Antes de las 8:30 AM: mostrar hora del servicio
-    if (currentHour < sundayTime) {
-      nextService = new Date(today);
+    if (currentHour < SUNDAY_TIME) {
       nextService.setHours(9, 30, 0, 0);
       cachedNextService = formatServiceDate(nextService);
+      cacheTime = nowTime;
       return cachedNextService;
     }
   }
@@ -79,18 +73,19 @@ function calculateNextService() {
   // Si hoy es martes
   if (daysOfWeek === 2) {
     // Entre las 6:00 PM y las 7:00 PM: mostrar minutos que faltan
-    if (currentHour >= 18 && currentHour < tuesdayTime) {
-      const minutesUntilService = Math.ceil((tuesdayTime - currentHour) * 60);
+    if (currentHour >= 18 && currentHour < TUESDAY_TIME) {
+      const minutesUntilService = Math.ceil((TUESDAY_TIME - currentHour) * 60);
       const plural = minutesUntilService === 1 ? 'minuto' : 'minutos';
       cachedNextService = `Hoy · Faltan ${minutesUntilService} ${plural}`;
+      cacheTime = nowTime;
       return cachedNextService;
     }
     
     // Antes de las 6:00 PM: mostrar hora del servicio
-    if (currentHour < tuesdayTime) {
-      nextService = new Date(today);
+    if (currentHour < TUESDAY_TIME) {
       nextService.setHours(19, 0, 0, 0);
       cachedNextService = formatServiceDate(nextService);
+      cacheTime = nowTime;
       return cachedNextService;
     }
   }
@@ -111,6 +106,7 @@ function calculateNextService() {
   }
   
   cachedNextService = formatServiceDate(nextService);
+  cacheTime = nowTime;
   return cachedNextService;
 }
 
@@ -528,15 +524,9 @@ function showStatus(text, success) {
   formStatus.className = 'form__status is-visible ' + (success ? 'form__status--success' : 'form__status--error');
 }
 
-// Optimización: Limpiar listeners después de un tiempo si no se usan
-let isScrolling = false;
-window.addEventListener('scroll', debounce(() => {
-  isScrolling = true;
-}, 150), { passive: true });
-
-// Media Query listener para comportamiento responsive
+// Cerrar nav en mobile cuando se da resize
 const mobileMedia = window.matchMedia('(max-width: 768px)');
-mobileMedia.addListener((e) => {
+mobileMedia.addEventListener('change', (e) => {
   if (e.matches && nav.classList.contains('is-open')) {
     nav.classList.remove('is-open');
   }
