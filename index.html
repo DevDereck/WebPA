@@ -84,21 +84,20 @@
         </div>
       </section>
 
-      <section id="sobre" class="section section--balanced">
+      <section id="sobre" class="section">
         <div class="section__header">
           <p class="eyebrow">Quiénes somos</p>
           <h2>Somos Iglesia y aunque no sea perfecta es la familia de Dios</h2>
           <p class="lead">
-            Creamos espacios para encontrarnos con Jesús, crecer en Su Palabra y
-            servir con creatividad y excelencia en cada etapa.
+            Creamos espacios para encontrarnos con Jesús, crecer en Su Palabra y servir con creatividad y excelencia en cada etapa.
           </p>
         </div>
-        <div class="about">
-          <article class="card card--glass">
+
+        <div class="grid grid--3">
+          <article class="card about-card">
             <h3>Nuestra misión</h3>
-            <p class="muted">
-              Inspirar a cada persona a conocer a Cristo, crecer en comunidad y
-              servir con excelencia.
+            <p>
+              Inspirar a cada persona a conocer a Cristo, crecer en comunidad y servir con excelencia.
             </p>
             <ul class="list">
               <li>Fidelidad a la Palabra.</li>
@@ -107,11 +106,11 @@
               <li>Unidad generacional y familiar.</li>
             </ul>
           </article>
-          <article class="card card--glass">
+
+          <article class="card about-card">
             <h3>Lo que creemos</h3>
-            <p class="muted">
-              Biblia, oración, comunidad y misión: construimos discípulos que
-              llevan esperanza.
+            <p>
+              Biblia, oración, comunidad y misión: construimos discípulos que llevan esperanza.
             </p>
             <div class="tags">
               <span>Misiones</span>
@@ -124,25 +123,20 @@
             </div>
             <div class="detail-panel" id="detalleMinisterio">
               <h4>Ministerio Destacado</h4>
-              <p class="muted">
-                Selecciona un ministerio para ver detalles, horarios y contacto.
-              </p>
+              <p class="muted">Selecciona un ministerio para ver detalles, horarios y contacto.</p>
             </div>
           </article>
-          <div
-            class="about__strip"
-            style="--strip-img: url('assets/QS1.jpg')"
-          >
+
+          <article class="about__strip about-card" style="--strip-img: url('assets/QS1.jpg')">
             <div class="about__overlay">
               <p class="eyebrow">Momentos</p>
               <h3>Historias de fe y comunidad</h3>
               <p class="muted">
-                Celebraciones, bautismos, grupos y proyectos de servicio que
-                marcan vidas.
+                Celebraciones, bautismos, grupos y proyectos de servicio que marcan vidas.
               </p>
               <a class="btn btn--light" href="#galeria">Explorar galería</a>
             </div>
-          </div>
+          </article>
         </div>
       </section>
 
@@ -343,55 +337,8 @@
           
           <div class="eventos-sidebar">
             <h3>Eventos Próximos</h3>
-            <div class="eventos-list" id="eventosList">
-              <article class="evento-card">
-                <div class="evento-card__date">
-                  <span class="evento-card__day">19</span>
-                  <span class="evento-card__month">Ene</span>
-                </div>
-                <div class="evento-card__content">
-                  <h4>Culto Dominical</h4>
-                  <p class="muted">9:30 AM</p>
-                  <p class="small">Alabanza, enseñanza y comunión</p>
-                </div>
-              </article>
-              
-              <article class="evento-card">
-                <div class="evento-card__date">
-                  <span class="evento-card__day">21</span>
-                  <span class="evento-card__month">Ene</span>
-                </div>
-                <div class="evento-card__content">
-                  <h4>Estudio Bíblico</h4>
-                  <p class="muted">7:00 PM</p>
-                  <p class="small">Crecimiento en la fe</p>
-                </div>
-              </article>
-
-              <article class="evento-card">
-                <div class="evento-card__date">
-                  <span class="evento-card__day">23</span>
-                  <span class="evento-card__month">Ene</span>
-                </div>
-                <div class="evento-card__content">
-                  <h4>Alabanza - Ensayo</h4>
-                  <p class="muted">7:00 PM</p>
-                  <p class="small">Ministerio de adoración</p>
-                </div>
-              </article>
-
-              <article class="evento-card">
-                <div class="evento-card__date">
-                  <span class="evento-card__day">25</span>
-                  <span class="evento-card__month">Ene</span>
-                </div>
-                <div class="evento-card__content">
-                  <h4>PETRA - Jóvenes</h4>
-                  <p class="muted">4:30 PM</p>
-                  <p class="small">Encuentro para jóvenes</p>
-                </div>
-              </article>
-            </div>
+            <div class="eventos-list" id="eventosList"></div>
+            <button type="button" id="toggleEventosSidebar" class="eventos-sidebar__link">Ver todos los eventos</button>
           </div>
         </div>
       </section>
@@ -513,7 +460,7 @@
           <h2>Dirección</h2>
           <p class="lead">
             Encuéntranos en el 
-            Primer Piso Ferretría Rugama, Mercedes Norte, Heredia, CR.
+            Primer Piso Ferretería Rugama, Mercedes Norte, Heredia, CR.
           </p>
         </div>
         <div class="visit card">

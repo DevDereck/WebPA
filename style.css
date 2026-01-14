@@ -390,10 +390,17 @@ main {
   background-size: cover;
   background-position: center;
   overflow: hidden;
-  
 }
 
+.about-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 
+.about-card .list {
+  margin-top: 8px;
+}
 
 .about__overlay {
   position: absolute;
@@ -410,6 +417,9 @@ main {
 
 .about__overlay .muted{
   color: #e5fffb;
+}
+.about__overlay .btn {
+  justify-self: flex-start;
 }
 .card {
   background: var(--card);
@@ -735,6 +745,24 @@ main {
   color: var(--ink);
 }
 
+.eventos-sidebar__link {
+  display: inline-flex;
+  margin-top: 16px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--accent-dark);
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.eventos-sidebar__link:hover {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
 .eventos-list {
   display: flex;
   flex-direction: column;
@@ -886,6 +914,28 @@ main {
 
 .modal__body p {
   margin: 0 0 8px 0;
+}
+
+#modalTime {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.modal-time__icon {
+  display: inline-flex;
+  width: 1rem;
+  height: 1rem;
+  color: var(--accent);
+}
+
+.modal-time__icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.modal-time__text {
+  line-height: 1.4;
 }
 
 .hero--secondary {
@@ -1674,7 +1724,7 @@ main {
   }
 }
 
-/* Responsive image inside gallery items for better face cropping */
+/* Responsive image inside gallery items*/
 .gallery__img {
   position: absolute;
   inset: 0;
@@ -1740,7 +1790,7 @@ main {
     background-position: center top;
   }
 
-  /* Ajustes específicos por ministerio para mejor enfoque de rostros */
+  /* Ajustes específicos por ministerio para mejor enfoque */
   .ministry[data-ministry="Alabanza"]::before {
     background-position: center 30%;
   }

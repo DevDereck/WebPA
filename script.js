@@ -162,6 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function setDetail({ nombre, horario, contacto, descripcion }) {
+  if (!detailPanel) return;
   detailPanel.innerHTML = `
     <h4>${nombre}</h4>
     <p class="muted">Reuniones: ${horario}</p>
@@ -173,10 +174,12 @@ function setDetail({ nombre, horario, contacto, descripcion }) {
   detailPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-// Usar event delegation para ministerios
-document.querySelector('.grid.grid--3')?.addEventListener('click', (e) => {
-  const card = e.target.closest('.ministry');
-  if (card) {
+// Conectar botones "Ver detalles" de ministerios con el panel "Ministerio Destacado"
+document.querySelectorAll('.ministry').forEach((card) => {
+  const btn = card.querySelector('.btn--text');
+  if (!btn) return;
+
+  btn.addEventListener('click', () => {
     const nombre = card.dataset.ministry;
     setDetail({
       nombre,
@@ -184,7 +187,7 @@ document.querySelector('.grid.grid--3')?.addEventListener('click', (e) => {
       contacto: card.dataset.contacto,
       descripcion: card.querySelector('p')?.textContent || 'Conoce más con nuestro equipo.'
     });
-  }
+  });
 });
 
 // Mapeo de ministerios a URLs
@@ -533,29 +536,63 @@ mobileMedia.addEventListener('change', (e) => {
 });
 
 // ===== CALENDARIO DE EVENTOS =====
+// Eventos definidos manualmente (fuente única de verdad para el calendario)
 const eventsData = {
-  '2026-01-19': { title: 'Culto Dominical', time: '9:30 AM', description: 'Alabanza, enseñanza y comunión' },
-  '2026-01-21': { title: 'Estudio Bíblico', time: '7:00 PM', description: 'Crecimiento en la fe' },
-  '2026-01-23': { title: 'Alabanza - Ensayo', time: '7:00 PM', description: 'Ministerio de adoración' },
-  '2026-01-25': { title: 'PETRA - Jóvenes', time: '4:30 PM', description: 'Encuentro para jóvenes' },
-  '2026-01-26': { title: 'Culto Dominical', time: '9:30 AM', description: 'Alabanza, enseñanza y comunión' },
-  '2026-01-28': { title: 'Estudio Bíblico', time: '7:00 PM', description: 'Crecimiento en la fe' },
+  '2026-01-07': { title: 'Discipulado', time: 'Por definir', description: 'Reunión de discipulado' },
+  '2026-01-08': { title: 'Oración', time: 'Por definir', description: 'Reunión de oración' },
+  '2026-01-10': { title: 'PETRA', time: 'Por definir', description: 'Reunión de jóvenes PETRA' },
+  '2026-01-12': { title: 'Oración', time: 'Por definir', description: 'Reunión de oración' },
+  '2026-01-14': { title: 'Discipulado', time: 'Por definir', description: 'Reunión de discipulado' },
+  '2026-01-15': { title: 'Música y Visitación', time: 'Por definir', description: 'Ensayo de música y salida de visitación' },
+  '2026-01-21': { title: 'Discipulado', time: 'Por definir', description: 'Reunión de discipulado' },
+  '2026-01-22': { title: 'Oración', time: 'Por definir', description: 'Reunión de oración' },
+  '2026-01-23': { title: 'Piedras Preciosas', time: 'Por definir', description: 'Reunión del ministerio Piedras Preciosas' },
+  '2026-01-24': { title: 'Instituto', time: 'Por definir', description: 'Clases del instituto' },
+  '2026-01-25': { title: 'Ensayo Coro y Teatro Negro', time: 'Por definir', description: 'Ensayo de coro y teatro negro' },
+  '2026-01-28': { title: 'Discipulado', time: 'Por definir', description: 'Reunión de discipulado' },
+  '2026-01-29': { title: 'Música', time: 'Por definir', description: 'Ensayo de música' },
+  '2026-01-31': { title: 'Núcleo', time: 'Por definir', description: 'Reunión de núcleo' },
 };
 
+// Devuelve el evento para una fecha concreta
+// Solo usa los eventos definidos manualmente en eventsData
+function getEventForDate(year, monthZeroBased, day) {
+  const dateStr = `${year}-${String(monthZeroBased + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+  if (eventsData[dateStr]) {
+    return { dateStr, ...eventsData[dateStr] };
+  }
+
+  return null;
+}
+
 let currentCalendarDate = new Date();
+let showingAllSidebarEvents = false;
 
 const modal = document.getElementById('eventoModal');
 const modalOverlay = document.querySelector('.modal__overlay');
 const modalClose = document.querySelector('.modal__close');
 
 function openModal(dateStr, eventData) {
-  const date = new Date(dateStr);
+  const [y, m, d] = dateStr.split('-').map((n) => parseInt(n, 10));
+  const date = new Date(y, m - 1, d);
   const monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
   const dayOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   
   document.getElementById('modalTitle').textContent = eventData.title;
   document.getElementById('modalDate').textContent = `${dayOfWeek[date.getDay()]}, ${date.getDate()} de ${monthNames[date.getMonth()]}`;
-  document.getElementById('modalTime').textContent = `⏰ ${eventData.time}`;
+  const modalTimeEl = document.getElementById('modalTime');
+  if (modalTimeEl) {
+    modalTimeEl.innerHTML = `
+      <span class="modal-time__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8" />
+          <path d="M12 7.5V12l2.4 1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </span>
+      <span class="modal-time__text">${eventData.time}</span>
+    `;
+  }
   document.getElementById('modalDescription').textContent = eventData.description;
   
   modal.classList.add('is-open');
@@ -608,13 +645,12 @@ function generateCalendar(date) {
     day.className = 'calendario__day';
     day.textContent = i;
     
-    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
-    
-    if (eventsData[dateStr]) {
+    const eventInfo = getEventForDate(year, month, i);
+    if (eventInfo) {
       day.classList.add('has-event');
       day.style.cursor = 'pointer';
       day.addEventListener('click', () => {
-        openModal(dateStr, eventsData[dateStr]);
+        openModal(eventInfo.dateStr, eventInfo);
       });
     }
     
@@ -634,6 +670,103 @@ function generateCalendar(date) {
     day.textContent = i;
     calendarDays.appendChild(day);
   }
+
+  // Actualizar lista de "Eventos Próximos" basada en la fecha de hoy
+  buildUpcomingEventsSidebar(3);
+  showingAllSidebarEvents = false;
+  const toggleBtn = document.getElementById('toggleEventosSidebar');
+  if (toggleBtn) {
+    toggleBtn.textContent = 'Ver todos los eventos';
+  }
+}
+// Helpers para construir listas de eventos próximos
+const monthShort = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+
+function getAllEventsArray() {
+  return Object.entries(eventsData)
+    .map(([dateStr, data]) => {
+      const [y, m, d] = dateStr.split('-').map((n) => parseInt(n, 10));
+      const date = new Date(y, m - 1, d);
+      date.setHours(0, 0, 0, 0);
+      return {
+        dateStr,
+        year: y,
+        month: m - 1,
+        day: d,
+        title: data.title,
+        time: data.time,
+        description: data.description,
+        date,
+      };
+    })
+    .sort((a, b) => a.date - b.date);
+}
+
+function createEventCard(ev) {
+  const article = document.createElement('article');
+  article.className = 'evento-card';
+
+  const dateDiv = document.createElement('div');
+  dateDiv.className = 'evento-card__date';
+
+  const daySpan = document.createElement('span');
+  daySpan.className = 'evento-card__day';
+  daySpan.textContent = String(ev.date.getDate());
+
+  const monthSpan = document.createElement('span');
+  monthSpan.className = 'evento-card__month';
+  monthSpan.textContent = monthShort[ev.date.getMonth()];
+
+  dateDiv.appendChild(daySpan);
+  dateDiv.appendChild(monthSpan);
+
+  const contentDiv = document.createElement('div');
+  contentDiv.className = 'evento-card__content';
+
+  const title = document.createElement('h4');
+  title.textContent = ev.title;
+
+  const timeP = document.createElement('p');
+  timeP.className = 'muted';
+  timeP.textContent = ev.time;
+
+  const descP = document.createElement('p');
+  descP.className = 'small';
+  descP.textContent = ev.description;
+
+  contentDiv.appendChild(title);
+  contentDiv.appendChild(timeP);
+  contentDiv.appendChild(descP);
+
+  article.appendChild(dateDiv);
+  article.appendChild(contentDiv);
+
+  return article;
+}
+
+// Lista lateral: solo los 3 eventos más cercanos desde hoy
+function buildUpcomingEventsSidebar(limit = 3) {
+  const listContainer = document.getElementById('eventosList');
+  if (!listContainer) return;
+
+  listContainer.innerHTML = '';
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const upcoming = getAllEventsArray().filter((ev) => ev.date >= today);
+
+  if (!upcoming.length) {
+    const empty = document.createElement('p');
+    empty.className = 'muted small';
+    empty.textContent = 'Por ahora no hay eventos próximos programados.';
+    listContainer.appendChild(empty);
+    return;
+  }
+
+  upcoming.slice(0, limit).forEach((ev) => {
+    listContainer.appendChild(createEventCard(ev));
+  });
 }
 
 // Inicializar calendario (solo si existe en la página)
@@ -656,6 +789,19 @@ if (calendarDaysElement) {
     nextMonth.addEventListener('click', () => {
       currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
       generateCalendar(currentCalendarDate);
+    });
+  }
+
+  const toggleBtn = document.getElementById('toggleEventosSidebar');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const limit = showingAllSidebarEvents ? 3 : Number.POSITIVE_INFINITY;
+      buildUpcomingEventsSidebar(limit);
+      showingAllSidebarEvents = !showingAllSidebarEvents;
+      toggleBtn.textContent = showingAllSidebarEvents
+        ? 'Ver menos eventos'
+        : 'Ver todos los eventos';
     });
   }
 }
