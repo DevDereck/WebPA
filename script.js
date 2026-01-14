@@ -531,3 +531,254 @@ mobileMedia.addEventListener('change', (e) => {
     nav.classList.remove('is-open');
   }
 });
+
+// ===== CALENDARIO DE EVENTOS =====
+const eventsData = {
+  '2026-01-19': { title: 'Culto Dominical', time: '9:30 AM', description: 'Alabanza, enseñanza y comunión' },
+  '2026-01-21': { title: 'Estudio Bíblico', time: '7:00 PM', description: 'Crecimiento en la fe' },
+  '2026-01-23': { title: 'Alabanza - Ensayo', time: '7:00 PM', description: 'Ministerio de adoración' },
+  '2026-01-25': { title: 'PETRA - Jóvenes', time: '4:30 PM', description: 'Encuentro para jóvenes' },
+  '2026-01-26': { title: 'Culto Dominical', time: '9:30 AM', description: 'Alabanza, enseñanza y comunión' },
+  '2026-01-28': { title: 'Estudio Bíblico', time: '7:00 PM', description: 'Crecimiento en la fe' },
+};
+
+let currentCalendarDate = new Date();
+
+const modal = document.getElementById('eventoModal');
+const modalOverlay = document.querySelector('.modal__overlay');
+const modalClose = document.querySelector('.modal__close');
+
+function openModal(dateStr, eventData) {
+  const date = new Date(dateStr);
+  const monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+  const dayOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+  
+  document.getElementById('modalTitle').textContent = eventData.title;
+  document.getElementById('modalDate').textContent = `${dayOfWeek[date.getDay()]}, ${date.getDate()} de ${monthNames[date.getMonth()]}`;
+  document.getElementById('modalTime').textContent = `⏰ ${eventData.time}`;
+  document.getElementById('modalDescription').textContent = eventData.description;
+  
+  modal.classList.add('is-open');
+  modal.setAttribute('aria-hidden', 'false');
+}
+
+function closeModal() {
+  modal.classList.remove('is-open');
+  modal.setAttribute('aria-hidden', 'true');
+}
+
+modalClose.addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', closeModal);
+
+// Cerrar con tecla Escape
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+    closeModal();
+  }
+});
+
+function generateCalendar(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  
+  // Actualizar título
+  const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+  document.getElementById('currentMonth').textContent = `${monthNames[month]} ${year}`;
+  
+  // Obtener primer día del mes y cantidad de días
+  const firstDay = new Date(year, month, 1).getDay();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const daysInPrevMonth = new Date(year, month, 0).getDate();
+  
+  const calendarDays = document.getElementById('calendarDays');
+  calendarDays.innerHTML = '';
+  
+  // Días del mes anterior
+  for (let i = firstDay - 1; i >= 0; i--) {
+    const day = document.createElement('div');
+    day.className = 'calendario__day other-month';
+    day.textContent = daysInPrevMonth - i;
+    calendarDays.appendChild(day);
+  }
+  
+  // Días del mes actual
+  const today = new Date();
+  for (let i = 1; i <= daysInMonth; i++) {
+    const day = document.createElement('div');
+    day.className = 'calendario__day';
+    day.textContent = i;
+    
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+    
+    if (eventsData[dateStr]) {
+      day.classList.add('has-event');
+      day.style.cursor = 'pointer';
+      day.addEventListener('click', () => {
+        openModal(dateStr, eventsData[dateStr]);
+      });
+    }
+    
+    if (today.getFullYear() === year && today.getMonth() === month && today.getDate() === i) {
+      day.classList.add('today');
+    }
+    
+    calendarDays.appendChild(day);
+  }
+  
+  // Días del próximo mes
+  const totalCells = calendarDays.children.length;
+  const remainingCells = 42 - totalCells;
+  for (let i = 1; i <= remainingCells; i++) {
+    const day = document.createElement('div');
+    day.className = 'calendario__day other-month';
+    day.textContent = i;
+    calendarDays.appendChild(day);
+  }
+}
+
+// Inicializar calendario (solo si existe en la página)
+const calendarDaysElement = document.getElementById('calendarDays');
+if (calendarDaysElement) {
+  generateCalendar(currentCalendarDate);
+
+  // Botones de navegación
+  const prevMonth = document.getElementById('prevMonth');
+  const nextMonth = document.getElementById('nextMonth');
+  
+  if (prevMonth) {
+    prevMonth.addEventListener('click', () => {
+      currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+      generateCalendar(currentCalendarDate);
+    });
+  }
+
+  if (nextMonth) {
+    nextMonth.addEventListener('click', () => {
+      currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+      generateCalendar(currentCalendarDate);
+    });
+  }
+}
+
+// ==========================================
+// Animaciones de scroll (scroll reveal)
+// ==========================================
+
+function initScrollReveal() {
+  const candidates = document.querySelectorAll(
+    'section, .hero, .card, .gallery__item, .evento-card, .visit, .footer__col'
+  );
+
+  if (!candidates.length) return;
+
+  if (!('IntersectionObserver' in window)) {
+    candidates.forEach((el) => el.classList.add('reveal-visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal-visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      threshold: 0.12,
+      rootMargin: '0px 0px -10% 0px',
+    }
+  );
+
+  candidates.forEach((el, index) => {
+    el.classList.add('reveal');
+    // Pequeño retraso escalonado para que la animación se sienta más fluida
+    el.style.setProperty('--reveal-delay', `${index * 40}ms`);
+    observer.observe(el);
+  });
+}
+
+// ==========================================
+// Cargar automáticamente el último video de YouTube
+// ==========================================
+
+/**
+ * Obtiene el último video del canal de YouTube automáticamente
+ */
+async function updateLatestVideo() {
+  try {
+    const iframe = document.querySelector('.video-player iframe');
+    if (!iframe) return;
+
+    // Canal ID de la iglesia
+    const channelId = 'UCpjzBxiJlWM92w4RUn3qQRw';
+    
+    // Intenta con Invidious primero
+    try {
+      const response = await fetch(
+        `https://inv.nadeko.net/api/v1/channels/${channelId}?fields=latestVideos`,
+        { signal: AbortSignal.timeout(5000) }
+      );
+      
+      if (response.ok) {
+        const data = await response.json();
+        if (data.latestVideos && data.latestVideos.length > 0) {
+          const videoId = data.latestVideos[0].videoId;
+          iframe.src = `https://www.youtube.com/embed/${videoId}`;
+          console.log('✓ Video actualizado:', videoId);
+          return;
+        }
+      }
+    } catch (e) {
+      console.log('Invidious no disponible, intentando RSS...');
+    }
+
+    // Fallback: Intenta con RSS feed
+    const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
+    const corsProxy = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
+    
+    const response = await fetch(corsProxy, { signal: AbortSignal.timeout(5000) });
+    if (response.ok) {
+      const data = await response.json();
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(data.contents, 'text/xml');
+      const entry = xml.querySelector('entry');
+      
+      if (entry) {
+        const videoId = entry.querySelector('yt\\:videoId')?.textContent || 
+                       entry.querySelector('videoId')?.textContent;
+        if (videoId) {
+          iframe.src = `https://www.youtube.com/embed/${videoId}`;
+          console.log('✓ Video actualizado (RSS):', videoId);
+          return;
+        }
+      }
+    }
+
+  } catch (error) {
+    console.log('No se pudo obtener el último video. Usando video por defecto.');
+  }
+}
+
+function onDomReady() {
+  updateLatestVideo();
+  initScrollReveal();
+  const yearSpans = document.querySelectorAll('[data-year]');
+  if (yearSpans.length) {
+    const year = new Date().getFullYear();
+    yearSpans.forEach((el) => {
+      el.textContent = year;
+    });
+  }
+}
+
+// Cargar automáticamente al abrir la página
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', onDomReady);
+} else {
+  onDomReady();
+}
+
+// Actualizar cada 30 minutos solo el video
+setInterval(updateLatestVideo, 1800000);

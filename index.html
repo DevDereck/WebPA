@@ -36,7 +36,7 @@
         <a href="#ubicacion">Dirección</a>
       </nav>
       <div class="topbar__actions">
-        <a class="btn btn--ghost" href="https://www.youtube.com/@iglesiacristianapiedraangu9334/streams" target="_blank" rel="noopener noreferrer">Ver predicaciones</a>
+        <a class="btn btn--ghost" href="predicaciones.html">Ver predicaciones</a>
         <button class="menu-toggle" aria-label="Abrir menú de navegación">
           <span></span><span></span><span></span>
         </button>
@@ -53,7 +53,7 @@
           <p class="pill">Una iglesia para la Gloria de Dios</p>
           <h1>Fe vibrante, comunidad cálida y propósito claro</h1>
           <p class="lead">
-            Trabajando juntos para el Señor.
+            Porque de él, y por él, y para él, son todas las cosas. ¡A él sea la gloria por los siglos! Amén.
           </p>
           <div class="hero__actions">
             <a class="btn" href="#ministerios">Explorar ministerios</a>
@@ -314,6 +314,101 @@
         </div>
       </section>
 
+      <section id="calendario" class="section section--alt">
+        <div class="section__header">
+          <p class="eyebrow">Planifica tu visita</p>
+          <h2>Calendario de Eventos</h2>
+          <p class="lead">
+            Descubre todos nuestros eventos, cultos y reuniones de ministerios. ¡No te pierdas nada!
+          </p>
+        </div>
+        <div class="calendario-container">
+          <div class="calendario">
+            <div class="calendario__header">
+              <button class="calendario__nav" id="prevMonth" aria-label="Mes anterior">&lt;</button>
+              <h3 id="currentMonth">Enero 2026</h3>
+              <button class="calendario__nav" id="nextMonth" aria-label="Próximo mes">&gt;</button>
+            </div>
+            <div class="calendario__weekdays">
+              <div class="weekday">Dom</div>
+              <div class="weekday">Lun</div>
+              <div class="weekday">Mar</div>
+              <div class="weekday">Mié</div>
+              <div class="weekday">Jue</div>
+              <div class="weekday">Vie</div>
+              <div class="weekday">Sáb</div>
+            </div>
+            <div class="calendario__days" id="calendarDays"></div>
+          </div>
+          
+          <div class="eventos-sidebar">
+            <h3>Eventos Próximos</h3>
+            <div class="eventos-list" id="eventosList">
+              <article class="evento-card">
+                <div class="evento-card__date">
+                  <span class="evento-card__day">19</span>
+                  <span class="evento-card__month">Ene</span>
+                </div>
+                <div class="evento-card__content">
+                  <h4>Culto Dominical</h4>
+                  <p class="muted">9:30 AM</p>
+                  <p class="small">Alabanza, enseñanza y comunión</p>
+                </div>
+              </article>
+              
+              <article class="evento-card">
+                <div class="evento-card__date">
+                  <span class="evento-card__day">21</span>
+                  <span class="evento-card__month">Ene</span>
+                </div>
+                <div class="evento-card__content">
+                  <h4>Estudio Bíblico</h4>
+                  <p class="muted">7:00 PM</p>
+                  <p class="small">Crecimiento en la fe</p>
+                </div>
+              </article>
+
+              <article class="evento-card">
+                <div class="evento-card__date">
+                  <span class="evento-card__day">23</span>
+                  <span class="evento-card__month">Ene</span>
+                </div>
+                <div class="evento-card__content">
+                  <h4>Alabanza - Ensayo</h4>
+                  <p class="muted">7:00 PM</p>
+                  <p class="small">Ministerio de adoración</p>
+                </div>
+              </article>
+
+              <article class="evento-card">
+                <div class="evento-card__date">
+                  <span class="evento-card__day">25</span>
+                  <span class="evento-card__month">Ene</span>
+                </div>
+                <div class="evento-card__content">
+                  <h4>PETRA - Jóvenes</h4>
+                  <p class="muted">4:30 PM</p>
+                  <p class="small">Encuentro para jóvenes</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div id="eventoModal" class="modal" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+        <div class="modal__overlay"></div>
+        <div class="modal__content">
+          <button class="modal__close" aria-label="Cerrar">&times;</button>
+          <div class="modal__body">
+            <h3 id="modalTitle">Evento</h3>
+            <p id="modalDate" class="muted"></p>
+            <p id="modalTime" class="muted"></p>
+            <p id="modalDescription" class="lead"></p>
+          </div>
+        </div>
+      </div>
+
       <section id="contacto" class="section section--alt">
         <div class="section__header">
           <p class="eyebrow">Hablemos</p>
@@ -498,7 +593,9 @@
       </div>
 
       <div class="footer__bottom">
-        <p id="copyright">&copy; 2025 Iglesia Cristiana Piedra Angular. Todos los derechos reservados.</p>
+        <p id="copyright">
+          &copy; <span data-year></span> Iglesia Cristiana Piedra Angular. Todos los derechos reservados.
+        </p>
       </div>
     </footer>
 
