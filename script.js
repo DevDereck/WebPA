@@ -536,7 +536,7 @@ mobileMedia.addEventListener('change', (e) => {
 });
 
 // ===== CALENDARIO DE EVENTOS =====
-// Eventos definidos manualmente (fuente única de verdad para el calendario)
+
 const eventsData = {
   '2026-01-07': { title: 'Discipulado', time: 'Por definir', description: 'Reunión de discipulado' },
   '2026-01-08': { title: 'Oración', time: 'Por definir', description: 'Reunión de oración' },
@@ -552,6 +552,22 @@ const eventsData = {
   '2026-01-28': { title: 'Discipulado', time: 'Por definir', description: 'Reunión de discipulado' },
   '2026-01-29': { title: 'Música', time: 'Por definir', description: 'Ensayo de música' },
   '2026-01-31': { title: 'Núcleo', time: 'Por definir', description: 'Reunión de núcleo' },
+  '2026-02-04': { title: 'Discipulado', time: 'Por definir', description: 'Reunión de discipulado' },
+  '2026-02-05': { title: 'Oración', time: 'Por definir', description: 'Reunión de oración' },
+  '2026-02-07': { title: 'PETRA y Danza', time: 'Por definir', description: 'Reunión de jóvenes PETRA y ensayo de danza' },
+  '2026-02-09': { title: 'Oración', time: 'Por definir', description: 'Reunión de oración' },
+  '2026-02-11': { title: 'Discipulado', time: 'Por definir', description: 'Reunión de discipulado' },
+  '2026-02-12': { title: 'Música y Visitación', time: 'Por definir', description: 'Ensayo de música y salida de visitación' },
+  '2026-02-13': { title: 'Matrimonios', time: 'Por definir', description: 'Reunión del ministerio de matrimonios' },
+  '2026-02-15': { title: 'Evangelismo', time: 'Por definir', description: 'Salida de evangelismo' },
+  '2026-02-18': { title: 'Discipulado', time: 'Por definir', description: 'Reunión de discipulado' },
+  '2026-02-19': { title: 'Oración', time: 'Por definir', description: 'Reunión de oración' },
+  '2026-02-20': { title: 'Piedras Preciosas', time: 'Por definir', description: 'Reunión del ministerio Piedras Preciosas' },
+  '2026-02-21': { title: 'Instituto', time: 'Por definir', description: 'Clases del instituto' },
+  '2026-02-22': { title: 'Ensayo Coro y Teatro Negro', time: 'Por definir', description: 'Ensayo de coro y teatro negro' },
+  '2026-02-25': { title: 'Discipulado', time: 'Por definir', description: 'Reunión de discipulado' },
+  '2026-02-26': { title: 'Música', time: 'Por definir', description: 'Ensayo de música' },
+  '2026-02-28': { title: 'Florece', time: 'Por definir', description: 'Evento especial Florece' },
 };
 
 // Devuelve el evento para una fecha concreta
