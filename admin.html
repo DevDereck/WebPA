@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Acceso administrativo | Iglesia Cristiana Piedra Angular</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="index.html#inicio">
+        <img src="assets/Logo_ICPA-.png" alt="Logo" class="brand__logo" />
+        <div class="brand__text">
+          <span class="brand__overline">Iglesia Cristiana</span>
+          <span class="brand__name">Piedra Angular</span>
+        </div>
+      </a>
+      <nav class="nav" id="mainNav">
+        <a href="index.html#inicio">Inicio</a>
+        <a href="index.html#sobre">Sobre nosotros</a>
+        <a href="index.html#ministerios">Ministerios</a>
+        <a href="index.html#galeria">Galería</a>
+        <a href="index.html#contacto">Contacto</a>
+        <a href="index.html#ubicacion">Dirección</a>
+        <a href="admin.html">Admin</a>
+      </nav>
+      <div class="topbar__actions">
+        <a class="btn btn--ghost" href="predicaciones.html">Ver predicaciones</a>
+        <button class="menu-toggle" aria-label="Abrir menú de navegación"><span></span><span></span><span></span></button>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="section__header">
+          <p class="eyebrow">Administración</p>
+          <h2>Ingresar al panel</h2>
+          <p class="lead">Usa las credenciales para ver el control de asistencia.</p>
+        </div>
+
+        <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;">
+          <article class="card form">
+            <h3>Acceso de equipo</h3>
+            <p class="muted">Correo y contraseña obligatorios.</p>
+            <form id="adminLoginForm" novalidate>
+              <label for="adminEmail">Correo</label>
+              <input id="adminEmail" name="adminEmail" type="email" required placeholder="admin@iglesia.cr" />
+
+              <label for="adminPassword">Contraseña</label>
+              <input id="adminPassword" name="adminPassword" type="password" required placeholder="••••••" />
+
+              <div id="adminLoginStatus" class="form__status" aria-live="polite"></div>
+              <button type="submit" class="btn">Ingresar</button>
+            </form>
+            <p class="small muted" style="margin-top: 10px;">Demo: admin@iglesia.cr / icpa123</p>
+          </article>
+
+          <article class="card">
+            <h3>¿Qué verás?</h3>
+            <ul class="list">
+              <li>Listado completo de registros</li>
+              <li>Conteo total y nuevos asistentes</li>
+              <li>Exportar a PDF para reporte</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__bottom">
+        <p id="copyright">© Iglesia Cristiana Piedra Angular</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

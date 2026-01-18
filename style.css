@@ -70,6 +70,38 @@ h1, h2, h3, h4 {
   color: var(--muted);
 }
 
+.is-hidden {
+  display: none !important;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(14, 163, 154, 0.18);
+  text-align: left;
+}
+
+.admin-table th {
+  color: var(--accent-dark);
+  font-weight: 700;
+}
+
+.tag {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(20, 184, 166, 0.14);
+  color: var(--accent-dark);
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
 .overline {
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -165,10 +197,12 @@ h1, h2, h3, h4 {
   border-color: rgba(20, 184, 166, 0.35);
 }
 
-.btn--light {
-  background: white;
-  color: var(--accent-dark);
-  box-shadow: 0 12px 30px rgba(255, 255, 255, 0.3);
+.btn--light,
+.btn--light:visited {
+  background: linear-gradient(135deg, #ffffff 0%, #e9f8fb 100%);
+  color: #08303f;
+  border: 1.5px solid rgba(8, 48, 63, 0.22);
+  box-shadow: 0 14px 32px rgba(8, 48, 63, 0.22);
 }
 
 .btn--text {

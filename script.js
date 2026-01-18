@@ -128,6 +128,26 @@ const form = document.getElementById('contactForm');
 const formStatus = document.getElementById('formStatus');
 const galleryInfo = document.getElementById('galleryInfo');
 
+// Datos base para eventos de check-in (se puede ampliar luego)
+const checkinEvents = {
+  principal: {
+    id: 'principal',
+    title: 'Servicio dominical',
+    when: 'Domingo · 9:30 AM',
+    where: 'Primer Piso Ferretería Rugama, Mercedes Norte, Heredia, CR',
+    mapUrl: 'https://maps.app.goo.gl/cAupyhfBca9pfhcK6',
+    note: 'Llega 10 minutos antes para acomodarte con calma.'
+  },
+  martes: {
+    id: 'martes',
+    title: 'Estudio bíblico',
+    when: 'Martes · 7:00 PM',
+    where: 'Primer Piso Ferretería Rugama, Mercedes Norte, Heredia, CR',
+    mapUrl: 'https://maps.app.goo.gl/cAupyhfBca9pfhcK6',
+    note: 'Trae tu Biblia y cuaderno de notas.'
+  }
+};
+
 // Actualizar el servicio cuando carga la página
 document.addEventListener('DOMContentLoaded', () => {
   const nextServiceEl = document.getElementById('nextService');
@@ -220,6 +240,446 @@ document.querySelector('.gallery')?.addEventListener('click', (e) => {
     }
   }
 });
+
+// --- Check-in ---
+const CHECKIN_STORAGE_KEY = 'icpa-checkins';
+const ADMIN_SESSION_KEY = 'icpa-admin-session';
+const ADMIN_EMAIL = 'admin@iglesia.cr';
+const ADMIN_PASSWORD = 'icpa123';
+
+function loadCheckins() {
+  try {
+    const raw = localStorage.getItem(CHECKIN_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveCheckins(list) {
+  try {
+    localStorage.setItem(CHECKIN_STORAGE_KEY, JSON.stringify(list));
+  } catch (e) {
+    /* ignore */
+  }
+}
+
+function getEventCheckins(eventId) {
+  return loadCheckins().filter((c) => c.eventId === eventId);
+}
+
+function formatTime(iso) {
+  try {
+    return new Date(iso).toLocaleTimeString('es-CR', { hour: '2-digit', minute: '2-digit' });
+  } catch (e) {
+    return '';
+  }
+}
+
+function renderCheckinTable(eventId) {
+  const tbody = document.getElementById('checkinTableBody');
+  const totalEl = document.getElementById('checkinTotals');
+  const statsEl = document.getElementById('checkinStats');
+  const rows = getEventCheckins(eventId).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+  if (!tbody) return;
+
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="4" class="muted">Sin registros todavía.</td></tr>';
+    if (totalEl) totalEl.textContent = 'Total personas: 0';
+    if (statsEl) statsEl.textContent = 'Personas registradas: 0';
+    return;
+  }
+
+  const totalPeople = rows.reduce((acc, curr) => acc + 1 + (Number(curr.guests) || 0), 0);
+  if (totalEl) totalEl.textContent = `Total personas: ${totalPeople}`;
+  if (statsEl) statsEl.textContent = `Personas registradas: ${totalPeople}`;
+
+  tbody.innerHTML = rows
+    .map((row) => {
+      const guests = Number(row.guests) || 0;
+      return `<tr><td>${row.name || ''}</td><td>${row.contact || ''}</td><td>${guests}</td><td>${formatTime(row.timestamp)}</td></tr>`;
+    })
+    .join('');
+}
+
+function renderMemberList() {
+  const container = document.getElementById('memberList');
+  if (!container) return;
+
+  const members = {
+    Alabanza: ['Ana Gómez', 'Carlos Rojas', 'Luis Díaz'],
+    PETRA: ['Majo Solano', 'Daniel Mora', 'Sofía Arce'],
+    Niños: ['María Fernanda', 'Iván Herrera'],
+    Discipulado: ['Karla Chaves', 'Esteban Ruiz'],
+    Misiones: ['David Chacón', 'Laura Brenes'],
+  };
+
+  const fragment = Object.entries(members)
+    .map(([team, list]) => {
+      const names = list.map((name) => `<span class="tag" style="margin:4px 6px 4px 0; display:inline-block;">${name}</span>`).join('');
+      return `<div style="margin-bottom:12px;"><strong>${team}</strong><div style="margin-top:6px;">${names}</div></div>`;
+    })
+    .join('');
+
+  container.innerHTML = fragment || '<p class="muted">Agrega miembros para verlos aquí.</p>';
+}
+
+function renderCheckinStats(eventId) {
+  renderCheckinTable(eventId);
+}
+
+function isLoggedIn() {
+  return Boolean(localStorage.getItem(ADMIN_SESSION_KEY));
+}
+
+function setLoggedIn(token) {
+  if (token) {
+    localStorage.setItem(ADMIN_SESSION_KEY, token);
+  } else {
+    localStorage.removeItem(ADMIN_SESSION_KEY);
+  }
+}
+
+function exportCheckinsAsPdf(eventId) {
+  const checkins = getEventCheckins(eventId);
+  const total = checkins.reduce((acc, c) => acc + 1 + (Number(c.guests) || 0), 0);
+
+  const win = window.open('', '_blank', 'width=900,height=700');
+  if (!win) return;
+
+  const rows = checkins
+    .map((c, idx) => {
+      const guests = Number(c.guests) || 0;
+      return `<tr><td>${idx + 1}</td><td>${c.name || ''}</td><td>${c.contact || ''}</td><td>${guests}</td><td>${formatTime(c.timestamp)}</td></tr>`;
+    })
+    .join('');
+
+  win.document.write(`<!doctype html><html><head><title>Reporte de check-in</title>
+    <style>
+      body { font-family: Arial, sans-serif; padding: 20px; }
+      h1 { margin-bottom: 6px; }
+      p { margin: 4px 0 14px; }
+      table { width: 100%; border-collapse: collapse; }
+      th, td { border: 1px solid #d0d7de; padding: 8px 10px; text-align: left; }
+      th { background: #f6f8fa; }
+    </style>
+  </head><body>
+    <h1>Reporte de check-in</h1>
+    <p>Evento: ${eventId}</p>
+    <p>Total personas: ${total}</p>
+    <table>
+      <thead><tr><th>#</th><th>Nombre</th><th>Teléfono</th><th>Acompañantes</th><th>Hora</th></tr></thead>
+      <tbody>${rows || '<tr><td colspan="5">Sin registros.</td></tr>'}</tbody>
+    </table>
+    <script>window.print(); setTimeout(() => window.close(), 500);</script>
+  </body></html>`);
+  win.document.close();
+}
+
+function initCheckin() {
+  const loginForm = document.getElementById('loginForm');
+  const loginStatus = document.getElementById('loginStatus');
+  const loginView = document.getElementById('loginView');
+  const adminView = document.getElementById('adminView');
+  const formEl = document.getElementById('checkinForm');
+
+  if (!loginForm && !formEl) return;
+
+  const params = new URLSearchParams(window.location.search);
+  const eventId = params.get('event') || 'principal';
+  const eventData = checkinEvents[eventId] || checkinEvents.principal;
+
+  const titleEl = document.getElementById('checkinTitle');
+  const subtitleEl = document.getElementById('checkinSubtitle');
+  const whenEl = document.getElementById('checkinWhen');
+  const whereEl = document.getElementById('checkinWhere');
+  const noteEl = document.getElementById('checkinNote');
+  const qrImg = document.getElementById('checkinQr');
+  const eventIdField = document.getElementById('eventId');
+
+  if (titleEl) titleEl.textContent = eventData.title;
+  if (subtitleEl) subtitleEl.textContent = `Confirma tu asistencia para ${eventData.when}`;
+  if (whenEl) whenEl.textContent = eventData.when;
+  if (whereEl) whereEl.textContent = eventData.where;
+  if (noteEl) noteEl.textContent = eventData.note;
+  if (eventIdField) eventIdField.value = eventData.id;
+
+  if (qrImg) {
+    const baseUrl = window.location.origin === 'file://'
+      ? window.location.href.split('?')[0]
+      : `${window.location.origin}${window.location.pathname}`;
+    const shareUrl = `${baseUrl}?event=${eventData.id}`;
+    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(shareUrl)}`;
+    qrImg.alt = `QR de check-in para ${eventData.title}`;
+  }
+
+  function showAdmin() {
+    if (loginView) loginView.classList.add('is-hidden');
+    if (adminView) {
+      adminView.classList.remove('is-hidden');
+      adminView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    renderMemberList();
+    renderCheckinStats(eventData.id);
+  }
+
+  if (isLoggedIn()) {
+    showAdmin();
+  }
+
+  if (loginForm) {
+    loginForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = loginForm.loginEmail?.value.trim().toLowerCase();
+      const pwd = loginForm.loginPassword?.value.trim();
+
+      if (!email || !pwd) {
+        if (loginStatus) {
+          loginStatus.textContent = 'Completa correo y contraseña.';
+          loginStatus.className = 'form__status form__status--error is-visible';
+        }
+        return;
+      }
+
+      if (email === ADMIN_EMAIL && pwd === ADMIN_PASSWORD) {
+        setLoggedIn(true);
+        if (loginStatus) {
+          loginStatus.textContent = 'Acceso concedido.';
+          loginStatus.className = 'form__status form__status--success is-visible';
+        }
+        showAdmin();
+      } else if (loginStatus) {
+        loginStatus.textContent = 'Credenciales inválidas.';
+        loginStatus.className = 'form__status form__status--error is-visible';
+      }
+    });
+  }
+
+  if (!formEl) return;
+
+  const statusEl = document.getElementById('checkinStatus');
+  const exportBtn = document.getElementById('exportPdfBtn');
+
+  formEl.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = formEl.elements['name']?.value.trim();
+    const contact = formEl.elements['contact']?.value.trim();
+    const guestsRaw = formEl.elements['guests']?.value;
+    const guests = guestsRaw ? Math.max(0, Number(guestsRaw)) : 0;
+
+    if (!name || !contact) {
+      if (statusEl) {
+        statusEl.textContent = 'Nombre y teléfono son obligatorios.';
+        statusEl.classList.add('form__status--error', 'is-visible');
+        statusEl.classList.remove('form__status--success');
+      }
+      return;
+    }
+
+    const record = {
+      id: `chk-${Date.now()}`,
+      eventId: eventData.id,
+      name,
+      contact,
+      guests,
+      timestamp: new Date().toISOString()
+    };
+
+    const existing = loadCheckins();
+    existing.push(record);
+    saveCheckins(existing);
+
+    if (statusEl) {
+      statusEl.textContent = '¡Listo! Registro guardado en este dispositivo.';
+      statusEl.classList.remove('form__status--error');
+      statusEl.classList.add('form__status--success', 'is-visible');
+    }
+    formEl.reset();
+    renderCheckinStats(eventData.id);
+  });
+
+  if (exportBtn) {
+    exportBtn.addEventListener('click', () => exportCheckinsAsPdf(eventData.id));
+  }
+
+  renderCheckinStats(eventData.id);
+}
+
+function renderControlTable() {
+  const tbody = document.getElementById('controlTableBody');
+  const totalEl = document.getElementById('controlTotal');
+  const newEl = document.getElementById('controlNew');
+
+  if (!tbody) return;
+
+  const rows = loadCheckins().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="5" class="muted">Sin registros todavía.</td></tr>';
+    if (totalEl) totalEl.textContent = 'Total personas: 0';
+    if (newEl) newEl.textContent = 'Nuevos: 0';
+    return;
+  }
+
+  const totalPeople = rows.reduce((acc, curr) => acc + 1 + (Number(curr.guests) || 0), 0);
+  const totalNew = rows.reduce((acc, curr) => acc + (curr.isNew ? 1 : 0), 0);
+
+  if (totalEl) totalEl.textContent = `Total personas: ${totalPeople}`;
+  if (newEl) newEl.textContent = `Nuevos: ${totalNew}`;
+
+  tbody.innerHTML = rows
+    .map((row, idx) => {
+      const guests = Number(row.guests) || 0;
+      const isNew = row.isNew ? 'Sí' : 'No';
+      return `<tr><td>${idx + 1}</td><td>${row.name || ''}</td><td>${row.contact || ''}</td><td>${isNew}</td><td>${guests}</td><td>${formatTime(row.timestamp)}</td></tr>`;
+    })
+    .join('');
+}
+
+function exportControlPdf() {
+  const checkins = loadCheckins();
+  const total = checkins.reduce((acc, c) => acc + 1 + (Number(c.guests) || 0), 0);
+  const totalNew = checkins.reduce((acc, c) => acc + (c.isNew ? 1 : 0), 0);
+
+  const win = window.open('', '_blank', 'width=900,height=700');
+  if (!win) return;
+
+  const rows = checkins
+    .map((c, idx) => {
+      const guests = Number(c.guests) || 0;
+      const isNew = c.isNew ? 'Sí' : 'No';
+      return `<tr><td>${idx + 1}</td><td>${c.name || ''}</td><td>${c.contact || ''}</td><td>${isNew}</td><td>${guests}</td><td>${formatTime(c.timestamp)}</td></tr>`;
+    })
+    .join('');
+
+  win.document.write(`<!doctype html><html><head><title>Reporte de asistencia</title>
+    <style>
+      body { font-family: Arial, sans-serif; padding: 20px; }
+      h1 { margin-bottom: 6px; }
+      p { margin: 4px 0 14px; }
+      table { width: 100%; border-collapse: collapse; }
+      th, td { border: 1px solid #d0d7de; padding: 8px 10px; text-align: left; }
+      th { background: #f6f8fa; }
+    </style>
+  </head><body>
+    <h1>Reporte de asistencia</h1>
+    <p>Total personas: ${total}</p>
+    <p>Nuevos: ${totalNew}</p>
+    <table>
+      <thead><tr><th>#</th><th>Nombre</th><th>Teléfono</th><th>¿Nuevo?</th><th>Acompañantes</th><th>Hora</th></tr></thead>
+      <tbody>${rows || '<tr><td colspan="6">Sin registros.</td></tr>'}</tbody>
+    </table>
+    <script>window.print(); setTimeout(() => window.close(), 500);</script>
+  </body></html>`);
+  win.document.close();
+}
+
+function initAsistencia() {
+  const formEl = document.getElementById('asistenciaForm');
+  if (!formEl) return;
+
+  const statusEl = document.getElementById('asistenciaStatus');
+
+  formEl.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = formEl.elements['name']?.value.trim();
+    const contact = formEl.elements['contact']?.value.trim();
+    const isNewValue = formEl.elements['isNew']?.value || 'no';
+    const isNew = isNewValue === 'si';
+    const guestsRaw = formEl.elements['guests']?.value;
+    const guests = guestsRaw ? Math.max(0, Number(guestsRaw)) : 0;
+
+    if (!name || !contact) {
+      if (statusEl) {
+        statusEl.textContent = 'Nombre y teléfono son obligatorios.';
+        statusEl.className = 'form__status form__status--error is-visible';
+      }
+      return;
+    }
+
+    const record = {
+      id: `chk-${Date.now()}`,
+      eventId: 'asistencia',
+      name,
+      contact,
+      isNew,
+      guests,
+      timestamp: new Date().toISOString()
+    };
+
+    const existing = loadCheckins();
+    existing.push(record);
+    saveCheckins(existing);
+
+    if (statusEl) {
+      statusEl.textContent = 'Registro recibido. ¡Gracias por asistir!';
+      statusEl.className = 'form__status form__status--success is-visible';
+    }
+    formEl.reset();
+  });
+}
+
+function initAdminLogin() {
+  const formEl = document.getElementById('adminLoginForm');
+  const statusEl = document.getElementById('adminLoginStatus');
+  if (!formEl) return;
+
+  // Siempre pedir credenciales al entrar a admin
+  setLoggedIn(null);
+
+  formEl.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = formEl.adminEmail?.value.trim().toLowerCase();
+    const pwd = formEl.adminPassword?.value.trim();
+
+    if (!email || !pwd) {
+      if (statusEl) {
+        statusEl.textContent = 'Completa correo y contraseña.';
+        statusEl.className = 'form__status form__status--error is-visible';
+      }
+      return;
+    }
+
+    if (email === ADMIN_EMAIL && pwd === ADMIN_PASSWORD) {
+      const token = crypto?.randomUUID ? crypto.randomUUID() : `sess-${Date.now()}`;
+      setLoggedIn(token);
+      if (statusEl) {
+        statusEl.textContent = 'Acceso concedido. Redirigiendo...';
+        statusEl.className = 'form__status form__status--success is-visible';
+      }
+      setTimeout(() => { window.location.href = 'control.html'; }, 350);
+    } else if (statusEl) {
+      statusEl.textContent = 'Credenciales inválidas.';
+      statusEl.className = 'form__status form__status--error is-visible';
+    }
+  });
+}
+
+function initControl() {
+  const table = document.getElementById('controlTableBody');
+  if (!table) return;
+
+  if (!isLoggedIn()) {
+    window.location.href = 'admin.html';
+    return;
+  }
+
+  renderControlTable();
+
+  const exportBtn = document.getElementById('controlExportBtn');
+  if (exportBtn) {
+    exportBtn.addEventListener('click', exportControlPdf);
+  }
+
+  const logoutBtn = document.getElementById('logoutBtn');
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', () => {
+      setLoggedIn(null);
+      window.location.href = 'admin.html';
+    });
+  }
+}
 
 /* Slider initializer for elements marked with data-slider="true" */
 function initSliders() {
@@ -594,13 +1054,17 @@ const modalOverlay = document.querySelector('.modal__overlay');
 const modalClose = document.querySelector('.modal__close');
 
 function openModal(dateStr, eventData) {
+  if (!modal) return;
   const [y, m, d] = dateStr.split('-').map((n) => parseInt(n, 10));
   const date = new Date(y, m - 1, d);
   const monthNames = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
   const dayOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   
-  document.getElementById('modalTitle').textContent = eventData.title;
-  document.getElementById('modalDate').textContent = `${dayOfWeek[date.getDay()]}, ${date.getDate()} de ${monthNames[date.getMonth()]}`;
+  const modalTitle = document.getElementById('modalTitle');
+  const modalDate = document.getElementById('modalDate');
+  const modalDesc = document.getElementById('modalDescription');
+  if (modalTitle) modalTitle.textContent = eventData.title;
+  if (modalDate) modalDate.textContent = `${dayOfWeek[date.getDay()]}, ${date.getDate()} de ${monthNames[date.getMonth()]}`;
   const modalTimeEl = document.getElementById('modalTime');
   if (modalTimeEl) {
     modalTimeEl.innerHTML = `
@@ -613,26 +1077,29 @@ function openModal(dateStr, eventData) {
       <span class="modal-time__text">${eventData.time}</span>
     `;
   }
-  document.getElementById('modalDescription').textContent = eventData.description;
+  if (modalDesc) modalDesc.textContent = eventData.description;
   
   modal.classList.add('is-open');
   modal.setAttribute('aria-hidden', 'false');
 }
 
 function closeModal() {
+  if (!modal) return;
   modal.classList.remove('is-open');
   modal.setAttribute('aria-hidden', 'true');
 }
 
-modalClose.addEventListener('click', closeModal);
-modalOverlay.addEventListener('click', closeModal);
+if (modal && modalClose && modalOverlay) {
+  modalClose.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', closeModal);
 
-// Cerrar con tecla Escape
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && modal.classList.contains('is-open')) {
-    closeModal();
-  }
-});
+  // Cerrar con tecla Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+      closeModal();
+    }
+  });
+}
 
 function generateCalendar(date) {
   const year = date.getFullYear();
@@ -883,63 +1350,65 @@ function initScrollReveal() {
  * Obtiene el último video del canal de YouTube automáticamente
  */
 async function updateLatestVideo() {
-  try {
-    const iframe = document.querySelector('.video-player iframe');
-    if (!iframe) return;
+  // Guard clause: si no hay iframe, no hacemos nada
+  const iframe = document.querySelector('.video-player iframe');
+  if (!iframe) return;
 
-    // Canal ID de la iglesia
-    const channelId = 'UCpjzBxiJlWM92w4RUn3qQRw';
-    
-    // Intenta con Invidious primero
+  const channelId = 'UCpjzBxiJlWM92w4RUn3qQRw';
+
+  const fetchWithTimeout = async (url, ms = 5000) => {
+    const controller = new AbortController();
+    const t = setTimeout(() => controller.abort(), ms);
     try {
-      const response = await fetch(
-        `https://inv.nadeko.net/api/v1/channels/${channelId}?fields=latestVideos`,
-        { signal: AbortSignal.timeout(5000) }
-      );
-      
-      if (response.ok) {
-        const data = await response.json();
-        if (data.latestVideos && data.latestVideos.length > 0) {
-          const videoId = data.latestVideos[0].videoId;
-          iframe.src = `https://www.youtube.com/embed/${videoId}`;
-          console.log('✓ Video actualizado:', videoId);
-          return;
-        }
-      }
-    } catch (e) {
-      console.log('Invidious no disponible, intentando RSS...');
+      return await fetch(url, { signal: controller.signal });
+    } finally {
+      clearTimeout(t);
     }
+  };
 
-    // Fallback: Intenta con RSS feed
+  try {
+    // Invidious
+    const inv = await fetchWithTimeout(`https://inv.nadeko.net/api/v1/channels/${channelId}?fields=latestVideos`);
+    if (inv.ok) {
+      const data = await inv.json();
+      if (data.latestVideos && data.latestVideos.length) {
+        const videoId = data.latestVideos[0].videoId;
+        iframe.src = `https://www.youtube.com/embed/${videoId}`;
+        return;
+      }
+    }
+  } catch (e) {
+    // ignore
+  }
+
+  try {
+    // RSS fallback
     const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
     const corsProxy = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
-    
-    const response = await fetch(corsProxy, { signal: AbortSignal.timeout(5000) });
-    if (response.ok) {
-      const data = await response.json();
+    const res = await fetchWithTimeout(corsProxy);
+    if (res.ok) {
+      const data = await res.json();
       const parser = new DOMParser();
       const xml = parser.parseFromString(data.contents, 'text/xml');
       const entry = xml.querySelector('entry');
-      
-      if (entry) {
-        const videoId = entry.querySelector('yt\\:videoId')?.textContent || 
-                       entry.querySelector('videoId')?.textContent;
-        if (videoId) {
-          iframe.src = `https://www.youtube.com/embed/${videoId}`;
-          console.log('✓ Video actualizado (RSS):', videoId);
-          return;
-        }
+      const videoId = entry?.querySelector('yt\\:videoId')?.textContent || entry?.querySelector('videoId')?.textContent;
+      if (videoId) {
+        iframe.src = `https://www.youtube.com/embed/${videoId}`;
+        return;
       }
     }
-
-  } catch (error) {
-    console.log('No se pudo obtener el último video. Usando video por defecto.');
+  } catch (e) {
+    // ignore
   }
 }
 
 function onDomReady() {
   updateLatestVideo();
   initScrollReveal();
+  initCheckin();
+  initAsistencia();
+  initAdminLogin();
+  initControl();
   const yearSpans = document.querySelectorAll('[data-year]');
   if (yearSpans.length) {
     const year = new Date().getFullYear();

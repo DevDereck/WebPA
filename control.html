@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Control de asistencia | Iglesia Cristiana Piedra Angular</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="index.html#inicio">
+        <img src="assets/Logo_ICPA-.png" alt="Logo" class="brand__logo" />
+        <div class="brand__text">
+          <span class="brand__overline">Iglesia Cristiana</span>
+          <span class="brand__name">Piedra Angular</span>
+        </div>
+      </a>
+      <nav class="nav" id="mainNav">
+        <a href="index.html#inicio">Inicio</a>
+        <a href="index.html#sobre">Sobre nosotros</a>
+        <a href="index.html#ministerios">Ministerios</a>
+        <a href="index.html#galeria">Galería</a>
+        <a href="index.html#contacto">Contacto</a>
+        <a href="index.html#ubicacion">Dirección</a>
+        <a href="admin.html">Admin</a>
+      </nav>
+      <div class="topbar__actions">
+        <a class="btn btn--ghost" href="predicaciones.html">Ver predicaciones</a>
+        <button class="menu-toggle" aria-label="Abrir menú de navegación"><span></span><span></span><span></span></button>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="section__header">
+          <p class="eyebrow">Control</p>
+          <h2>Listado de asistencia</h2>
+          <p class="lead">Solo personal autorizado. Datos vienen del formulario de asistencia.</p>
+        </div>
+
+        <div class="card" style="margin-bottom: 18px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+          <span class="tag" id="controlTotal">Total personas: 0</span>
+          <span class="tag" id="controlNew">Nuevos: 0</span>
+          <button class="btn btn--outline" id="controlExportBtn">Exportar PDF</button>
+          <button class="btn btn--outline" id="logoutBtn" style="display:flex;align-items:center;gap:8px;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M10 5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M14 16l3-4-3-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M17 12H10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <span>Salir</span>
+          </button>
+        </div>
+
+        <article class="card">
+          <div style="overflow:auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nombre</th>
+                  <th>Teléfono</th>
+                  <th>¿Nuevo?</th>
+                  <th>Acompañantes</th>
+                  <th>Hora</th>
+                </tr>
+              </thead>
+              <tbody id="controlTableBody">
+                <tr><td colspan="6" class="muted">Sin registros todavía.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer__bottom">
+        <p id="copyright">© Iglesia Cristiana Piedra Angular</p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
