@@ -395,7 +395,7 @@ function initSliders() {
           index = index >= maxIndex ? 0 : index + 1;
           update();
         }
-      }, 4500);
+      }, 3500);
     }
 
     function stopAutoplay() {
@@ -462,65 +462,69 @@ function initSliders() {
   });
 }
 
-form.addEventListener('submit', async (event) => {
-  event.preventDefault();
-  
-  const nombre = form.nombre.value.trim();
-  const correo = form.email.value.trim();
-  const telefono = form.phone.value.trim();
-  const ministerio = form.ministerio.value;
-  const mensaje = form.message.value.trim();
+// Manejo del formulario de contacto: validación + envío AJAX sin redirección
+if (form) {
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-  if (!nombre || !correo || !ministerio || !mensaje) {
-    showStatus('Por favor completa todos los campos obligatorios.', false);
-    return;
-  }
+    const nombre = form.nombre.value.trim();
+    const correo = form.email.value.trim();
+    const telefono = form.phone.value.trim();
+    const ministerio = form.ministerio.value;
+    const mensaje = form.message.value.trim();
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(correo)) {
-    showStatus('Ingresa un correo electrónico válido.', false);
-    return;
-  }
-
-  const submitBtn = form.querySelector('button[type="submit"]');
-  const originalText = submitBtn.textContent;
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Enviando...';
-
-  try {
-    const response = await fetch('https://formsubmit.co/ajax/dereckvargas500@gmail.com', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
-        nombre: nombre,
-        email: correo,
-        phone: telefono,
-        ministerio: ministerio,
-        message: mensaje
-      })
-    });
-
-    if (response.ok) {
-      showStatus(`¡Gracias, ${nombre}! Hemos recibido tu mensaje.`, true);
-      form.reset();
-      document.getElementById('formStatus').style.display = 'block';
-      setTimeout(() => {
-        document.getElementById('formStatus').style.display = 'none';
-      }, 5000);
-    } else {
-      showStatus('Error al enviar. Intenta nuevamente.', false);
+    // Validaciones básicas antes de enviar
+    if (!nombre || !correo || !ministerio || !mensaje) {
+      showStatus('Por favor completa todos los campos obligatorios.', false);
+      return;
     }
-  } catch (error) {
-    console.error('Error:', error);
-    showStatus('Error de conexión. Intenta nuevamente.', false);
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.textContent = originalText;
-  }
-});
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(correo)) {
+      showStatus('Ingresa un correo electrónico válido.', false);
+      return;
+    }
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const originalText = submitBtn ? submitBtn.textContent : '';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enviando...';
+    }
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/dereckvargas500@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+          nombre: nombre,
+          email: correo,
+          phone: telefono,
+          ministerio: ministerio,
+          message: mensaje,
+        }),
+      });
+
+      if (response.ok) {
+        showStatus(`¡Gracias, ${nombre}! Hemos recibido tu mensaje.`, true);
+        form.reset();
+      } else {
+        showStatus('Error al enviar. Intenta nuevamente.', false);
+      }
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error);
+      showStatus('Error de conexión. Intenta nuevamente.', false);
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    }
+  });
+}
 
 function showStatus(text, success) {
   formStatus.textContent = text;
@@ -759,8 +763,7 @@ function createEventCard(ev) {
 
   return article;
 }
-
-// Lista lateral: solo los 3 eventos más cercanos desde hoy
+// Lista lateral: eventos próximos solo del mes actual (según la fecha de hoy)
 function buildUpcomingEventsSidebar(limit = 3) {
   const listContainer = document.getElementById('eventosList');
   if (!listContainer) return;
@@ -769,18 +772,29 @@ function buildUpcomingEventsSidebar(limit = 3) {
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+  const currentYear = today.getFullYear();
+  const currentMonth = today.getMonth();
 
-  const upcoming = getAllEventsArray().filter((ev) => ev.date >= today);
+  const upcoming = getAllEventsArray().filter((ev) => {
+    return (
+      ev.date >= today &&
+      ev.date.getFullYear() === currentYear &&
+      ev.date.getMonth() === currentMonth
+    );
+  });
 
   if (!upcoming.length) {
     const empty = document.createElement('p');
     empty.className = 'muted small';
-    empty.textContent = 'Por ahora no hay eventos próximos programados.';
+    empty.textContent = 'Por ahora no hay eventos próximos programados para este mes.';
     listContainer.appendChild(empty);
     return;
   }
 
-  upcoming.slice(0, limit).forEach((ev) => {
+  const eventsToShow =
+    limit === Number.POSITIVE_INFINITY ? upcoming : upcoming.slice(0, limit);
+
+  eventsToShow.forEach((ev) => {
     listContainer.appendChild(createEventCard(ev));
   });
 }

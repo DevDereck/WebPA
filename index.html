@@ -14,7 +14,7 @@
   </head>
   <body>
     <header class="topbar">
-      <div class="brand">
+      <a class="brand" href="#inicio">
         <img
           src="assets/Logo_ICPA-.png"
           alt="Logo Iglesia Cristiana Piedra Angular"
@@ -26,14 +26,14 @@
           <span class="brand__overline">Iglesia Cristiana</span>
           <span class="brand__name">Piedra Angular</span>
         </div>
-      </div>
+      </a>
       <nav class="nav" id="mainNav">
-        <a href="#inicio">Inicio</a>
-        <a href="#sobre">Sobre nosotros</a>
-        <a href="#ministerios">Ministerios</a>
-        <a href="#galeria">Galería</a>
-        <a href="#contacto">Contacto</a>
-        <a href="#ubicacion">Dirección</a>
+        <a href="#inicio" data-i18n="nav.inicio">Inicio</a>
+        <a href="#sobre" data-i18n="nav.sobre">Sobre nosotros</a>
+        <a href="#ministerios" data-i18n="nav.ministerios">Ministerios</a>
+        <a href="#galeria" data-i18n="nav.galeria">Galería</a>
+        <a href="#contacto" data-i18n="nav.contacto">Contacto</a>
+        <a href="#ubicacion" data-i18n="nav.ubicacion">Dirección</a>
       </nav>
       <div class="topbar__actions">
         <a class="btn btn--ghost" href="predicaciones.html">Ver predicaciones</a>
@@ -50,14 +50,14 @@
         style="--hero-img: url('assets/hero2.jpg')"
       >
         <div class="hero__content">
-          <p class="pill">Una iglesia para la Gloria de Dios</p>
-          <h1>Fe vibrante, comunidad cálida y propósito claro</h1>
-          <p class="lead">
+          <p class="pill" data-i18n="hero.pill">Una iglesia para la Gloria de Dios</p>
+          <h1 data-i18n="hero.title">Fe vibrante, comunidad cálida y propósito claro</h1>
+          <p class="lead" data-i18n="hero.lead">
             Porque de él, y por él, y para él, son todas las cosas. ¡A él sea la gloria por los siglos! Amén.
           </p>
           <div class="hero__actions">
-            <a class="btn" href="#ministerios">Explorar ministerios</a>
-            <a class="btn btn--outline" href="#galeria">Ver galería</a>
+            <a class="btn" href="#ministerios" data-i18n="hero.cta.ministerios">Explorar ministerios</a>
+            <a class="btn btn--outline" href="#galeria" data-i18n="hero.cta.galeria">Ver galería</a>
           </div>
           <div class="hero__meta">
             <div class="stat">
@@ -76,9 +76,9 @@
         </div>
         <div class="hero__visual">
           <div class="hero__badge">
-            <p class="overline">Próximo servicio</p>
+            <p class="overline" data-i18n="hero.badge.nextServiceLabel">Próximo servicio</p>
             <h3 id="nextService">Cargando...</h3>
-            <p class="muted">Primer Piso Ferretería Rugama, Mercedes Norte, Heredia, CR</p>
+            <p class="muted" data-i18n="hero.badge.location">Primer Piso Ferretería Rugama, Mercedes Norte, Heredia, CR</p>
           </div>
           <div class="hero__photo"></div>
         </div>
@@ -86,9 +86,9 @@
 
       <section id="sobre" class="section">
         <div class="section__header">
-          <p class="eyebrow">Quiénes somos</p>
-          <h2>Somos Iglesia y aunque no sea perfecta es la familia de Dios</h2>
-          <p class="lead">
+          <p class="eyebrow" data-i18n="sobre.eyebrow">Quiénes somos</p>
+          <h2 data-i18n="sobre.title">Somos Iglesia y aunque no sea perfecta es la familia de Dios</h2>
+          <p class="lead" data-i18n="sobre.lead">
             Creamos espacios para encontrarnos con Jesús, crecer en Su Palabra y servir con creatividad y excelencia en cada etapa.
           </p>
         </div>
@@ -142,9 +142,9 @@
 
       <section id="ministerios" class="section section--alt">
         <div class="section__header">
-          <p class="eyebrow">Vida de la iglesia</p>
-          <h2>Ministerios para cada paso de fe</h2>
-          <p class="lead">
+          <p class="eyebrow" data-i18n="ministerios.eyebrow">Vida de la iglesia</p>
+          <h2 data-i18n="ministerios.title">Ministerios para cada paso de fe</h2>
+          <p class="lead" data-i18n="ministerios.lead">
             Conecta con tu llamado: alabanza, discipulado, jóvenes, misiones y
             más.
           </p>
@@ -230,9 +230,9 @@
 
       <section id="galeria" class="section">
         <div class="section__header">
-          <p class="eyebrow">Momentos</p>
-          <h2>Galería de Ministerios</h2>
-          <p class="lead">
+          <p class="eyebrow" data-i18n="galeria.eyebrow">Momentos</p>
+          <h2 data-i18n="galeria.title">Galería de Ministerios</h2>
+          <p class="lead" data-i18n="galeria.lead">
             Descubre cómo vivimos la fe: adoración, servicio, unidad, discipulado y
             comunidad.
           </p>
@@ -310,9 +310,9 @@
 
       <section id="calendario" class="section section--alt">
         <div class="section__header">
-          <p class="eyebrow">Planifica tu visita</p>
-          <h2>Calendario de Eventos</h2>
-          <p class="lead">
+          <p class="eyebrow" data-i18n="calendario.eyebrow">Planifica tu visita</p>
+          <h2 data-i18n="calendario.title">Calendario de Eventos</h2>
+          <p class="lead" data-i18n="calendario.lead">
             Descubre todos nuestros eventos, cultos y reuniones de ministerios. ¡No te pierdas nada!
           </p>
         </div>
@@ -358,9 +358,9 @@
 
       <section id="contacto" class="section section--alt">
         <div class="section__header">
-          <p class="eyebrow">Hablemos</p>
-          <h2>Contacto y oración</h2>
-          <p class="lead">
+          <p class="eyebrow" data-i18n="contacto.eyebrow">Hablemos</p>
+          <h2 data-i18n="contacto.title">Contacto y oración</h2>
+          <p class="lead" data-i18n="contacto.lead">
             Escríbenos si necesitas oración, información o quieres servir.
           </p>
         </div>
@@ -456,9 +456,9 @@
 
       <section id="ubicacion" class="section">
         <div class="section__header">
-          <p class="eyebrow">Estamos cerca de ti</p>
-          <h2>Dirección</h2>
-          <p class="lead">
+          <p class="eyebrow" data-i18n="ubicacion.eyebrow">Estamos cerca de ti</p>
+          <h2 data-i18n="ubicacion.title">Dirección</h2>
+          <p class="lead" data-i18n="ubicacion.lead">
             Encuéntranos en el 
             Primer Piso Ferretería Rugama, Mercedes Norte, Heredia, CR.
           </p>
@@ -512,12 +512,12 @@
 
       <div class="footer__middle">
         <div class="footer__col">
-          <h4>Explora</h4>
+          <h4 data-i18n="footer.explora">Explora</h4>
           <ul>
-            <li><a href="#inicio">Inicio</a></li>
-            <li><a href="#ministerios">Ministerios</a></li>
-            <li><a href="#galeria">Galería</a></li>
-            <li><a href="#sobre">Sobre nosotros</a></li>
+            <li><a href="#inicio" data-i18n="nav.inicio">Inicio</a></li>
+            <li><a href="#ministerios" data-i18n="nav.ministerios">Ministerios</a></li>
+            <li><a href="#galeria" data-i18n="nav.galeria">Galería</a></li>
+            <li><a href="#sobre" data-i18n="nav.sobre">Sobre nosotros</a></li>
           </ul>
         </div>
         <div class="footer__col">

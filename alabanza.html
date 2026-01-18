@@ -4,24 +4,30 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Alabanza — Iglesia Piedra Angular</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header class="topbar">
-      <div class="brand">
+      <a class="brand" href="index.html#inicio">
         <img src="assets/Logo_ICPA-.png" alt="Logo" class="brand__logo" />
         <div class="brand__text">
           <span class="brand__overline">Iglesia Cristiana</span>
           <span class="brand__name">Piedra Angular</span>
         </div>
-      </div>
+      </a>
       <nav class="nav" id="mainNav">
-        <a href="index.html#inicio">Inicio</a>
-        <a href="index.html#sobre">Sobre nosotros</a>
-        <a href="index.html#ministerios">Ministerios</a>
-        <a href="index.html#galeria">Galería</a>
-        <a href="index.html#contacto">Contacto</a>
-        <a href="index.html#ubicacion">Dirección</a>
+        <a href="index.html#inicio" data-i18n="nav.inicio">Inicio</a>
+        <a href="index.html#sobre" data-i18n="nav.sobre">Sobre nosotros</a>
+        <a href="index.html#ministerios" data-i18n="nav.ministerios">Ministerios</a>
+        <a href="index.html#galeria" data-i18n="nav.galeria">Galería</a>
+        <a href="index.html#contacto" data-i18n="nav.contacto">Contacto</a>
+        <a href="index.html#ubicacion" data-i18n="nav.ubicacion">Dirección</a>
       </nav>
       <div class="topbar__actions">
         <a class="btn btn--ghost" href="predicaciones.html">Ver predicaciones</a>
