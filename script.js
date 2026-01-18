@@ -241,31 +241,30 @@ document.querySelector('.gallery')?.addEventListener('click', (e) => {
   }
 });
 
-// --- Check-in ---
-const CHECKIN_STORAGE_KEY = 'icpa-checkins';
+// --- Check-in / Backend ---
 const ADMIN_SESSION_KEY = 'icpa-admin-session';
-const ADMIN_EMAIL = 'admin@iglesia.cr';
-const ADMIN_PASSWORD = 'icpa123';
+const API_URL = '';
 
-function loadCheckins() {
-  try {
-    const raw = localStorage.getItem(CHECKIN_STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch (e) {
-    return [];
-  }
+function getAuthToken() {
+  return localStorage.getItem(ADMIN_SESSION_KEY) || '';
 }
 
-function saveCheckins(list) {
-  try {
-    localStorage.setItem(CHECKIN_STORAGE_KEY, JSON.stringify(list));
-  } catch (e) {
-    /* ignore */
-  }
+async function fetchRemoteCheckins() {
+  const token = getAuthToken();
+  const headers = token ? { Authorization: `Bearer ${token}` } : {};
+  const res = await fetch(`${API_URL}/api/checkins`, { cache: 'no-store', headers });
+  if (!res.ok) throw new Error('remote fetch failed');
+  return res.json();
 }
 
-function getEventCheckins(eventId) {
-  return loadCheckins().filter((c) => c.eventId === eventId);
+async function saveRemoteCheckin(record) {
+  const res = await fetch(`${API_URL}/api/checkins`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(record),
+  });
+  if (!res.ok) throw new Error('remote save failed');
+  return res.json();
 }
 
 function formatTime(iso) {
@@ -276,13 +275,23 @@ function formatTime(iso) {
   }
 }
 
-function renderCheckinTable(eventId) {
+async function renderCheckinTable(eventId) {
   const tbody = document.getElementById('checkinTableBody');
   const totalEl = document.getElementById('checkinTotals');
   const statsEl = document.getElementById('checkinStats');
-  const rows = getEventCheckins(eventId).sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-
   if (!tbody) return;
+
+  let rows = [];
+  try {
+    rows = (await fetchRemoteCheckins()).filter((c) => c.eventId === eventId);
+  } catch (e) {
+    tbody.innerHTML = '<tr><td colspan="4" class="muted">No se pudo cargar desde el servidor.</td></tr>';
+    if (totalEl) totalEl.textContent = 'Total personas: 0';
+    if (statsEl) statsEl.textContent = 'Personas registradas: 0';
+    return;
+  }
+
+  rows = rows.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
   if (!rows.length) {
     tbody.innerHTML = '<tr><td colspan="4" class="muted">Sin registros todavía.</td></tr>';
@@ -307,13 +316,7 @@ function renderMemberList() {
   const container = document.getElementById('memberList');
   if (!container) return;
 
-  const members = {
-    Alabanza: ['Ana Gómez', 'Carlos Rojas', 'Luis Díaz'],
-    PETRA: ['Majo Solano', 'Daniel Mora', 'Sofía Arce'],
-    Niños: ['María Fernanda', 'Iván Herrera'],
-    Discipulado: ['Karla Chaves', 'Esteban Ruiz'],
-    Misiones: ['David Chacón', 'Laura Brenes'],
-  };
+  const members = {};
 
   const fragment = Object.entries(members)
     .map(([team, list]) => {
@@ -341,12 +344,36 @@ function setLoggedIn(token) {
   }
 }
 
-function exportCheckinsAsPdf(eventId) {
-  const checkins = getEventCheckins(eventId);
-  const total = checkins.reduce((acc, c) => acc + 1 + (Number(c.guests) || 0), 0);
+function openExportDoc(html, filename = 'reporte.html') {
+  const blob = new Blob([html], { type: 'text/html' });
+  const url = URL.createObjectURL(blob);
+  const win = window.open(url, '_blank');
+  if (!win) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    alert('Popup bloqueado: se descargó el reporte.');
+  } else {
+    win.onload = () => {
+      try { win.print(); } catch (e) { /* ignore */ }
+    };
+  }
+}
 
-  const win = window.open('', '_blank', 'width=900,height=700');
-  if (!win) return;
+async function exportCheckinsAsPdf(eventId) {
+  let checkins = [];
+  try {
+    checkins = (await fetchRemoteCheckins()).filter((c) => c.eventId === eventId);
+  } catch (e) {
+    alert('No se pudo exportar: servidor no disponible.');
+    return;
+  }
+
+  const total = checkins.reduce((acc, c) => acc + 1 + (Number(c.guests) || 0), 0);
 
   const rows = checkins
     .map((c, idx) => {
@@ -355,9 +382,9 @@ function exportCheckinsAsPdf(eventId) {
     })
     .join('');
 
-  win.document.write(`<!doctype html><html><head><title>Reporte de check-in</title>
+  const html = `<!doctype html><html><head><meta charset="UTF-8"><title>Reporte de check-in</title>
     <style>
-      body { font-family: Arial, sans-serif; padding: 20px; }
+      body { font-family: "Inter", Arial, sans-serif; padding: 20px; }
       h1 { margin-bottom: 6px; }
       p { margin: 4px 0 14px; }
       table { width: 100%; border-collapse: collapse; }
@@ -373,8 +400,9 @@ function exportCheckinsAsPdf(eventId) {
       <tbody>${rows || '<tr><td colspan="5">Sin registros.</td></tr>'}</tbody>
     </table>
     <script>window.print(); setTimeout(() => window.close(), 500);</script>
-  </body></html>`);
-  win.document.close();
+  </body></html>`;
+
+  openExportDoc(html, 'reporte-checkin.html');
 }
 
 function initCheckin() {
@@ -429,7 +457,7 @@ function initCheckin() {
   }
 
   if (loginForm) {
-    loginForm.addEventListener('submit', (e) => {
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = loginForm.loginEmail?.value.trim().toLowerCase();
       const pwd = loginForm.loginPassword?.value.trim();
@@ -442,16 +470,25 @@ function initCheckin() {
         return;
       }
 
-      if (email === ADMIN_EMAIL && pwd === ADMIN_PASSWORD) {
-        setLoggedIn(true);
+      try {
+        const res = await fetch(`${API_URL}/api/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password: pwd }),
+        });
+        if (!res.ok) throw new Error('bad credentials');
+        const data = await res.json();
+        setLoggedIn(data.token);
         if (loginStatus) {
           loginStatus.textContent = 'Acceso concedido.';
           loginStatus.className = 'form__status form__status--success is-visible';
         }
         showAdmin();
-      } else if (loginStatus) {
-        loginStatus.textContent = 'Credenciales inválidas.';
-        loginStatus.className = 'form__status form__status--error is-visible';
+      } catch (err) {
+        if (loginStatus) {
+          loginStatus.textContent = 'Credenciales inválidas o servidor no disponible.';
+          loginStatus.className = 'form__status form__status--error is-visible';
+        }
       }
     });
   }
@@ -461,7 +498,7 @@ function initCheckin() {
   const statusEl = document.getElementById('checkinStatus');
   const exportBtn = document.getElementById('exportPdfBtn');
 
-  formEl.addEventListener('submit', (e) => {
+  formEl.addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = formEl.elements['name']?.value.trim();
     const contact = formEl.elements['contact']?.value.trim();
@@ -483,37 +520,53 @@ function initCheckin() {
       name,
       contact,
       guests,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
-    const existing = loadCheckins();
-    existing.push(record);
-    saveCheckins(existing);
-
-    if (statusEl) {
-      statusEl.textContent = '¡Listo! Registro guardado en este dispositivo.';
-      statusEl.classList.remove('form__status--error');
-      statusEl.classList.add('form__status--success', 'is-visible');
+    try {
+      await saveRemoteCheckin(record);
+      if (statusEl) {
+        statusEl.textContent = '¡Listo! Registro guardado en el servidor.';
+        statusEl.classList.remove('form__status--error');
+        statusEl.classList.add('form__status--success', 'is-visible');
+      }
+      formEl.reset();
+      renderCheckinStats(eventData.id);
+    } catch (err) {
+      if (statusEl) {
+        statusEl.textContent = 'No se pudo guardar en el servidor. Intenta de nuevo.';
+        statusEl.classList.add('form__status--error', 'is-visible');
+        statusEl.classList.remove('form__status--success');
+      }
     }
-    formEl.reset();
-    renderCheckinStats(eventData.id);
   });
 
   if (exportBtn) {
-    exportBtn.addEventListener('click', () => exportCheckinsAsPdf(eventData.id));
+    exportBtn.addEventListener('click', () => {
+      exportCheckinsAsPdf(eventData.id);
+    });
   }
 
   renderCheckinStats(eventData.id);
 }
-
-function renderControlTable() {
+async function renderControlTable() {
   const tbody = document.getElementById('controlTableBody');
   const totalEl = document.getElementById('controlTotal');
   const newEl = document.getElementById('controlNew');
 
   if (!tbody) return;
 
-  const rows = loadCheckins().sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+  let rows = [];
+  try {
+    rows = await fetchRemoteCheckins();
+  } catch (e) {
+    tbody.innerHTML = '<tr><td colspan="5" class="muted">No se pudo cargar desde el servidor.</td></tr>';
+    if (totalEl) totalEl.textContent = 'Total personas: 0';
+    if (newEl) newEl.textContent = 'Nuevos: 0';
+    return;
+  }
+
+  rows = rows.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
   if (!rows.length) {
     tbody.innerHTML = '<tr><td colspan="5" class="muted">Sin registros todavía.</td></tr>';
@@ -537,13 +590,16 @@ function renderControlTable() {
     .join('');
 }
 
-function exportControlPdf() {
-  const checkins = loadCheckins();
+async function exportControlPdf() {
+  let checkins = [];
+  try {
+    checkins = await fetchRemoteCheckins();
+  } catch (e) {
+    alert('No se pudo exportar: servidor no disponible.');
+    return;
+  }
   const total = checkins.reduce((acc, c) => acc + 1 + (Number(c.guests) || 0), 0);
   const totalNew = checkins.reduce((acc, c) => acc + (c.isNew ? 1 : 0), 0);
-
-  const win = window.open('', '_blank', 'width=900,height=700');
-  if (!win) return;
 
   const rows = checkins
     .map((c, idx) => {
@@ -553,9 +609,9 @@ function exportControlPdf() {
     })
     .join('');
 
-  win.document.write(`<!doctype html><html><head><title>Reporte de asistencia</title>
+  const html = `<!doctype html><html><head><meta charset="UTF-8"><title>Reporte de asistencia</title>
     <style>
-      body { font-family: Arial, sans-serif; padding: 20px; }
+      body { font-family: "Inter", Arial, sans-serif; padding: 20px; }
       h1 { margin-bottom: 6px; }
       p { margin: 4px 0 14px; }
       table { width: 100%; border-collapse: collapse; }
@@ -571,8 +627,9 @@ function exportControlPdf() {
       <tbody>${rows || '<tr><td colspan="6">Sin registros.</td></tr>'}</tbody>
     </table>
     <script>window.print(); setTimeout(() => window.close(), 500);</script>
-  </body></html>`);
-  win.document.close();
+  </body></html>`;
+
+  openExportDoc(html, 'reporte-asistencia.html');
 }
 
 function initAsistencia() {
@@ -581,7 +638,7 @@ function initAsistencia() {
 
   const statusEl = document.getElementById('asistenciaStatus');
 
-  formEl.addEventListener('submit', (e) => {
+  formEl.addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = formEl.elements['name']?.value.trim();
     const contact = formEl.elements['contact']?.value.trim();
@@ -608,15 +665,19 @@ function initAsistencia() {
       timestamp: new Date().toISOString()
     };
 
-    const existing = loadCheckins();
-    existing.push(record);
-    saveCheckins(existing);
-
-    if (statusEl) {
-      statusEl.textContent = 'Registro recibido. ¡Gracias por asistir!';
-      statusEl.className = 'form__status form__status--success is-visible';
+    try {
+      await saveRemoteCheckin(record);
+      if (statusEl) {
+        statusEl.textContent = 'Registro recibido. ¡Gracias por asistir!';
+        statusEl.className = 'form__status form__status--success is-visible';
+      }
+      formEl.reset();
+    } catch (err) {
+      if (statusEl) {
+        statusEl.textContent = 'No se pudo guardar en el servidor. Intenta de nuevo.';
+        statusEl.className = 'form__status form__status--error is-visible';
+      }
     }
-    formEl.reset();
   });
 }
 
@@ -628,7 +689,7 @@ function initAdminLogin() {
   // Siempre pedir credenciales al entrar a admin
   setLoggedIn(null);
 
-  formEl.addEventListener('submit', (e) => {
+  formEl.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = formEl.adminEmail?.value.trim().toLowerCase();
     const pwd = formEl.adminPassword?.value.trim();
@@ -641,22 +702,32 @@ function initAdminLogin() {
       return;
     }
 
-    if (email === ADMIN_EMAIL && pwd === ADMIN_PASSWORD) {
-      const token = crypto?.randomUUID ? crypto.randomUUID() : `sess-${Date.now()}`;
-      setLoggedIn(token);
+    try {
+      const res = await fetch(`${API_URL}/api/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password: pwd }),
+      });
+      if (!res.ok) {
+        throw new Error('bad credentials');
+      }
+      const data = await res.json();
+      setLoggedIn(data.token);
       if (statusEl) {
         statusEl.textContent = 'Acceso concedido. Redirigiendo...';
         statusEl.className = 'form__status form__status--success is-visible';
       }
       setTimeout(() => { window.location.href = 'control.html'; }, 350);
-    } else if (statusEl) {
-      statusEl.textContent = 'Credenciales inválidas.';
-      statusEl.className = 'form__status form__status--error is-visible';
+    } catch (err) {
+      if (statusEl) {
+        statusEl.textContent = 'Credenciales inválidas o servidor no disponible.';
+        statusEl.className = 'form__status form__status--error is-visible';
+      }
     }
   });
 }
 
-function initControl() {
+async function initControl() {
   const table = document.getElementById('controlTableBody');
   if (!table) return;
 
@@ -665,11 +736,11 @@ function initControl() {
     return;
   }
 
-  renderControlTable();
+  await renderControlTable();
 
   const exportBtn = document.getElementById('controlExportBtn');
   if (exportBtn) {
-    exportBtn.addEventListener('click', exportControlPdf);
+    exportBtn.addEventListener('click', () => exportControlPdf());
   }
 
   const logoutBtn = document.getElementById('logoutBtn');
