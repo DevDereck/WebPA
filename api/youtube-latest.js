@@ -13,7 +13,9 @@ async function getVideoFlags(videoId) {
       headers: {
         'User-Agent': 'icpa-web/1.0',
         'Accept-Language': 'es-CR,es;q=0.9,en;q=0.8'
-      }
+      },
+      next: { revalidate: 0 },
+      cache: 'no-store',
     });
     if (!res.ok) return { isLive: false, isUpcoming: false };
     const html = await res.text();
@@ -39,6 +41,16 @@ function parseFeedEntries(xml) {
   return entries;
 }
 
+async function fetchWithTimeout(url, ms = 8000, options = {}) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 export default async function handler(req, res) {
   setCors(res);
 
@@ -54,25 +66,34 @@ export default async function handler(req, res) {
   const feedUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
 
   try {
-    const response = await fetch(feedUrl, {
+    let response = await fetchWithTimeout(feedUrl, 8000, {
       headers: {
         'User-Agent': 'icpa-web/1.0',
         'Accept-Language': 'es-CR,es;q=0.9,en;q=0.8'
-      }
+      },
+      next: { revalidate: 0 },
+      cache: 'no-store',
     });
 
     if (!response.ok) {
-      return res.status(502).json({ error: 'youtube feed unavailable' });
+      // fallback con proxy público para evitar bloqueos
+      const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(feedUrl)}`;
+      response = await fetchWithTimeout(proxy, 8000, { next: { revalidate: 0 }, cache: 'no-store' });
+      if (!response.ok) {
+        return res.status(200).json({ error: 'youtube feed unavailable' });
+      }
+      const wrapped = await response.json();
+      response = { ok: true, text: async () => wrapped.contents };
     }
 
     const xml = await response.text();
     const entries = parseFeedEntries(xml);
 
     if (!entries.length) {
-      return res.status(502).json({ error: 'video not found' });
+      return res.status(200).json({ error: 'video not found' });
     }
 
-    const inspect = entries.slice(0, 10); // limit to reduce calls
+    const inspect = entries.slice(0, 5); // limitar para evitar timeouts
     let firstLive = null;
     for (const entry of inspect) {
       const flags = await getVideoFlags(entry.videoId);
@@ -98,6 +119,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ channelId, ...fallback, source: 'upcoming-fallback' });
   } catch (error) {
     console.error('youtube feed error', error);
-    return res.status(500).json({ error: 'failed to fetch feed' });
+    return res.status(200).json({ error: 'failed to fetch feed' });
   }
 }
