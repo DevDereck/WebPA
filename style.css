@@ -1802,6 +1802,16 @@ main {
     min-height: 300px;
   }
 
+  /* Centrar contenido del hero secundario (Predicaciones) en móvil */
+  .hero--secondary .hero__content {
+    justify-items: center;
+    text-align: center;
+  }
+
+  .hero--secondary .pill {
+    align-self: center;
+  }
+
   .hero--secondary h1 {
     font-size: 1.8rem;
   }
