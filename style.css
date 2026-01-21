@@ -758,28 +758,88 @@ main {
 .gallery__item {
   position: relative;
   padding-top: 70%;
-  border-radius: 18px;
+  border-radius: 20px;
   overflow: hidden;
-  background-image: linear-gradient(135deg, rgba(5, 34, 56, 0.4), rgba(11, 138, 134, 0.4)), var(--photo);
+  cursor: pointer;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+  box-shadow: 0 10px 30px rgba(5, 34, 56, 0.08); /* Sombra suave inicial */
+  transform: translateZ(0); /* Hardware acceleration */
+  isolation: isolate;
+}
+
+.gallery__item::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--photo);
   background-size: cover;
   background-position: center;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: -2;
+}
+
+/* Overlay con gradiente mejorado para legibilidad y estética */
+.gallery__item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg, 
+    transparent 20%, 
+    rgba(5, 34, 56, 0.4) 50%, 
+    rgba(5, 34, 56, 0.95) 90%
+  );
+  z-index: -1;
+  transition: background 0.3s ease;
 }
 
 .gallery__item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 38px rgba(5, 34, 56, 0.18);
+  transform: translateY(-8px);
+  box-shadow: 0 22px 48px rgba(5, 34, 56, 0.25);
+}
+
+.gallery__item:hover::before {
+  transform: scale(1.08);
+}
+
+.gallery__item:hover::after {
+   background: linear-gradient(
+    180deg, 
+    transparent 10%, 
+    rgba(5, 34, 56, 0.5) 45%, 
+    rgba(5, 34, 56, 0.98) 90%
+  );
 }
 
 .gallery__info {
   position: absolute;
   inset: 0;
-  display: grid;
-  align-content: end;
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 20px;
   color: white;
-  background: linear-gradient(180deg, transparent, rgba(5, 34, 56, 0.65));
+  z-index: 10;
+  text-align: left; /* Alineación a la izquierda explícita */
+}
+
+.gallery__info h4 {
+  font-size: 1.25rem; /* Un poco más pequeño para evitar saltos de línea excesivos */
+  font-weight: 800;
+  margin-bottom: 6px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.gallery__info p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  font-weight: 500;
+  margin: 0;
+  max-width: 95%; /* Evita que el texto toque los bordes */
 }
 
 .info-card {
@@ -1178,6 +1238,7 @@ main {
 .hero--secondary .hero__content {
   text-align: center;
   color: white;
+  justify-items: center; /* Centrar elementos del grid horizontalmente */
 }
 
 .hero--secondary h1 {
