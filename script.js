@@ -1618,7 +1618,15 @@ async function updateLatestVideo() {
   const iframe = document.querySelector('.video-player iframe');
   if (!iframe) return;
 
-  const channelId = 'UCpjzBxiJlWM92w4RUn3qQRw';
+  const channelId = 'UC_8F7KKQ47MDJYko_CvRq2w';
+
+  const setVideo = (videoId) => {
+    if (!videoId) return false;
+    const newSrc = `https://www.youtube.com/embed/${videoId}`;
+    if (iframe.src && iframe.src.endsWith(videoId)) return false;
+    iframe.src = newSrc;
+    return true;
+  };
 
   const fetchWithTimeout = async (url, ms = 5000) => {
     const controller = new AbortController();
@@ -1630,19 +1638,18 @@ async function updateLatestVideo() {
     }
   };
 
-  try {
-    // Invidious
-    const inv = await fetchWithTimeout(`https://inv.nadeko.net/api/v1/channels/${channelId}?fields=latestVideos`);
-    if (inv.ok) {
-      const data = await inv.json();
-      if (data.latestVideos && data.latestVideos.length) {
-        const videoId = data.latestVideos[0].videoId;
-        iframe.src = `https://www.youtube.com/embed/${videoId}`;
-        return;
+  // Intenta primero el API (local o prod), luego cae a RSS
+  const apiBases = [window.location.origin, 'https://icpa-web.vercel.app'];
+  for (const base of apiBases) {
+    try {
+      const res = await fetchWithTimeout(`${base}/api/youtube-latest`, 6000);
+      if (res && res.ok) {
+        const payload = await res.json();
+        if (setVideo(payload.videoId)) return;
       }
+    } catch (e) {
+      // ignore y prueba el siguiente base
     }
-  } catch (e) {
-    // ignore
   }
 
   try {
@@ -1657,8 +1664,7 @@ async function updateLatestVideo() {
       const entry = xml.querySelector('entry');
       const videoId = entry?.querySelector('yt\\:videoId')?.textContent || entry?.querySelector('videoId')?.textContent;
       if (videoId) {
-        iframe.src = `https://www.youtube.com/embed/${videoId}`;
-        return;
+        if (setVideo(videoId)) return;
       }
     }
   } catch (e) {
