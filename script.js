@@ -1773,5 +1773,5 @@ if (document.readyState === 'loading') {
   onDomReady();
 }
 
-// Actualizar cada 30 minutos solo el video
-setInterval(updateLatestVideo, 1800000);
+// Actualizar cada hora el video
+setInterval(updateLatestVideo, 3600000);
