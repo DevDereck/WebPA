@@ -1689,64 +1689,77 @@ function initScrollReveal() {
 // ==========================================
 
 /**
- * Obtiene el último video del canal de YouTube automáticamente
+ * Obtiene el último video del canal de YouTube automáticamente con caché y reintentos.
  */
+const YT_CHANNEL_ID = 'UC_8F7KKQ47MDJYko_CvRq2w';
+let lastVideoCache = { id: null, ts: 0 };
+
 async function updateLatestVideo() {
-  // Guard clause: si no hay iframe, no hacemos nada
   const iframe = document.querySelector('.video-player iframe');
   if (!iframe) return;
-
-  const channelId = 'UC_8F7KKQ47MDJYko_CvRq2w';
 
   const setVideo = (videoId) => {
     if (!videoId) return false;
     const newSrc = `https://www.youtube.com/embed/${videoId}`;
     if (iframe.src && iframe.src.endsWith(videoId)) return false;
     iframe.src = newSrc;
+    lastVideoCache = { id: videoId, ts: Date.now() };
     return true;
   };
 
-  const fetchWithTimeout = async (url, ms = 5000) => {
+  // Usa el último video válido mientras intenta actualizar
+  if (lastVideoCache.id && Date.now() - lastVideoCache.ts < 10 * 60 * 1000) {
+    setVideo(lastVideoCache.id);
+  }
+
+  const fetchWithTimeout = async (url, ms = 4000) => {
     const controller = new AbortController();
     const t = setTimeout(() => controller.abort(), ms);
     try {
-      return await fetch(url, { signal: controller.signal });
+      return await fetch(url, { signal: controller.signal, cache: 'no-store' });
     } finally {
       clearTimeout(t);
     }
   };
 
-  // Intenta primero el API (local o prod), luego cae a RSS
-  const apiBases = [window.location.origin, 'https://icpa-web.vercel.app'];
-  for (const base of apiBases) {
+  const tryApi = async (base) => {
+    const res = await fetchWithTimeout(`${base}/api/youtube-latest`, 5000);
+    if (!res.ok) throw new Error('api failed');
+    const payload = await res.json();
+    if (payload?.videoId) {
+      setVideo(payload.videoId);
+      return true;
+    }
+    throw new Error('api empty');
+  };
+
+  const tryRss = async () => {
+    // Jina ai entrega texto plano con CORS permitido
+    const rssViaJina = `https://r.jina.ai/http://www.youtube.com/feeds/videos.xml?channel_id=${YT_CHANNEL_ID}`;
+    const res = await fetchWithTimeout(rssViaJina, 6000);
+    if (!res.ok) throw new Error('rss failed');
+    const text = await res.text();
+    const match = text.match(/<yt:videoId>([^<]+)<\/yt:videoId>/);
+    if (match?.[1]) {
+      setVideo(match[1]);
+      return true;
+    }
+    throw new Error('rss empty');
+  };
+
+  const bases = [window.location.origin];
+  for (const base of bases) {
     try {
-      const res = await fetchWithTimeout(`${base}/api/youtube-latest`, 6000);
-      if (res && res.ok) {
-        const payload = await res.json();
-        if (setVideo(payload.videoId)) return;
-      }
+      if (await tryApi(base)) return;
     } catch (e) {
-      // ignore y prueba el siguiente base
+      // Intenta siguiente estrategia
     }
   }
 
   try {
-    // RSS fallback
-    const rssUrl = `https://www.youtube.com/feeds/videos.xml?channel_id=${channelId}`;
-    const corsProxy = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
-    const res = await fetchWithTimeout(corsProxy);
-    if (res.ok) {
-      const data = await res.json();
-      const parser = new DOMParser();
-      const xml = parser.parseFromString(data.contents, 'text/xml');
-      const entry = xml.querySelector('entry');
-      const videoId = entry?.querySelector('yt\\:videoId')?.textContent || entry?.querySelector('videoId')?.textContent;
-      if (videoId) {
-        if (setVideo(videoId)) return;
-      }
-    }
+    if (await tryRss()) return;
   } catch (e) {
-    // ignore
+    // Si todo falla, queda el caché previo si existía
   }
 }
 
@@ -1766,6 +1779,19 @@ function onDomReady() {
   }
 }
 
+// Dispara el fetch del video lo antes posible, incluso antes de DOMContentLoaded
+function primeVideoEarly(attempts = 5, delay = 300) {
+  let tries = 0;
+  const tick = () => {
+    tries += 1;
+    updateLatestVideo();
+    if (tries < attempts) {
+      setTimeout(tick, delay);
+    }
+  };
+  tick();
+}
+
 // Cargar automáticamente al abrir la página
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', onDomReady);
@@ -1773,5 +1799,8 @@ if (document.readyState === 'loading') {
   onDomReady();
 }
 
-// Actualizar cada hora el video
-setInterval(updateLatestVideo, 3600000);
+// Arranca la obtención de video inmediatamente, por si el DOM ya tiene el iframe
+primeVideoEarly();
+
+// Reintentos frecuentes: cada 5 minutos refresca el video
+setInterval(updateLatestVideo, 300000);
