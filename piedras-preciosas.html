@@ -12,7 +12,13 @@
   <body>
     <header class="topbar">
       <a class="brand" href="index.html#inicio">
-        <img src="assets/Logo_ICPA-.png" alt="Logo" class="brand__logo" />
+        <img
+          src="assets/Logo_ICPA-.png"
+          alt="Logo Iglesia Cristiana Piedra Angular"
+          class="brand__logo"
+          width="60"
+          height="60"
+        />
         <div class="brand__text">
           <span class="brand__overline">Iglesia Cristiana</span>
           <span class="brand__name">Piedra Angular</span>
@@ -25,10 +31,15 @@
         <a href="index.html#galeria" data-i18n="nav.galeria">Galería</a>
         <a href="index.html#contacto" data-i18n="nav.contacto">Contacto</a>
         <a href="index.html#ubicacion" data-i18n="nav.ubicacion">Dirección</a>
-        <a href="admin.html">Admin</a>
       </nav>
       <div class="topbar__actions">
         <a class="btn btn--ghost" href="predicaciones.html">Ver predicaciones</a>
+        <a class="btn btn--icon admin-btn" href="admin.html" aria-label="Panel de administración">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="12" cy="12" r="10" fill="currentColor" opacity="0.18" />
+            <path d="M12 12.2c2.15 0 3.9-1.75 3.9-3.9S14.15 4.4 12 4.4 8.1 6.15 8.1 8.3s1.75 3.9 3.9 3.9Zm0 1.6c-2.6 0-7 1.31-7 3.9V19h14v-1.3c0-2.59-4.4-3.9-7-3.9Z" fill="currentColor" />
+          </svg>
+        </a>
         <button class="menu-toggle" aria-label="Abrir menú de navegación"><span></span><span></span><span></span></button>
       </div>
     </header>
