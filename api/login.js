@@ -23,7 +23,7 @@ export default async function handler(req, res) {
   }
 
   const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || 'administradoricpa@cr').trim().toLowerCase();
-  const ADMIN_PASSWORD = (process.env.ADMIN_PASSWORD || 'administradoricpa@cr').trim();
+  const ADMIN_PASSWORD = (process.env.ADMIN_PASSWORD || 'administradorEfesios220').trim();
   const JWT_SECRET = process.env.JWT_SECRET || 'change-me';
 
   let body = req.body;

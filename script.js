@@ -267,6 +267,30 @@ async function saveRemoteCheckin(record) {
   return res.json();
 }
 
+async function updateRemoteCheckin(id, updates) {
+  const token = getAuthToken();
+  const res = await fetch(`${API_URL}/api/checkins`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify({ id, ...updates }),
+  });
+  if (!res.ok) throw new Error('remote update failed');
+  return res.json();
+}
+
+async function deleteRemoteCheckin(id) {
+  const token = getAuthToken();
+  const res = await fetch(`${API_URL}/api/checkins?id=${encodeURIComponent(id)}`, {
+    method: 'DELETE',
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+  if (!res.ok) throw new Error('remote delete failed');
+  return res.json();
+}
+
 function formatTime(iso) {
   try {
     return new Date(iso).toLocaleTimeString('es-CR', { hour: '2-digit', minute: '2-digit' });
@@ -560,7 +584,7 @@ async function renderControlTable() {
   try {
     rows = await fetchRemoteCheckins();
   } catch (e) {
-    tbody.innerHTML = '<tr><td colspan="5" class="muted">No se pudo cargar desde el servidor.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" class="muted">No se pudo cargar desde el servidor.</td></tr>';
     if (totalEl) totalEl.textContent = 'Total personas: 0';
     if (newEl) newEl.textContent = 'Nuevos: 0';
     return;
@@ -569,7 +593,7 @@ async function renderControlTable() {
   rows = rows.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
   if (!rows.length) {
-    tbody.innerHTML = '<tr><td colspan="5" class="muted">Sin registros todavía.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="7" class="muted">Sin registros todavía.</td></tr>';
     if (totalEl) totalEl.textContent = 'Total personas: 0';
     if (newEl) newEl.textContent = 'Nuevos: 0';
     return;
@@ -585,9 +609,63 @@ async function renderControlTable() {
     .map((row, idx) => {
       const guests = Number(row.guests) || 0;
       const isNew = row.isNew ? 'Sí' : 'No';
-      return `<tr><td>${idx + 1}</td><td>${row.name || ''}</td><td>${row.contact || ''}</td><td>${isNew}</td><td>${guests}</td><td>${formatTime(row.timestamp)}</td></tr>`;
+      return `
+        <tr data-id="${row.id}">
+          <td>${idx + 1}</td>
+          <td>${row.name || ''}</td>
+          <td>${row.contact || ''}</td>
+          <td>${isNew}</td>
+          <td>${guests}</td>
+          <td>${formatTime(row.timestamp)}</td>
+          <td>
+            <button class="btn btn--sm btn--outline" data-action="edit">Editar</button>
+            <button class="btn btn--sm btn--ghost" data-action="delete">Borrar</button>
+          </td>
+        </tr>`;
     })
     .join('');
+
+  tbody.onclick = async (ev) => {
+    const btn = ev.target.closest('button[data-action]');
+    if (!btn) return;
+    const tr = btn.closest('tr');
+    const id = tr?.dataset?.id;
+    if (!id) return;
+
+    if (btn.dataset.action === 'delete') {
+      const sure = confirm('¿Borrar este registro?');
+      if (!sure) return;
+      try {
+        await deleteRemoteCheckin(id);
+        await renderControlTable();
+      } catch (e) {
+        alert('No se pudo borrar.');
+      }
+      return;
+    }
+
+    if (btn.dataset.action === 'edit') {
+      const tds = tr.querySelectorAll('td');
+      const current = {
+        name: tds[1]?.textContent?.trim() || '',
+        contact: tds[2]?.textContent?.trim() || '',
+        isNew: (tds[3]?.textContent?.trim() || '').toLowerCase().startsWith('s'),
+        guests: Number(tds[4]?.textContent?.trim() || 0) || 0,
+      };
+
+      const name = prompt('Nombre', current.name) || current.name;
+      const contact = prompt('Teléfono', current.contact) || current.contact;
+      const guests = Number(prompt('Acompañantes', current.guests) || current.guests) || 0;
+      const isNew = confirm('¿Marcar como nuevo? Aceptar = Sí, Cancelar = No') ? true : false;
+
+      try {
+        await updateRemoteCheckin(id, { name, contact, guests, isNew });
+        await renderControlTable();
+      } catch (e) {
+        alert('No se pudo actualizar.');
+      }
+    }
+  };
 }
 
 async function exportControlPdf() {

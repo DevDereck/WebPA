@@ -77,5 +77,68 @@ export default async function handler(req, res) {
     return res.status(201).json(data);
   }
 
+  if (req.method === 'PATCH') {
+    if (!requireAuth(req, res, JWT_SECRET)) return;
+
+    let body = req.body;
+    if (!body || typeof body !== 'object' || Array.isArray(body)) {
+      try {
+        body = await parseJsonBody(req);
+      } catch (e) {
+        return res.status(400).json({ error: 'invalid json' });
+      }
+    }
+
+    const { id, name, contact, guests, isNew } = body || {};
+    if (!id) {
+      return res.status(400).json({ error: 'id required' });
+    }
+
+    const updates = {};
+    if (typeof name === 'string') updates.name = name.trim();
+    if (typeof contact === 'string') updates.contact = contact.trim();
+    if (typeof guests !== 'undefined') updates.guests = Number(guests) || 0;
+    if (typeof isNew !== 'undefined') updates.isNew = Boolean(isNew);
+
+    const { data, error } = await supabase
+      .from('checkins')
+      .update(updates)
+      .eq('id', id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Supabase update error', error);
+      return res.status(500).json({ error: 'failed to update' });
+    }
+
+    return res.status(200).json(data);
+  }
+
+  if (req.method === 'DELETE') {
+    if (!requireAuth(req, res, JWT_SECRET)) return;
+
+    let id = req.query?.id;
+    if (!id) {
+      try {
+        const body = await parseJsonBody(req);
+        id = body?.id;
+      } catch (e) {
+        // ignore
+      }
+    }
+
+    if (!id) {
+      return res.status(400).json({ error: 'id required' });
+    }
+
+    const { error } = await supabase.from('checkins').delete().eq('id', id);
+    if (error) {
+      console.error('Supabase delete error', error);
+      return res.status(500).json({ error: 'failed to delete' });
+    }
+    return res.status(200).json({ ok: true });
+  }
+
   return res.status(405).json({ error: 'Method not allowed' });
 }
