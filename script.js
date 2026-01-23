@@ -243,7 +243,7 @@ document.querySelector('.gallery')?.addEventListener('click', (e) => {
 
 // --- Check-in / Backend ---
 const ADMIN_SESSION_KEY = 'icpa-admin-session';
-const API_URL = '';
+const API_URL = `${window.location.origin}${window.location.pathname.replace(/\/[^/]*$/, '')}`;
 
 function getAuthToken() {
   return localStorage.getItem(ADMIN_SESSION_KEY) || '';
@@ -252,13 +252,13 @@ function getAuthToken() {
 async function fetchRemoteCheckins() {
   const token = getAuthToken();
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
-  const res = await fetch(`${API_URL}/api/checkins`, { cache: 'no-store', headers });
+  const res = await fetch(`${API_URL}/api/checkins.php`, { cache: 'no-store', headers });
   if (!res.ok) throw new Error('remote fetch failed');
   return res.json();
 }
 
 async function saveRemoteCheckin(record) {
-  const res = await fetch(`${API_URL}/api/checkins`, {
+  const res = await fetch(`${API_URL}/api/checkins.php`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(record),
@@ -269,7 +269,7 @@ async function saveRemoteCheckin(record) {
 
 async function updateRemoteCheckin(id, updates) {
   const token = getAuthToken();
-  const res = await fetch(`${API_URL}/api/checkins`, {
+  const res = await fetch(`${API_URL}/api/checkins.php`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -283,7 +283,7 @@ async function updateRemoteCheckin(id, updates) {
 
 async function deleteRemoteCheckin(id) {
   const token = getAuthToken();
-  const res = await fetch(`${API_URL}/api/checkins?id=${encodeURIComponent(id)}`, {
+  const res = await fetch(`${API_URL}/api/checkins.php?id=${encodeURIComponent(id)}`, {
     method: 'DELETE',
     headers: token ? { Authorization: `Bearer ${token}` } : {},
   });
@@ -495,7 +495,7 @@ function initCheckin() {
       }
 
       try {
-        const res = await fetch(`${API_URL}/api/login`, {
+        const res = await fetch(`${API_URL}/api/login.php`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password: pwd }),
@@ -781,7 +781,7 @@ function initAdminLogin() {
     }
 
     try {
-      const res = await fetch(`${API_URL}/api/login`, {
+      const res = await fetch(`${API_URL}/api/login.php`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password: pwd }),
@@ -1723,7 +1723,7 @@ async function updateLatestVideo() {
   };
 
   const tryApi = async (base) => {
-    const res = await fetchWithTimeout(`${base}/api/youtube-latest`, 5000);
+    const res = await fetchWithTimeout(`${base}/api/youtube-latest.php`, 5000);
     if (!res.ok) throw new Error('api failed');
     const payload = await res.json();
     if (payload?.videoId) {

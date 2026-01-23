@@ -296,6 +296,9 @@ h1, h2, h3, h4 {
   color: var(--ink);
   box-shadow: inset 0 -2px transparent;
 }
+.nav__cta {
+  display: none !important;
+}
 
 /* Evitar que "Sobre nosotros" se parta en dos líneas en todas las páginas */
 .nav a[href="#sobre"],
@@ -1551,6 +1554,34 @@ main {
   .nav.is-open {
     display: flex;
   }
+  
+  .nav__cta {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 20px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #08b7aa 0%, #0fc2b2 100%);
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    box-shadow: 0 10px 28px rgba(8, 183, 170, 0.3);
+    margin-top: 8px;
+    width: 100%;
+    text-align: center;
+    transition: all var(--transition);
+    border: none;
+  }
+  
+  .nav__cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 34px rgba(8, 183, 170, 0.35);
+  }
+  
+  .nav__cta:active {
+    transform: translateY(0);
+  }
 
   .menu-toggle {
     display: flex;
@@ -1570,9 +1601,7 @@ main {
 @media (max-width: 768px) {
   /* Ajustar botón predicaciones en móvil en lugar de ocultarlo */
   .topbar .btn--ghost {
-    padding: 8px 12px;
-    font-size: 0.8rem;
-    white-space: nowrap;
+    display: none;
   }
 
   main {
@@ -1618,6 +1647,9 @@ main {
   .topbar {
     padding: 8px 10px;
     gap: 6px;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    row-gap: 6px;
   }
 
   .brand__logo {
@@ -1652,13 +1684,21 @@ main {
     gap: 6px;
     width: auto;
     justify-content: flex-end;
+    flex-wrap: wrap;
+    grid-column: 1 / -1;
+    row-gap: 6px;
   }
 
   .topbar .btn--ghost {
-    padding: 0 8px; /* Más compacto */
-    font-size: 0.7rem;
-    height: 34px;
-    line-height: 32px;
+    display: none;
+  }
+
+  .topbar__actions .admin-btn {
+    order: 2;
+  }
+
+  .topbar__actions .menu-toggle {
+    order: 3;
   }
 
   /* Icono de usuario más grande */
