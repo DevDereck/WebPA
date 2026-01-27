@@ -1618,6 +1618,10 @@ main {
 }
 
 @media (max-width: 600px) {
+  .gallery__item.mostrar-rostro .gallery__img {
+    object-position: center 35% !important;
+  }
+  
   .topbar {
     padding: 8px 10px;
     gap: 6px;
@@ -1954,6 +1958,18 @@ main {
 }
 
 @media (max-width: 600px) {
+
+  .gallery__item.mostrar-rostro::before {
+    background-position: center 100% !important;
+  }
+
+
+  .gallery[data-slider="true"] .gallery__track .gallery__item {
+  flex: 0 0 100%;
+  max-width: 100%;
+  padding-top: 80%; /* más alto para formato cuadrado o vertical */
+}
+
   /* Footer */
   .footer__top {
     flex-direction: column;
