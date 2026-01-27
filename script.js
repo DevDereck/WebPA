@@ -1,4 +1,4 @@
-// Debounce para eventos de resize
+﻿// Debounce para eventos de resize
 function debounce(func, wait) {
   let timeout;
   return function executedFunction(...args) {
@@ -243,18 +243,45 @@ document.querySelector('.gallery')?.addEventListener('click', (e) => {
 
 // --- Check-in / Backend ---
 const ADMIN_SESSION_KEY = 'icpa-admin-session';
-const API_URL = `${window.location.origin}${window.location.pathname.replace(/\/[^/]*$/, '')}`;
+// API base: si se sirve estático (file:// o live-server sin PHP), apunta a producción para que funcione localmente.
+// En producción usamos solo el origin para evitar rutas base que rompan los endpoints.
+const _isStaticDev = window.location.protocol === 'file:' || /:(5500|5501|3000|5173)/.test(window.location.host);
+const PROD_API = 'https://www.piedraangularcr.org';
+const API_URL = _isStaticDev ? PROD_API : window.location.origin;
 
 function getAuthToken() {
   return localStorage.getItem(ADMIN_SESSION_KEY) || '';
 }
 
+async function safeResponseJSON(res) {
+  if (!res.ok) throw new Error('Request failed: ' + res.status);
+  const txt = await res.text();
+  try {
+    return JSON.parse(txt);
+  } catch (e) {
+    try {
+      const firstBrace = txt.indexOf('{');
+      const firstBracket = txt.indexOf('[');
+      let start = -1;
+      if (firstBrace !== -1 && firstBracket !== -1) start = Math.min(firstBrace, firstBracket);
+      else if (firstBrace !== -1) start = firstBrace;
+      else start = firstBracket;
+      
+      if (start >= 0) return JSON.parse(txt.substring(start));
+    } catch (e2) {
+      console.error('Parse failed:', e2, 'Raw:', txt);
+    }
+    throw new Error('Invalid JSON response');
+  }
+}
+
 async function fetchRemoteCheckins() {
   const token = getAuthToken();
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
-  const res = await fetch(`${API_URL}/api/checkins.php`, { cache: 'no-store', headers });
-  if (!res.ok) throw new Error('remote fetch failed');
-  return res.json();
+  // Forzar nunca usar caché (cache-bust con timestamp)
+  const url = `${API_URL}/api/checkins.php?_=${Date.now()}`;
+  const res = await fetch(url, { cache: 'no-store', headers });
+  return safeResponseJSON(res);
 }
 
 async function saveRemoteCheckin(record) {
@@ -263,8 +290,7 @@ async function saveRemoteCheckin(record) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(record),
   });
-  if (!res.ok) throw new Error('remote save failed');
-  return res.json();
+  return safeResponseJSON(res);
 }
 
 async function updateRemoteCheckin(id, updates) {
@@ -277,18 +303,18 @@ async function updateRemoteCheckin(id, updates) {
     },
     body: JSON.stringify({ id, ...updates }),
   });
-  if (!res.ok) throw new Error('remote update failed');
-  return res.json();
+  return safeResponseJSON(res);
 }
 
 async function deleteRemoteCheckin(id) {
   const token = getAuthToken();
-  const res = await fetch(`${API_URL}/api/checkins.php?id=${encodeURIComponent(id)}`, {
+  const url = `${API_URL}/api/checkins.php?id=${encodeURIComponent(id)}&_=${Date.now()}`;
+  const res = await fetch(url, {
     method: 'DELETE',
     headers: token ? { Authorization: `Bearer ${token}` } : {},
+    cache: 'no-store',
   });
-  if (!res.ok) throw new Error('remote delete failed');
-  return res.json();
+  return safeResponseJSON(res);
 }
 
 function formatTime(iso) {
@@ -500,8 +526,7 @@ function initCheckin() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ email, password: pwd }),
         });
-        if (!res.ok) throw new Error('bad credentials');
-        const data = await res.json();
+        const data = await safeResponseJSON(res);
         setLoggedIn(data.token);
         if (loginStatus) {
           loginStatus.textContent = 'Acceso concedido.';
@@ -509,8 +534,9 @@ function initCheckin() {
         }
         showAdmin();
       } catch (err) {
+        console.error(err);
         if (loginStatus) {
-          loginStatus.textContent = 'Credenciales inválidas o servidor no disponible.';
+          loginStatus.textContent = 'Error: ' + err.message;
           loginStatus.className = 'form__status form__status--error is-visible';
         }
       }
@@ -786,10 +812,7 @@ function initAdminLogin() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password: pwd }),
       });
-      if (!res.ok) {
-        throw new Error('bad credentials');
-      }
-      const data = await res.json();
+      const data = await safeResponseJSON(res);
       setLoggedIn(data.token);
       if (statusEl) {
         statusEl.textContent = 'Acceso concedido. Redirigiendo...';
@@ -798,7 +821,7 @@ function initAdminLogin() {
       setTimeout(() => { window.location.href = 'control.html'; }, 350);
     } catch (err) {
       if (statusEl) {
-        statusEl.textContent = 'Credenciales inválidas o servidor no disponible.';
+        statusEl.textContent = 'Error: ' + err.message;
         statusEl.className = 'form__status form__status--error is-visible';
       }
     }
@@ -819,6 +842,48 @@ async function initControl() {
   const exportBtn = document.getElementById('controlExportBtn');
   if (exportBtn) {
     exportBtn.addEventListener('click', () => exportControlPdf());
+  }
+
+  const clearBtn = document.getElementById('clearAllBtn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', async () => {
+      if (!confirm('¿Seguro que deseas borrar TODOS los registros de asistencia? Esta acción no se puede deshacer.')) return;
+
+      // Desactivar botón y mostrar estado, pero NO limpiar la tabla hasta recibir confirmación
+      clearBtn.disabled = true;
+      const previousText = clearBtn.textContent;
+      clearBtn.textContent = 'Limpiando...';
+      let statusMsg = document.getElementById('clearStatusMsg');
+      if (!statusMsg) {
+        statusMsg = document.createElement('span');
+        statusMsg.id = 'clearStatusMsg';
+        statusMsg.style.marginLeft = '12px';
+        statusMsg.style.fontWeight = 'bold';
+        clearBtn.parentNode.appendChild(statusMsg);
+      }
+      try {
+        const token = getAuthToken();
+        const url = `${API_URL}/api/checkins.php?all=1&_=${Date.now()}`;
+        const res = await fetch(url, {
+          method: 'DELETE',
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+          cache: 'no-store',
+        });
+        await safeResponseJSON(res);
+        // Forzar recarga de la tabla desde el servidor y actualizar vista
+        await renderControlTable();
+        statusMsg.textContent = '✔ Lista borrada con éxito';
+        statusMsg.style.color = '#1a7f37';
+        setTimeout(() => { statusMsg.textContent = ''; }, 3500);
+      } catch (e) {
+        statusMsg.textContent = 'No se pudo limpiar la lista: ' + (e.message || e);
+        statusMsg.style.color = '#b91c1c';
+        setTimeout(() => { statusMsg.textContent = ''; }, 5000);
+      } finally {
+        clearBtn.disabled = false;
+        clearBtn.textContent = previousText || 'Limpiar lista';
+      }
+    });
   }
 
   const logoutBtn = document.getElementById('logoutBtn');
@@ -1692,20 +1757,25 @@ function initScrollReveal() {
  * Obtiene el último video del canal de YouTube automáticamente con caché y reintentos.
  */
 const YT_CHANNEL_ID = 'UC_8F7KKQ47MDJYko_CvRq2w';
+const YT_LIVE_EMBED = `https://www.youtube.com/embed/live_stream?channel=${YT_CHANNEL_ID}&rel=0`;
 let lastVideoCache = { id: null, ts: 0 };
 
 async function updateLatestVideo() {
   const iframe = document.querySelector('.video-player iframe');
   if (!iframe) return;
 
-  const setVideo = (videoId) => {
-    if (!videoId) return false;
-    const newSrc = `https://www.youtube.com/embed/${videoId}`;
-    if (iframe.src && iframe.src.endsWith(videoId)) return false;
+  const setVideo = (videoIdOrUrl) => {
+    if (!videoIdOrUrl) return false;
+    const newSrc = videoIdOrUrl.startsWith('http')
+      ? videoIdOrUrl
+      : `https://www.youtube.com/embed/${videoIdOrUrl}`;
+    if (iframe.src && iframe.src === newSrc) return false;
     iframe.src = newSrc;
-    lastVideoCache = { id: videoId, ts: Date.now() };
+    lastVideoCache = { id: videoIdOrUrl, ts: Date.now() };
     return true;
   };
+
+  const fallbackToLive = () => setVideo(YT_LIVE_EMBED);
 
   // Usa el último video válido mientras intenta actualizar
   if (lastVideoCache.id && Date.now() - lastVideoCache.ts < 10 * 60 * 1000) {
@@ -1747,7 +1817,7 @@ async function updateLatestVideo() {
     throw new Error('rss empty');
   };
 
-  const bases = [window.location.origin];
+  const bases = [API_URL, window.location.origin].filter(Boolean);
   for (const base of bases) {
     try {
       if (await tryApi(base)) return;
@@ -1761,6 +1831,9 @@ async function updateLatestVideo() {
   } catch (e) {
     // Si todo falla, queda el caché previo si existía
   }
+
+  // Fallback garantizado al stream del canal si nada funcionó
+  fallbackToLive();
 }
 
 function onDomReady() {

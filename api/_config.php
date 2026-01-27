@@ -1,8 +1,7 @@
-<?php
+﻿<?php
 // Configuración para hosting iPage (PHP)
-// Cambia estos valores en producción.
 
-const ADMIN_EMAIL = 'administradoricpa@cr';
+const ADMIN_EMAIL = 'admin@iglesia.cr';
 const ADMIN_PASSWORD = 'administradorEfesios220';
 const JWT_SECRET = '132134342345434534534534536f5345';
 

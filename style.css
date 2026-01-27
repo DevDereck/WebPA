@@ -1,4 +1,4 @@
-/* Variables y estilos base (solo tema claro) */
+﻿/* Variables y estilos base (solo tema claro) */
 :root {
   --bg: #e7f5ff;
   --bg-alt: #f5fbff;
@@ -296,9 +296,6 @@ h1, h2, h3, h4 {
   color: var(--ink);
   box-shadow: inset 0 -2px transparent;
 }
-.nav__cta {
-  display: none !important;
-}
 
 /* Evitar que "Sobre nosotros" se parta en dos líneas en todas las páginas */
 .nav a[href="#sobre"],
@@ -443,6 +440,9 @@ main {
 .pill--light {
   background: rgba(255, 255, 255, 0.82);
   color: var(--accent-dark);
+}
+.nav__predicaciones {
+  display: none !important;
 }
 
 .hero__visual {
@@ -1554,34 +1554,6 @@ main {
   .nav.is-open {
     display: flex;
   }
-  
-  .nav__cta {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    padding: 12px 20px;
-    border-radius: 999px;
-    background: linear-gradient(135deg, #08b7aa 0%, #0fc2b2 100%);
-    color: #ffffff;
-    font-weight: 800;
-    font-size: 0.95rem;
-    letter-spacing: 0.02em;
-    box-shadow: 0 10px 28px rgba(8, 183, 170, 0.3);
-    margin-top: 8px;
-    width: 100%;
-    text-align: center;
-    transition: all var(--transition);
-    border: none;
-  }
-  
-  .nav__cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 14px 34px rgba(8, 183, 170, 0.35);
-  }
-  
-  .nav__cta:active {
-    transform: translateY(0);
-  }
 
   .menu-toggle {
     display: flex;
@@ -1601,7 +1573,9 @@ main {
 @media (max-width: 768px) {
   /* Ajustar botón predicaciones en móvil en lugar de ocultarlo */
   .topbar .btn--ghost {
-    display: none;
+    padding: 8px 12px;
+    font-size: 0.8rem;
+    white-space: nowrap;
   }
 
   main {
@@ -1717,6 +1691,18 @@ main {
   
   .admin-btn svg circle {
     opacity: 0.25; 
+  }
+
+  /* Mostrar enlace de predicaciones solo dentro del menú en móvil y ocultar el botón duplicado */
+  .nav__predicaciones {
+    display: inline-flex !important;
+    padding: 10px 8px;
+    font-weight: 700;
+    color: var(--accent-dark);
+  }
+
+  .topbar__actions .btn--ghost {
+    display: none;
   }
 
   .brand__name {
