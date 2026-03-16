@@ -441,9 +441,6 @@ main {
   background: rgba(255, 255, 255, 0.82);
   color: var(--accent-dark);
 }
-.nav__predicaciones {
-  display: none !important;
-}
 
 .hero__visual {
   position: relative;
@@ -761,88 +758,28 @@ main {
 .gallery__item {
   position: relative;
   padding-top: 70%;
-  border-radius: 20px;
+  border-radius: 18px;
   overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
-  box-shadow: 0 10px 30px rgba(5, 34, 56, 0.08); /* Sombra suave inicial */
-  transform: translateZ(0); /* Hardware acceleration */
-  isolation: isolate;
-}
-
-.gallery__item::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: var(--photo);
+  background-image: linear-gradient(135deg, rgba(5, 34, 56, 0.4), rgba(11, 138, 134, 0.4)), var(--photo);
   background-size: cover;
   background-position: center;
-  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
-  z-index: -2;
-}
-
-/* Overlay con gradiente mejorado para legibilidad y estética */
-.gallery__item::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg, 
-    transparent 20%, 
-    rgba(5, 34, 56, 0.4) 50%, 
-    rgba(5, 34, 56, 0.95) 90%
-  );
-  z-index: -1;
-  transition: background 0.3s ease;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .gallery__item:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 22px 48px rgba(5, 34, 56, 0.25);
-}
-
-.gallery__item:hover::before {
-  transform: scale(1.08);
-}
-
-.gallery__item:hover::after {
-   background: linear-gradient(
-    180deg, 
-    transparent 10%, 
-    rgba(5, 34, 56, 0.5) 45%, 
-    rgba(5, 34, 56, 0.98) 90%
-  );
+  transform: translateY(-4px);
+  box-shadow: 0 16px 38px rgba(5, 34, 56, 0.18);
 }
 
 .gallery__info {
   position: absolute;
   inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 20px;
+  display: grid;
+  align-content: end;
+  padding: 16px;
   color: white;
-  z-index: 10;
-  text-align: left; /* Alineación a la izquierda explícita */
-}
-
-.gallery__info h4 {
-  font-size: 1.25rem; /* Un poco más pequeño para evitar saltos de línea excesivos */
-  font-weight: 800;
-  margin-bottom: 6px;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-  letter-spacing: -0.01em;
-  line-height: 1.2;
-}
-
-.gallery__info p {
-  font-size: 0.95rem;
-  line-height: 1.4;
-  color: rgba(255, 255, 255, 0.95);
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
-  font-weight: 500;
-  margin: 0;
-  max-width: 95%; /* Evita que el texto toque los bordes */
+  background: linear-gradient(180deg, transparent, rgba(5, 34, 56, 0.65));
 }
 
 .info-card {
@@ -1241,7 +1178,6 @@ main {
 .hero--secondary .hero__content {
   text-align: center;
   color: white;
-  justify-items: center; /* Centrar elementos del grid horizontalmente */
 }
 
 .hero--secondary h1 {
@@ -1618,16 +1554,9 @@ main {
 }
 
 @media (max-width: 600px) {
-  .gallery__item.mostrar-rostro .gallery__img {
-    object-position: center 35% !important;
-  }
-  
   .topbar {
     padding: 8px 10px;
     gap: 6px;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: auto auto;
-    row-gap: 6px;
   }
 
   .brand__logo {
@@ -1662,21 +1591,13 @@ main {
     gap: 6px;
     width: auto;
     justify-content: flex-end;
-    flex-wrap: wrap;
-    grid-column: 1 / -1;
-    row-gap: 6px;
   }
 
   .topbar .btn--ghost {
-    display: none;
-  }
-
-  .topbar__actions .admin-btn {
-    order: 2;
-  }
-
-  .topbar__actions .menu-toggle {
-    order: 3;
+    padding: 0 8px; /* Más compacto */
+    font-size: 0.7rem;
+    height: 34px;
+    line-height: 32px;
   }
 
   /* Icono de usuario más grande */
@@ -1695,18 +1616,6 @@ main {
   
   .admin-btn svg circle {
     opacity: 0.25; 
-  }
-
-  /* Mostrar enlace de predicaciones solo dentro del menú en móvil y ocultar el botón duplicado */
-  .nav__predicaciones {
-    display: inline-flex !important;
-    padding: 10px 8px;
-    font-weight: 700;
-    color: var(--accent-dark);
-  }
-
-  .topbar__actions .btn--ghost {
-    display: none;
   }
 
   .brand__name {
@@ -1893,16 +1802,6 @@ main {
     min-height: 300px;
   }
 
-  /* Centrar contenido del hero secundario (Predicaciones) en móvil */
-  .hero--secondary .hero__content {
-    justify-items: center;
-    text-align: center;
-  }
-
-  .hero--secondary .pill {
-    align-self: center;
-  }
-
   .hero--secondary h1 {
     font-size: 1.8rem;
   }
@@ -1958,18 +1857,6 @@ main {
 }
 
 @media (max-width: 600px) {
-
-  .gallery__item.mostrar-rostro::before {
-    background-position: center 100% !important;
-  }
-
-
-  .gallery[data-slider="true"] .gallery__track .gallery__item {
-  flex: 0 0 100%;
-  max-width: 100%;
-  padding-top: 80%; /* más alto para formato cuadrado o vertical */
-}
-
   /* Footer */
   .footer__top {
     flex-direction: column;
