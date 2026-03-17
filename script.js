@@ -123,10 +123,8 @@ function formatServiceDate(date) {
 
 const menuToggle = document.querySelector('.menu-toggle');
 const nav = document.getElementById('mainNav');
-const detailPanel = document.getElementById('detalleMinisterio');
 const form = document.getElementById('contactForm');
 const formStatus = document.getElementById('formStatus');
-const galleryInfo = document.getElementById('galleryInfo');
 
 // Datos base para eventos de check-in (se puede ampliar luego)
 const checkinEvents = {
@@ -181,34 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
   try { initSliders(); } catch (e) { /* fail silently */ }
 });
 
-function setDetail({ nombre, horario, contacto, descripcion }) {
-  if (!detailPanel) return;
-  detailPanel.innerHTML = `
-    <h4>${nombre}</h4>
-    <p class="muted">Reuniones: ${horario}</p>
-    <p class="muted">Contacto: ${contacto}</p>
-    <p class="muted">${descripcion}</p>
-  `;
-  
-  // Scroll suave hacia el panel de detalles
-  detailPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
-}
 
-// Conectar botones "Ver detalles" de ministerios con el panel "Ministerio Destacado"
-document.querySelectorAll('.ministry').forEach((card) => {
-  const btn = card.querySelector('.btn--text');
-  if (!btn) return;
-
-  btn.addEventListener('click', () => {
-    const nombre = card.dataset.ministry;
-    setDetail({
-      nombre,
-      horario: card.dataset.horario,
-      contacto: card.dataset.contacto,
-      descripcion: card.querySelector('p')?.textContent || 'Conoce más con nuestro equipo.'
-    });
-  });
-});
 
 // Mapeo de ministerios a URLs
 const ministryURLs = {
@@ -219,27 +190,6 @@ const ministryURLs = {
   'Misiones': 'misiones.html',
   'Piedras Preciosas': 'piedras-preciosas.html'
 };
-
-const galleryDetails = {
-  Alabanza: 'Encuentros de adoración en vivo, audiciones y entrenamientos del equipo.',
-  Juventud: 'Noches juveniles, campamentos y talleres creativos para líderes en formación.',
-  Niños: 'Ambientes seguros con juegos, manualidades y enseñanza bíblica.',
-  Familias: 'Charlas, consejería y eventos para fortalecer el hogar.',
-  Misiones: 'Proyectos locales y salidas de servicio a comunidades cercanas.',
-  Creatividad: 'Producción, diseño y media para compartir el mensaje con excelencia.'
-};
-
-// Usar event delegation para galería
-document.querySelector('.gallery')?.addEventListener('click', (e) => {
-  const item = e.target.closest('.gallery__item');
-  if (item) {
-    const ministry = item.dataset.ministry;
-    const url = ministryURLs[ministry];
-    if (url) {
-      window.location.href = url;
-    }
-  }
-});
 
 // --- Check-in / Backend ---
 const ADMIN_SESSION_KEY = 'icpa-admin-session';

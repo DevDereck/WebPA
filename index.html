@@ -55,48 +55,25 @@
       <section
         id="inicio"
         class="hero"
-        style="--hero-img: url('assets/hero2.jpg')"
       >
-        <div class="hero__content">
-          <p class="pill" data-i18n="hero.pill">Una iglesia para la Gloria de Dios</p>
-          <h1 data-i18n="hero.title">Fe vibrante, comunidad cálida y propósito claro</h1>
-          <p class="lead" data-i18n="hero.lead">
-            Porque de él, y por él, y para él, son todas las cosas. ¡A él sea la gloria por los siglos! Amén.
-          </p>
-          <div class="hero__actions">
-            <a class="btn" href="#ministerios" data-i18n="hero.cta.ministerios">Explorar ministerios</a>
-            <a class="btn btn--outline" href="#galeria" data-i18n="hero.cta.galeria">Ver galería</a>
-            <a class="btn btn--light" href="asistencia.html">Registro de asistencia</a>
-          </div>
-          <div class="hero__meta">
-            <div class="stat">
-              <span class="stat__number">+8</span>
-              <span class="stat__label">Años sirviendo</span>
-            </div>
-            <div class="stat">
-              <span class="stat__number">+12</span>
-              <span class="stat__label">Ministerios activos</span>
-            </div>
-            <div class="stat">
-              <span class="stat__number">2</span>
-              <span class="stat__label">Cultos semanales</span>
-            </div>
-          </div>
+        <div class="hero__badge">
+          <p class="overline" data-i18n="hero.badge.nextServiceLabel">Próximo servicio</p>
+          <h3 id="nextService">Cargando...</h3>
+          <p class="muted" data-i18n="hero.badge.location">Primer Piso Ferretería Rugama, Mercedes Norte, Heredia, CR</p>
         </div>
-        <div class="hero__visual">
-          <div class="hero__badge">
-            <p class="overline" data-i18n="hero.badge.nextServiceLabel">Próximo servicio</p>
-            <h3 id="nextService">Cargando...</h3>
-            <p class="muted" data-i18n="hero.badge.location">Primer Piso Ferretería Rugama, Mercedes Norte, Heredia, CR</p>
-          </div>
-          <div class="hero__photo"></div>
+        <div class="hero__content">
+          <p class="hero__welcome">Bienvenido a</p>
+          <h1>Iglesia Cristiana <br>Piedra Angular</h1>
+          <p class="lead" data-i18n="hero.lead">
+            «Porque de él, y por él, y para él, son todas las cosas. ¡A él sea la gloria por los siglos!» — Romanos 11:36
+          </p>
         </div>
       </section>
 
       <section id="sobre" class="section">
         <div class="section__header">
           <p class="eyebrow" data-i18n="sobre.eyebrow">Quiénes somos</p>
-          <h2 data-i18n="sobre.title">Somos Iglesia y aunque no sea perfecta es la familia de Dios</h2>
+          <h2 data-i18n="sobre.title">Somos Iglesia y aunque no sea perfecta somos la familia de Dios</h2>
           <p class="lead" data-i18n="sobre.lead">
             Creamos espacios para encontrarnos con Jesús, crecer en Su Palabra y servir con creatividad y excelencia en cada etapa.
           </p>
@@ -131,10 +108,7 @@
               <span>Fidelidad</span>
               <span>Biblia</span>
             </div>
-            <div class="detail-panel" id="detalleMinisterio">
-              <h4>Ministerio Destacado</h4>
-              <p class="muted">Selecciona un ministerio para ver detalles, horarios y contacto.</p>
-            </div>
+
           </article>
 
           <article class="about__strip about-card" style="--strip-img: url('assets/qs1.jpg')">
@@ -170,7 +144,7 @@
             <div class="badge">Alabanza</div>
             <h3>Adoración</h3>
             <p>Honrar y exaltar el nombre de Jesús.</p>
-            <button class="btn btn--text" type="button">Ver detalles</button>
+            <a class="btn btn--text" href="alabanza.html">Ver detalles</a>
           </article>
           <article
             class="card ministry"
@@ -185,7 +159,7 @@
               Encuentros creativos que impulsan la fe y liderazgo de los
               jóvenes.
             </p>
-            <button class="btn btn--text" type="button">Ver detalles</button>
+            <a class="btn btn--text" href="petra.html">Ver detalles</a>
           </article>
           <article
             class="card ministry"
@@ -197,7 +171,7 @@
             <div class="badge">Niños</div>
             <h3>RocKids</h3>
             <p>Ambientes seguros y divertidos para descubrir a Jesús.</p>
-            <button class="btn btn--text" type="button">Ver detalles</button>
+            <a class="btn btn--text" href="rockids.html">Ver detalles</a>
           </article>
           <article
             class="card ministry"
@@ -209,7 +183,7 @@
             <div class="badge">Discipulado</div>
             <h3>Discipulado</h3>
             <p>Formación, consejería y espacios para nuevos en la fe.</p>
-            <button class="btn btn--text" type="button">Ver detalles</button>
+            <a class="btn btn--text" href="discipulado.html">Ver detalles</a>
           </article>
           <article
             class="card ministry"
@@ -219,9 +193,9 @@
             style="--ministry-img: url('assets/evangelismo2.jpg')"
           >
             <div class="badge">Misiones</div>
-            <h3>Evangelismos - Viajes Misioneros</h3>
+            <h3>Misiones</h3>
             <p>Proyectos locales y globales para llevar la Palabra de Dios.</p>
-            <button class="btn btn--text" type="button">Ver detalles</button>
+            <a class="btn btn--text" href="misiones.html">Ver detalles</a>
           </article>
           <article
             class="card ministry"
@@ -233,7 +207,7 @@
             <div class="badge">Damas</div>
             <h3>Piedras Preciosas</h3>
             <p>Reunión de mujeres adultas, compartir y aprendizaje juntas.</p>
-            <button class="btn btn--text" type="button">Ver detalles</button>
+            <a class="btn btn--text" href="piedras-preciosas.html">Ver detalles</a>
           </article>
         </div>
       </section>
@@ -241,80 +215,73 @@
       <section id="galeria" class="section">
         <div class="section__header">
           <p class="eyebrow" data-i18n="galeria.eyebrow">Momentos</p>
-          <h2 data-i18n="galeria.title">Galería de Ministerios</h2>
+          <h2 data-i18n="galeria.title">Nuestra vida en comunidad</h2>
           <p class="lead" data-i18n="galeria.lead">
-            Descubre cómo vivimos la fe: adoración, servicio, unidad, discipulado y
-            comunidad.
+            Cada encuentro es una oportunidad para crecer, servir y celebrar juntos.
           </p>
         </div>
-        <div class="gallery">
-          <div
-            class="gallery__item"
-            data-ministry="Alabanza"
-            style="--photo: url('assets/adoracion3.jpg')"
-          >
-            <div class="gallery__info">
-              <h4>Alabanza</h4>
-              <p>Adoración en vivo con nuestro equipo creativo.</p>
-            </div>
+
+        <div class="gallery showcase" data-slider="true" data-slider-mode="center" aria-label="Galería de momentos">
+          <div class="gallery__item" style="--photo: url('assets/adoracion1.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Alabanza</span><h3>Adoración que transforma</h3></div>
           </div>
-          <div
-            class="gallery__item"
-            data-ministry="PETRA"
-            style="--photo: url('assets/petra2.jpg')"
-          >
-            <div class="gallery__info">
-              <h4>PETRA</h4>
-              <p>Conexiones, enseñanzas y dinámicas para jóvenes.</p>
-            </div>
+          <div class="gallery__item" style="--photo: url('assets/petra7.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Jóvenes</span><h3>Fe y liderazgo joven</h3></div>
           </div>
-          <div
-            class="gallery__item"
-            data-ministry="Niños"
-            style="--photo: url('assets/rockids3.jpg')"
-          >
-            <div class="gallery__info">
-              <h4>RocKids</h4>
-              <p>Clases creativas cristocéntricas y dinámicas para los más pequeños.</p>
-            </div>
+          <div class="gallery__item" style="--photo: url('assets/rockids2.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Niños</span><h3>Semillas de fe creciendo</h3></div>
           </div>
-          <div
-            class="gallery__item"
-            data-ministry="Discipulado"
-            style="--photo: url('assets/discipulado1.jpg')"
-          >
-            <div class="gallery__info">
-              <h4>Discipulado</h4>
-              <p>Formación, consejería y espacios para nuevos en la fe.</p>
-            </div>
+          <div class="gallery__item" style="--photo: url('assets/petra5.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Jóvenes</span><h3>Unidos en Cristo</h3></div>
           </div>
-          <div
-            class="gallery__item"
-            data-ministry="Misiones"
-            style="--photo: url('assets/misiones2.jpg')"
-          >
-            <div class="gallery__info">
-              <h4>Misiones</h4>
-              <p>Amor en acción en nuestra ciudad y más allá.</p>
-            </div>
+          <div class="gallery__item" style="--photo: url('assets/adoracion2.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Alabanza</span><h3>Melodías de gratitud</h3></div>
           </div>
-          <div
-            class="gallery__item"
-            data-ministry="Piedras Preciosas"
-            style="--photo: url('assets/pp2.jpg')"
-          >
-            <div class="gallery__info">
-              <h4>Piedras Preciosas</h4>
-              <p>Compañerismo entre mujeres adultas, dinámicas y aprendizaje juntas.</p>
-            </div>
+          <div class="gallery__item" style="--photo: url('assets/discipulado1.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Discipulado</span><h3>Formados en la Palabra</h3></div>
           </div>
-        </div>
-        <div class="info-card" id="galleryInfo">
-          <h3>Explora cada ministerio</h3>
-          <p class="muted">
-            Haz clic en una foto para obtener información y conecta con
-            su equipo.
-          </p>
+          <div class="gallery__item" style="--photo: url('assets/petra10.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Jóvenes</span><h3>Noches de encuentro</h3></div>
+          </div>
+          <div class="gallery__item" style="--photo: url('assets/misiones1.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Misiones</span><h3>Llevando esperanza al mundo</h3></div>
+          </div>
+          <div class="gallery__item" style="--photo: url('assets/piedraspreciosas1.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Damas</span><h3>Mujeres que inspiran</h3></div>
+          </div>
+          <div class="gallery__item" style="--photo: url('assets/petra12.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Jóvenes</span><h3>Momentos inolvidables</h3></div>
+          </div>
+          <div class="gallery__item" style="--photo: url('assets/rockids1.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Niños</span><h3>Aprendiendo con alegría</h3></div>
+          </div>
+          <div class="gallery__item" style="--photo: url('assets/petra8.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Jóvenes</span><h3>Comunidad que transforma</h3></div>
+          </div>
+          <div class="gallery__item" style="--photo: url('assets/adoracion3.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Alabanza</span><h3>Excelencia para su gloria</h3></div>
+          </div>
+          <div class="gallery__item" style="--photo: url('assets/misiones2.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Misiones</span><h3>Amor en acción</h3></div>
+          </div>
+          <div class="gallery__item" style="--photo: url('assets/petra14.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Jóvenes</span><h3>Creciendo en fe</h3></div>
+          </div>
+          <div class="gallery__item" style="--photo: url('assets/pp2.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Damas</span><h3>Juntas en oración</h3></div>
+          </div>
+          <div class="gallery__item" style="--photo: url('assets/rockids3.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Niños</span><h3>Diversión con propósito</h3></div>
+          </div>
+          <div class="gallery__item" style="--photo: url('assets/petra3.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Jóvenes</span><h3>Sirviendo juntos</h3></div>
+          </div>
+          <div class="gallery__item" style="--photo: url('assets/evangelismo1.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Misiones</span><h3>Alcanzando corazones</h3></div>
+          </div>
+          <div class="gallery__item" style="--photo: url('assets/petra9.jpg')">
+            <div class="showcase__caption"><span class="showcase__tag">Jóvenes</span><h3>Celebrando la vida</h3></div>
+          </div>
         </div>
       </section>
 
