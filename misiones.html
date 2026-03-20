@@ -35,7 +35,6 @@
         <a href="index.html#galeria" data-i18n="nav.galeria">Galería</a>
         <a href="index.html#contacto" data-i18n="nav.contacto">Contacto</a>
         <a href="index.html#ubicacion" data-i18n="nav.ubicacion">Dirección</a>
-        <a class="nav__predicaciones" href="predicaciones.html">Ver predicaciones</a>
       </nav>
       <div class="topbar__actions">
         <a class="btn btn--ghost" href="predicaciones.html">Ver predicaciones</a>
@@ -50,38 +49,432 @@
     </header>
 
     <main>
-      <section class="section">
-        <div class="section__header">
-          <p class="eyebrow">Misiones</p>
-          <h2>Evangelismo y Proyectos</h2>
-          <p class="lead">Proyectos locales y salidas misioneras para llevar ayuda y esperanza.</p>
+      <!-- ══════ HERO ══════ -->
+      <section class="missions-hero">
+        <div class="missions-hero__bg" style="background-image: url('assets/Evangelismo-Hero.jpg')"></div>
+        <div class="missions-hero__overlay"></div>
+        <div class="missions-hero__content">
+          <span class="missions-hero__tag">Ministerio de Misiones</span>
+          <h1 class="missions-hero__title">Llevando esperanza al mundo</h1>
+          <p class="missions-hero__subtitle">Evangelismo local, viajes misioneros y apoyo a misioneros alrededor del mundo.</p>
+          <nav class="missions-hero__nav">
+            <a class="missions-pill" href="#evangelismo">Evangelismo</a>
+            <a class="missions-pill" href="#viajes">Viajes Misioneros</a>
+            <a class="missions-pill" href="#misioneros">Misioneros</a>
+          </nav>
+        </div>
+      </section>
+
+      <!-- ══════ SECCIÓN 1: EVANGELISMO ══════ -->
+      <section class="missions-section" id="evangelismo">
+        <div class="missions-section__intro">
+          <div class="missions-section__badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </div>
+          <div class="missions-section__header">
+            <span class="eyebrow">Alcanzando nuestra comunidad</span>
+            <h2>Evangelismo</h2>
+            <p>Salimos a las calles, parques y comunidades para compartir el amor de Cristo. A través de actividades creativas, servicio social y relaciones genuinas, buscamos impactar vidas con un mensaje de esperanza.</p>
+          </div>
         </div>
 
-        <div class="grid">
-          <article class="card">
-            <h3>Actividades</h3>
-            <p class="muted">Coordinar salidas, eventos de servicio y apoyo comunitario. Formamos equipos y capacitamos voluntarios.</p>
-            <ul class="list">
-              <li>Reuniones: Sábados· 10:30 AM</li>
-              <li>Contacto: misiones@piedraangular.org</li>
-              <li>Proyectos locales y viajes misioneros</li>
-            </ul>
-            <a class="btn" href="index.html#ministerios">Volver</a>
-          </article>
-
-          <div class="card">
-            <h3>Galería Misiones</h3>
-            <div class="gallery" data-slider="true">
-              <div class="gallery__item" style="--photo: url('assets/misiones1.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item" style="--photo: url('assets/misiones2.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item" style="--photo: url('assets/evangelismo1.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item" style="--photo: url('assets/hero1.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item" style="--photo: url('assets/hero2.jpg')"><div class="gallery__info"></div></div>
+        <div class="missions-split">
+          <div class="missions-split__media">
+            <img src="assets/Evangelismo-Galeria1.jpg" alt="Evangelismo en comunidad" loading="lazy" />
+          </div>
+          <div class="missions-split__body">
+            <h3>¿Qué hacemos?</h3>
+            <div class="missions-checklist">
+              <div class="missions-check">
+                <div class="missions-check__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <span>Jornadas de evangelismo en comunidades</span>
+              </div>
+              <div class="missions-check">
+                <div class="missions-check__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                </div>
+                <span>Eventos de servicio social y ayuda comunitaria</span>
+              </div>
+              <div class="missions-check">
+                <div class="missions-check__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                </div>
+                <span>Capacitación de voluntarios y equipos</span>
+              </div>
+              <div class="missions-check">
+                <div class="missions-check__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                </div>
+                <span>Distribución de alimentos y recursos</span>
+              </div>
             </div>
+            <div class="missions-detail">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span>Domingos · 5:00 PM</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="missions-gallery-strip">
+          <img src="assets/Evangelismo-Galeria3.jpg" alt="Evangelismo 1" loading="lazy" data-src="assets/Evangelismo-Galeria3.jpg" role="button" tabindex="0" />
+          <img src="assets/Evangelismo-Galeria4.jpg" alt="Evangelismo 2" loading="lazy" data-src="assets/Evangelismo-Galeria4.jpg" role="button" tabindex="0" />
+          <img src="assets/Evangelismo-Galeria2.jpg" alt="Evangelismo 3" loading="lazy" data-src="assets/Evangelismo-Galeria2.jpg" role="button" tabindex="0" />
+        </div>
+      </section>
+
+      <!-- ══════ SECCIÓN 2: VIAJES MISIONEROS ══════ -->
+      <section class="missions-section missions-section--alt" id="viajes">
+        <div class="missions-section__intro">
+          <div class="missions-section__badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          </div>
+          <div class="missions-section__header">
+            <span class="eyebrow">Más allá de nuestras fronteras</span>
+            <h2>Viajes Misioneros</h2>
+            <p>Organizamos viajes a diferentes regiones para servir, construir, enseñar y acompañar comunidades que necesitan apoyo. Cada viaje es una oportunidad para crecer y dar.</p>
+          </div>
+        </div>
+
+        <div class="missions-split missions-split--reverse">
+          <div class="missions-split__media">
+            <img src="assets/misiones2.jpg" alt="Viaje misionero" loading="lazy" />
+          </div>
+          <div class="missions-split__body">
+            <h3>Nuestros viajes incluyen</h3>
+            <div class="missions-checklist">
+              <div class="missions-check">
+                <div class="missions-check__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                </div>
+                <span>Misiones a comunidades rurales e indígenas</span>
+              </div>
+              <div class="missions-check">
+                <div class="missions-check__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="22" height="12" rx="2" ry="2"/><path d="M1 10h22"/></svg>
+                </div>
+                <span>Proyectos de construcción y mejora</span>
+              </div>
+              <div class="missions-check">
+                <div class="missions-check__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                </div>
+                <span>Escuelas bíblicas vacacionales</span>
+              </div>
+              <div class="missions-check">
+                <div class="missions-check__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                </div>
+                <span>Campañas médicas y de asistencia</span>
+              </div>
+            </div>
+            <div class="missions-detail">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>misiones@piedraangular.org</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="missions-gallery-strip">
+          <img src="assets/Viaje-Galeria.jpg" alt="Viaje misionero 1" loading="lazy" data-src="assets/Viaje-Galeria.jpg" role="button" tabindex="0" />
+          <img src="assets/misiones1.jpg" alt="Viaje misionero 2" loading="lazy" data-src="assets/misiones1.jpg" role="button" tabindex="0" />
+          <img src="assets/Viaje2-Galeria.jpeg" alt="Viaje misionero 3" loading="lazy" data-src="assets/Viaje2-Galeria.jpeg" role="button" tabindex="0" />
+        </div>
+      </section>
+
+      <!-- ══════ SECCIÓN 3: MISIONEROS EN EL MUNDO ══════ -->
+      <section class="missions-section" id="misioneros">
+        <div class="missions-section__intro">
+          <div class="missions-section__badge">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="missions-section__header">
+            <span class="eyebrow">Nuestra familia global</span>
+            <h2>Misioneros alrededor del mundo</h2>
+            <p>Apoyamos de manera continua a misioneros que sirven en diferentes naciones. Los respaldamos con oración, recursos económicos y acompañamiento espiritual.</p>
+          </div>
+        </div>
+
+        <div class="missions-world">
+          <div class="missions-world__globe">
+            <div class="globe-container">
+              <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" aria-label="Globo terráqueo mostrando ubicaciones de misioneros">
+                <defs>
+                  <radialGradient id="globeGrad" cx="35%" cy="30%" r="65%">
+                    <stop offset="0%" stop-color="#1a6b5a" />
+                    <stop offset="45%" stop-color="#0f4f45" />
+                    <stop offset="100%" stop-color="#082e28" />
+                  </radialGradient>
+                  <radialGradient id="oceanGrad" cx="40%" cy="35%" r="60%">
+                    <stop offset="0%" stop-color="#156d8a" />
+                    <stop offset="50%" stop-color="#0e4a62" />
+                    <stop offset="100%" stop-color="#08303f" />
+                  </radialGradient>
+                  <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+                    <stop offset="70%" stop-color="transparent" />
+                    <stop offset="100%" stop-color="rgba(20,184,166,0.08)" />
+                  </radialGradient>
+                  <filter id="globeShadow">
+                    <feDropShadow dx="0" dy="8" stdDeviation="20" flood-color="rgba(8,48,63,0.35)" />
+                  </filter>
+                  <filter id="pingGlow">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+                  </filter>
+                  <clipPath id="globeClip"><circle cx="250" cy="250" r="210" /></clipPath>
+                </defs>
+
+                <!-- Outer glow -->
+                <circle cx="250" cy="250" r="240" fill="url(#glowGrad)" />
+
+                <!-- Globe base -->
+                <circle cx="250" cy="250" r="210" fill="url(#oceanGrad)" filter="url(#globeShadow)" />
+
+                <!-- Grid lines -->
+                <g clip-path="url(#globeClip)" opacity=".15" stroke="#5eead4" fill="none" stroke-width=".7">
+                  <ellipse cx="250" cy="250" rx="210" ry="70" />
+                  <ellipse cx="250" cy="250" rx="210" ry="140" />
+                  <ellipse cx="250" cy="250" rx="70" ry="210" />
+                  <ellipse cx="250" cy="250" rx="140" ry="210" />
+                  <line x1="40" y1="250" x2="460" y2="250" />
+                  <line x1="250" y1="40" x2="250" y2="460" />
+                </g>
+
+                <!-- Continents (simplified outlines) -->
+                <g clip-path="url(#globeClip)">
+                  <!-- North America -->
+                  <path d="M95 135 L110 120 L130 118 L148 108 L160 115 L165 135 L170 150 L178 148 L185 160 L175 175 L165 185 L155 200 L140 210 L125 218 L115 210 L105 195 L98 178 L90 160 Z" fill="#14b8a6" opacity=".25" />
+                  <!-- Central America + Costa Rica region -->
+                  <path d="M125 218 L135 225 L140 235 L138 245 L132 252 L128 248 L122 238 L118 228 Z" fill="#14b8a6" opacity=".3" />
+                  <!-- South America -->
+                  <path d="M138 255 L150 260 L162 275 L170 295 L175 320 L172 345 L165 365 L155 380 L142 385 L130 375 L125 355 L120 330 L118 305 L122 280 L130 265 Z" fill="#14b8a6" opacity=".22" />
+                  <!-- Europe -->
+                  <path d="M265 100 L280 95 L300 98 L318 105 L330 115 L335 130 L328 145 L315 150 L300 155 L285 152 L275 145 L268 135 L262 120 Z" fill="#14b8a6" opacity=".28" />
+                  <!-- Iberian Peninsula (Spain - Barcelona) -->
+                  <path d="M262 140 L275 138 L282 145 L280 155 L270 160 L260 155 Z" fill="#14b8a6" opacity=".32" />
+                  <!-- Italian Peninsula -->
+                  <path d="M300 140 L308 148 L312 160 L315 175 L310 182 L305 175 L302 162 L298 150 Z" fill="#14b8a6" opacity=".32" />
+                  <!-- Africa -->
+                  <path d="M270 175 L290 170 L310 175 L330 185 L345 205 L350 230 L348 260 L340 290 L325 315 L305 330 L285 325 L272 305 L265 280 L260 250 L258 220 L262 195 Z" fill="#14b8a6" opacity=".18" />
+                  <!-- Asia/Middle East -->
+                  <path d="M340 110 L365 100 L390 105 L415 115 L430 130 L438 150 L435 170 L420 185 L400 190 L380 185 L360 175 L345 160 L338 140 Z" fill="#14b8a6" opacity=".18" />
+                </g>
+
+                <!-- Atmosphere highlight -->
+                <circle cx="250" cy="250" r="210" fill="none" stroke="rgba(94,234,212,0.12)" stroke-width="2" />
+                <circle cx="250" cy="250" r="212" fill="none" stroke="rgba(94,234,212,0.06)" stroke-width="4" />
+
+                <!-- Specular highlight -->
+                <ellipse cx="195" cy="175" rx="80" ry="60" fill="rgba(255,255,255,0.04)" transform="rotate(-25 195 175)" />
+
+                <!-- === PING: Costa Rica — Andrés === -->
+                <g filter="url(#pingGlow)">
+                  <circle cx="131" cy="238" r="5" fill="#14b8a6">
+                    <animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite" />
+                  </circle>
+                  <circle cx="131" cy="238" r="12" fill="none" stroke="#5eead4" stroke-width="1.5" opacity=".5">
+                    <animate attributeName="r" values="12;22;12" dur="2s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values=".5;0;.5" dur="2s" repeatCount="indefinite" />
+                  </circle>
+                  <circle cx="131" cy="238" r="20" fill="none" stroke="#5eead4" stroke-width=".8" opacity=".25">
+                    <animate attributeName="r" values="20;32;20" dur="2s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values=".25;0;.25" dur="2s" repeatCount="indefinite" />
+                  </circle>
+                </g>
+                <!-- Label Andrés -->
+                <line x1="131" y1="228" x2="100" y2="205" stroke="#5eead4" stroke-width=".8" opacity=".6" />
+                <text x="98" y="202" fill="#5eead4" font-size="8.5" font-family="Inter,sans-serif" font-weight="600" text-anchor="end" opacity=".85">Andrés</text>
+                <text x="98" y="212" fill="rgba(94,234,212,.55)" font-size="7" font-family="Inter,sans-serif" font-weight="500" text-anchor="end">Costa Rica</text>
+
+                <!-- === PING: Costa Rica — Melver === -->
+                <g filter="url(#pingGlow)">
+                  <circle cx="138" cy="244" r="4" fill="#0d9488">
+                    <animate attributeName="r" values="4;6;4" dur="2.3s" repeatCount="indefinite" />
+                  </circle>
+                  <circle cx="138" cy="244" r="10" fill="none" stroke="#5eead4" stroke-width="1.2" opacity=".4">
+                    <animate attributeName="r" values="10;18;10" dur="2.3s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values=".4;0;.4" dur="2.3s" repeatCount="indefinite" />
+                  </circle>
+                </g>
+                <!-- Label Melver -->
+                <line x1="138" y1="252" x2="158" y2="272" stroke="#5eead4" stroke-width=".8" opacity=".6" />
+                <text x="160" y="269" fill="#5eead4" font-size="8.5" font-family="Inter,sans-serif" font-weight="600" text-anchor="start" opacity=".85">Melver</text>
+                <text x="160" y="279" fill="rgba(94,234,212,.55)" font-size="7" font-family="Inter,sans-serif" font-weight="500" text-anchor="start">Costa Rica</text>
+
+                <!-- === PING: Barcelona — Yohel === -->
+                <g filter="url(#pingGlow)">
+                  <circle cx="275" cy="142" r="5" fill="#14b8a6">
+                    <animate attributeName="r" values="5;7;5" dur="1.8s" repeatCount="indefinite" />
+                  </circle>
+                  <circle cx="275" cy="142" r="12" fill="none" stroke="#5eead4" stroke-width="1.5" opacity=".5">
+                    <animate attributeName="r" values="12;22;12" dur="1.8s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values=".5;0;.5" dur="1.8s" repeatCount="indefinite" />
+                  </circle>
+                  <circle cx="275" cy="142" r="20" fill="none" stroke="#5eead4" stroke-width=".8" opacity=".25">
+                    <animate attributeName="r" values="20;32;20" dur="1.8s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values=".25;0;.25" dur="1.8s" repeatCount="indefinite" />
+                  </circle>
+                </g>
+                <!-- Label Yohel -->
+                <line x1="275" y1="133" x2="255" y2="110" stroke="#5eead4" stroke-width=".8" opacity=".6" />
+                <text x="253" y="107" fill="#5eead4" font-size="8.5" font-family="Inter,sans-serif" font-weight="600" text-anchor="end" opacity=".85">Yohel</text>
+                <text x="253" y="117" fill="rgba(94,234,212,.55)" font-size="7" font-family="Inter,sans-serif" font-weight="500" text-anchor="end">Barcelona, España</text>
+
+                <!-- Connection arc (Costa Rica to Barcelona) -->
+                <path d="M135 240 Q210 120 275 142" fill="none" stroke="rgba(94,234,212,0.15)" stroke-width="1" stroke-dasharray="4 3">
+                  <animate attributeName="stroke-dashoffset" values="0;-14" dur="2s" repeatCount="indefinite" />
+                </path>
+              </svg>
+            </div>
+          </div>
+
+          <div class="missions-cards">
+            <!-- Yohel -->
+            <div class="missionary-card">
+              <div class="missionary-card__accent"></div>
+              <div class="missionary-card__location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"/></svg>
+                <span>Barcelona, España</span>
+              </div>
+              <h4 class="missionary-card__name">Hermano Yohel Arce</h4>
+              <p class="missionary-card__desc">Plantando iglesias y realizando discipulado transcultural en España, Italia y en Europa general. Compartiendo el evangelio en una de las ciudades más diversas de Europa.</p>
+              <div class="missionary-card__tag">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                Europa
+              </div>
+            </div>
+            <!-- Andrés -->
+            <div class="missionary-card">
+              <div class="missionary-card__accent"></div>
+              <div class="missionary-card__location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"/></svg>
+                <span>Costa Rica</span>
+              </div>
+              <h4 class="missionary-card__name">Hermano Andrés</h4>
+              <p class="missionary-card__desc">Sirviendo en comunidades vulnerables con educación, evangelismo y asistencia social. Transformando vidas a través del amor de Cristo.</p>
+              <div class="missionary-card__tag">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                América Central
+              </div>
+            </div>
+            <!-- Melver -->
+            <div class="missionary-card">
+              <div class="missionary-card__accent"></div>
+              <div class="missionary-card__location">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"/></svg>
+                <span>Costa Rica</span>
+              </div>
+              <h4 class="missionary-card__name">Hermano Melver</h4>
+              <p class="missionary-card__desc">Liderando proyectos de construcción y campañas de ayuda médica en comunidades rurales de Costa Rica y América.</p>
+              <div class="missionary-card__tag">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                América Central
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="missions-stats">
+          <div class="missions-stat">
+            <span class="missions-stat__number" data-count="3">0</span>
+            <span class="missions-stat__label">Países</span>
+          </div>
+          <div class="missions-stat">
+            <span class="missions-stat__number" data-count="3">0</span>
+            <span class="missions-stat__label">Misioneros apoyados</span>
+          </div>
+          <div class="missions-stat">
+            <span class="missions-stat__number" data-count="2">0</span>
+            <span class="missions-stat__label">Continentes</span>
+          </div>
+          <div class="missions-stat">
+            <span class="missions-stat__number" data-count="∞">∞</span>
+            <span class="missions-stat__label">Oraciones constantes</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ══════ CTA ══════ -->
+      <section class="missions-cta">
+        <!-- Animated background globe -->
+        <div class="bg-globe" aria-hidden="true">
+          <svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="bgGlobeGrad" cx="40%" cy="35%" r="55%">
+                <stop offset="0%" stop-color="rgba(94,234,212,.1)" />
+                <stop offset="100%" stop-color="rgba(94,234,212,0)" />
+              </radialGradient>
+            </defs>
+            <circle cx="400" cy="400" r="380" fill="url(#bgGlobeGrad)" />
+            <circle cx="400" cy="400" r="380" fill="none" stroke="rgba(94,234,212,.08)" stroke-width="1.5" />
+            <g fill="none" stroke="rgba(94,234,212,.07)" stroke-width=".8">
+              <ellipse cx="400" cy="400" rx="380" ry="120" />
+              <ellipse cx="400" cy="400" rx="380" ry="240" />
+              <ellipse cx="400" cy="400" rx="120" ry="380" />
+              <ellipse cx="400" cy="400" rx="240" ry="380" />
+              <line x1="20" y1="400" x2="780" y2="400" />
+              <line x1="400" y1="20" x2="400" y2="780" />
+            </g>
+            <g opacity=".1" fill="#5eead4">
+              <path d="M140 230 L180 200 L230 195 L270 180 L300 200 L310 240 L320 270 L330 265 L340 290 L320 310 L300 330 L280 350 L250 370 L220 380 L200 365 L180 340 L165 310 L150 280 Z" />
+              <path d="M220 380 L240 395 L250 415 L245 430 L235 445 L225 435 L215 418 L208 400 Z" />
+              <path d="M245 450 L270 460 L295 485 L310 520 L318 560 L312 600 L300 640 L280 665 L255 672 L235 655 L225 625 L218 585 L215 540 L220 500 L232 475 Z" />
+              <path d="M460 170 L490 160 L525 165 L555 178 L575 195 L580 220 L570 245 L550 255 L525 262 L500 258 L485 248 L475 232 L465 212 Z" />
+              <path d="M460 240 L480 235 L492 248 L488 265 L475 272 L458 264 Z" />
+              <path d="M470 295 L505 285 L540 295 L570 315 L590 345 L598 390 L595 440 L582 490 L560 530 L530 555 L500 548 L478 518 L465 480 L458 430 L455 375 L460 335 Z" />
+              <path d="M585 185 L625 170 L670 178 L710 195 L738 220 L748 258 L742 290 L720 315 L690 325 L660 315 L630 300 L600 280 L585 250 Z" />
+            </g>
+            <circle cx="400" cy="400" r="382" fill="none" stroke="rgba(94,234,212,.06)" stroke-width="3" />
+          </svg>
+        </div>
+
+        <!-- Decorative elements -->
+        <div class="missions-cta__orb missions-cta__orb--1"></div>
+        <div class="missions-cta__orb missions-cta__orb--2"></div>
+        <svg class="missions-cta__deco missions-cta__deco--left" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+          <circle cx="100" cy="100" r="90" stroke="rgba(20,184,166,.12)" stroke-width="1.5"/>
+          <circle cx="100" cy="100" r="60" stroke="rgba(20,184,166,.08)" stroke-width="1" stroke-dasharray="6 4"/>
+          <circle cx="100" cy="100" r="30" stroke="rgba(20,184,166,.06)" stroke-width="1" stroke-dasharray="3 5"/>
+        </svg>
+        <svg class="missions-cta__deco missions-cta__deco--right" viewBox="0 0 200 200" fill="none" aria-hidden="true">
+          <circle cx="100" cy="100" r="90" stroke="rgba(20,184,166,.12)" stroke-width="1.5"/>
+          <circle cx="100" cy="100" r="60" stroke="rgba(20,184,166,.08)" stroke-width="1" stroke-dasharray="6 4"/>
+          <circle cx="100" cy="100" r="30" stroke="rgba(20,184,166,.06)" stroke-width="1" stroke-dasharray="3 5"/>
+        </svg>
+
+        <div class="missions-cta__inner">
+          <div class="missions-cta__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h2>¿Quieres ser parte de la misión?</h2>
+          <p>Ya sea orando, dando o yendo, hay un lugar para ti en lo que Dios está haciendo alrededor del mundo.</p>
+          <div class="missions-cta__actions">
+            <a class="missions-cta__btn missions-cta__btn--primary" href="index.html#contacto">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Contáctanos
+            </a>
+            <a class="missions-cta__btn missions-cta__btn--ghost" href="index.html#ministerios">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+              Volver a Ministerios
+            </a>
           </div>
         </div>
       </section>
     </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+      <button class="lightbox__close" aria-label="Cerrar">&times;</button>
+      <button class="lightbox__prev" aria-label="Anterior">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="lightbox__next" aria-label="Siguiente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+      </button>
+      <img class="lightbox__img" src="" alt="Imagen ampliada" />
+      <span class="lightbox__counter"></span>
+    </div>
 
     <footer class="footer">
       <div class="footer__top">

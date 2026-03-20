@@ -1838,7 +1838,7 @@ setInterval(updateLatestVideo, 300000);
   const closeBtn = lightbox.querySelector('.lightbox__close');
   const prevBtn = lightbox.querySelector('.lightbox__prev');
   const nextBtn = lightbox.querySelector('.lightbox__next');
-  const items = Array.from(document.querySelectorAll('.worship-gallery__item[data-src]'));
+  const items = Array.from(document.querySelectorAll('.worship-gallery__item[data-src], .missions-gallery-strip img[data-src]'));
   let current = 0;
 
   function show(index) {
@@ -1875,4 +1875,71 @@ setInterval(updateLatestVideo, 300000);
     if (e.key === 'ArrowLeft') show(current - 1);
     if (e.key === 'ArrowRight') show(current + 1);
   });
+})();
+
+/* ── Count-up animation for missions stats (repeatable) ── */
+(function () {
+  var stats = document.querySelectorAll('.missions-stat');
+  var counters = document.querySelectorAll('.missions-stat__number[data-count]');
+  if (!counters.length) return;
+
+  function animateCounters() {
+    stats.forEach(function (s) { s.classList.add('is-visible'); });
+
+    counters.forEach(function (el) {
+      var target = el.getAttribute('data-count');
+      if (target === '∞') return;
+      var end = parseInt(target, 10);
+      if (isNaN(end)) return;
+
+      var duration = 1000;
+      var startTime = null;
+      el.textContent = '0';
+
+      function step(ts) {
+        if (!startTime) startTime = ts;
+        var progress = Math.min((ts - startTime) / duration, 1);
+        /* elastic ease-out */
+        var t = progress;
+        var eased = t < 1 ? 1 - Math.pow(1 - t, 4) : 1;
+        var val = Math.round(eased * end);
+        el.textContent = val;
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          el.textContent = end;
+          /* pop effect on landing */
+          el.classList.remove('pop');
+          void el.offsetWidth;
+          el.classList.add('pop');
+        }
+      }
+      requestAnimationFrame(step);
+    });
+  }
+
+  function resetCounters() {
+    stats.forEach(function (s) { s.classList.remove('is-visible'); });
+    counters.forEach(function (el) {
+      var target = el.getAttribute('data-count');
+      if (target !== '∞') el.textContent = '0';
+      el.classList.remove('pop');
+    });
+  }
+
+  if ('IntersectionObserver' in window) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          animateCounters();
+        } else {
+          resetCounters();
+        }
+      });
+    }, { threshold: 0.25 });
+    var statsEl = document.querySelector('.missions-stats');
+    if (statsEl) observer.observe(statsEl);
+  } else {
+    animateCounters();
+  }
 })();
