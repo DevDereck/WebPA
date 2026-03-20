@@ -50,47 +50,96 @@
     </header>
 
     <main>
-      <section class="section">
-        <div class="section__header">
-          <p class="eyebrow">PETRA</p>
-          <h2>Ministerio de Jóvenes</h2>
-          <p class="lead">Encuentros creativos, talleres y eventos para fortalecer la fe y el liderazgo juvenil.</p>
+      <!-- Hero -->
+      <section class="worship-hero">
+        <div class="worship-hero__bg" style="background-image: url('assets/petra2.jpg')"></div>
+        <div class="worship-hero__overlay"></div>
+        <div class="worship-hero__content">
+          <span class="worship-hero__tag">Ministerio PETRA</span>
+          <h1 class="worship-hero__title">Ministerio de Jóvenes</h1>
+          <p class="worship-hero__subtitle">Encuentros creativos, talleres y eventos para fortalecer la fe y el liderazgo juvenil.</p>
+          <a class="btn" href="#worship-info">Conoce más</a>
+        </div>
+      </section>
+
+      <!-- Info + Features -->
+      <section class="worship-info" id="worship-info">
+        <div class="worship-info__intro">
+          <h2>¿Qué hacemos?</h2>
+          <p>Actividades semanales, campamentos, formación y proyectos que conectan a jóvenes con propósito. Creemos en una juventud que impacta su generación.</p>
         </div>
 
-        <div class="grid">
-          <article class="card">
-            <h3>Qué hacemos</h3>
-            <p class="muted">Actividades semanales, campamentos, formación y proyectos que conectan a jóvenes con propósito.</p>
-            <ul class="list">
-              <li>Reuniones: Sábados · 4:30 PM</li>
-              <li>Contacto: juventud@piedraangular.org</li>
-              <li>Voluntariado, liderazgo y misiones</li>
-            </ul>
-            <a class="btn" href="index.html#ministerios">Volver</a>
-          </article>
-
-          <div class="card">
-            <h3>Galería PETRA</h3>
-            <div class="gallery" data-slider="true">
-              <div class="gallery__item mostrar-rostro" style="--photo: url('assets/petra2.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item" style="--photo: url('assets/petra3.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item" style="--photo: url('assets/petra4.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item" style="--photo: url('assets/petra5.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item" style="--photo: url('assets/petra6.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item mostrar-rostro" style="--photo: url('assets/petra7.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item mostrar-rostro" style="--photo: url('assets/petra8.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item" style="--photo: url('assets/petra9.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item mostrar-rostro" style="--photo: url('assets/petra10.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item" style="--photo: url('assets/petra11.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item mostrar-rostro" style="--photo: url('assets/petra12.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item mostrar-rostro" style="--photo: url('assets/petra13.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item mostrar-rostro" style="--photo: url('assets/petra14.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item mostrar-rostro" style="--photo: url('assets/petra15.jpg')"><div class="gallery__info"></div></div>
+        <div class="worship-features">
+          <div class="worship-feature">
+            <div class="worship-feature__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             </div>
+            <h3>Reuniones</h3>
+            <p>Sábados · 4:30 PM</p>
+          </div>
+          <div class="worship-feature">
+            <div class="worship-feature__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <h3>Contacto</h3>
+            <p>juventud@piedraangular.org</p>
+          </div>
+          <div class="worship-feature">
+            <div class="worship-feature__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <h3>Liderazgo</h3>
+            <p>Voluntariado y misiones</p>
           </div>
         </div>
       </section>
+
+      <!-- Galería -->
+      <section class="worship-gallery" id="worship-gallery">
+        <div class="worship-gallery__header">
+          <span class="eyebrow">Momentos</span>
+          <h2>Galería PETRA</h2>
+        </div>
+        <div class="worship-gallery__grid" aria-label="Galería PETRA">
+          <div class="worship-gallery__item worship-gallery__item--tall" style="--photo: url('assets/petra2.jpg')" data-src="assets/petra2.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item" style="--photo: url('assets/petra3.jpg')" data-src="assets/petra3.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item" style="--photo: url('assets/petra4.jpg')" data-src="assets/petra4.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item worship-gallery__item--wide" style="--photo: url('assets/petra5.jpg')" data-src="assets/petra5.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item" style="--photo: url('assets/petra6.jpg')" data-src="assets/petra6.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item" style="--photo: url('assets/petra7.jpg')" data-src="assets/petra7.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item" style="--photo: url('assets/petra8.jpg')" data-src="assets/petra8.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item" style="--photo: url('assets/petra9.jpg')" data-src="assets/petra9.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item worship-gallery__item--tall" style="--photo: url('assets/petra10.jpg')" data-src="assets/petra10.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item" style="--photo: url('assets/petra11.jpg')" data-src="assets/petra11.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item" style="--photo: url('assets/petra12.jpg')" data-src="assets/petra12.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item worship-gallery__item--wide" style="--photo: url('assets/petra13.jpg')" data-src="assets/petra13.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item" style="--photo: url('assets/petra14.jpg')" data-src="assets/petra14.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item" style="--photo: url('assets/petra15.jpg')" data-src="assets/petra15.jpg" role="button" tabindex="0"></div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="worship-cta">
+        <p>¿Quieres ser parte de PETRA?</p>
+        <div class="worship-cta__actions">
+          <a class="btn" href="index.html#contacto">Contáctanos</a>
+          <a class="btn btn--outline" href="index.html#ministerios">Volver a Ministerios</a>
+        </div>
+      </section>
     </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+      <button class="lightbox__close" aria-label="Cerrar">&times;</button>
+      <button class="lightbox__prev" aria-label="Anterior">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="lightbox__next" aria-label="Siguiente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+      </button>
+      <img class="lightbox__img" src="" alt="Imagen ampliada" />
+      <span class="lightbox__counter"></span>
+    </div>
 
     <footer class="footer">
       <div class="footer__top">

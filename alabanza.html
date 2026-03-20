@@ -50,39 +50,88 @@
     </header>
 
     <main>
-      <section class="section">
-        <div class="section__header">
-          <p class="eyebrow">Alabanza</p>
-          <h2>Equipo de Adoración</h2>
-          <p class="lead">Nuestra comunidad de músicos y líderes que facilitan encuentros de adoración auténtica.</p>
+      <!-- Hero de Alabanza -->
+      <section class="worship-hero">
+        <div class="worship-hero__bg" style="background-image: url('assets/Alabanza-Galeria2.jpg')"></div>
+        <div class="worship-hero__overlay"></div>
+        <div class="worship-hero__content">
+          <span class="worship-hero__tag">Ministerio de Alabanza</span>
+          <h1 class="worship-hero__title">Equipo de Adoración</h1>
+          <p class="worship-hero__subtitle">Nuestra comunidad de músicos y líderes que facilitan encuentros de adoración auténtica.</p>
+          <a class="btn" href="#worship-info">Conoce más</a>
+        </div>
+      </section>
+
+      <!-- Info + Features -->
+      <section class="worship-info" id="worship-info">
+        <div class="worship-info__intro">
+          <h2>¿Qué hacemos?</h2>
+          <p>En el ministerio de Alabanza entrenamos músicos, producimos servicios y lideramos la adoración en reuniones y eventos especiales. Vivimos para crear atmósferas donde las personas puedan encontrarse con Dios.</p>
         </div>
 
-        <div class="grid">
-          <article class="card">
-            <h3>Descripción</h3>
-            <p class="muted">En el ministerio de Alabanza entrenamos músicos, producimos servicios y lideramos la adoración en reuniones y eventos especiales.</p>
-            <ul class="list">
-              <li>Ensayos: Jueves · 7:00 PM</li>
-              <li>Contacto: alabanza@piedraangular.org</li>
-              <li>Audiciones y acompañamiento musical</li>
-            </ul>
-            <a class="btn" href="index.html#ministerios">Volver</a>
-          </article>
-
-          <div class="card">
-            <h3>Galería</h3>
-            <div class="gallery" data-slider="true" aria-label="Galería de Alabanza">
-              <div class="gallery__item" style="--photo: url('assets/adoracion1.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item" style="--photo: url('assets/adoracion2.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item" style="--photo: url('assets/adoracion3.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item" style="--photo: url('assets/hero1.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item" style="--photo: url('assets/hero2.jpg')"><div class="gallery__info"></div></div>
-              <div class="gallery__item" style="--photo: url('assets/image_1.png')"><div class="gallery__info"></div></div>
+        <div class="worship-features">
+          <div class="worship-feature">
+            <div class="worship-feature__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             </div>
+            <h3>Ensayos</h3>
+            <p>Jueves · 7:00 PM</p>
+          </div>
+          <div class="worship-feature">
+            <div class="worship-feature__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <h3>Contacto</h3>
+            <p>alabanza@piedraangular.org</p>
+          </div>
+          <div class="worship-feature">
+            <div class="worship-feature__icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            </div>
+            <h3>Audiciones</h3>
+            <p>Acompañamiento musical y vocal</p>
           </div>
         </div>
       </section>
+
+      <!-- Galería immersiva -->
+      <section class="worship-gallery" id="worship-gallery">
+        <div class="worship-gallery__header">
+          <span class="eyebrow">Momentos</span>
+          <h2>Galería</h2>
+        </div>
+        <div class="worship-gallery__grid" aria-label="Galería de Alabanza">
+          <div class="worship-gallery__item worship-gallery__item--tall" style="--photo: url('assets/Alabanza-Galeria1.jpg')" data-src="assets/adoracion1.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item" style="--photo: url('assets/Alabanza-Galeria8.jpg')" data-src="assets/Alabanza-Galeria8.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item" style="--photo: url('assets/Alabanza-Galeria5.jpeg')" data-src="assets/Alabanza-Galeria3.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item worship-gallery__item--wide" style="--photo: url('assets/Alabanza-Galeria4.jpg')" data-src="assets/Alabanza-Galeria4.jpg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item" style="--photo: url('assets/Alabanza-Galeria3.jpg')" data-src="assets/Alabanza-Galeria5.jpeg" role="button" tabindex="0"></div>
+          <div class="worship-gallery__item" style="--photo: url('assets/Alabanza-Galeria6.jpeg')" data-src="assets/Alabanza-Galeria6.jpeg" role="button" tabindex="0"></div>
+        </div>
+      </section>
+
+      <!-- CTA volver -->
+      <section class="worship-cta">
+        <p>¿Quieres ser parte del equipo?</p>
+        <div class="worship-cta__actions">
+          <a class="btn" href="index.html#contacto">Contáctanos</a>
+          <a class="btn btn--outline" href="index.html#ministerios">Volver a Ministerios</a>
+        </div>
+      </section>
     </main>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" aria-hidden="true">
+      <button class="lightbox__close" aria-label="Cerrar">&times;</button>
+      <button class="lightbox__prev" aria-label="Anterior">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="lightbox__next" aria-label="Siguiente">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+      </button>
+      <img class="lightbox__img" src="" alt="Imagen ampliada" />
+      <span class="lightbox__counter"></span>
+    </div>
 
     <footer class="footer">
       <div class="footer__top">

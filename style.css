@@ -2597,3 +2597,497 @@ main {
     font-size: 1rem;
   }
 }
+
+/* ═══════════════════════════════════════════════
+   ALABANZA — Worship Page Redesign
+   ═══════════════════════════════════════════════ */
+
+/* Hero */
+.worship-hero {
+  position: relative;
+  min-height: 75vh;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+  overflow: hidden;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+.worship-hero__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 30%;
+  transition: transform 8s ease;
+}
+
+.worship-hero:hover .worship-hero__bg {
+  transform: scale(1.04);
+}
+
+.worship-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(8, 48, 63, 0.15) 0%,
+    rgba(8, 48, 63, 0.45) 50%,
+    rgba(8, 48, 63, 0.88) 100%
+  );
+}
+
+.worship-hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  padding: 48px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.worship-hero__tag {
+  display: inline-block;
+  width: fit-content;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: rgba(20, 184, 166, 0.22);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(20, 184, 166, 0.35);
+  color: #b2f5ea;
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.worship-hero__title {
+  font-size: clamp(2.2rem, 5.5vw, 3.6rem);
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.08;
+  margin: 0;
+}
+
+.worship-hero__subtitle {
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  color: rgba(255, 255, 255, 0.82);
+  line-height: 1.65;
+  max-width: 520px;
+  margin: 0;
+}
+
+.worship-hero__content .btn {
+  align-self: flex-start;
+}
+
+/* Info Section */
+.worship-info {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 48px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.worship-info__intro {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.worship-info__intro h2 {
+  font-size: clamp(1.6rem, 3.2vw, 2.2rem);
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.worship-info__intro p {
+  font-size: 1.05rem;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* Feature Cards */
+.worship-features {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.worship-feature {
+  position: relative;
+  padding: 32px 24px;
+  border-radius: var(--radius);
+  background: var(--card);
+  border: 1px solid rgba(14, 163, 154, 0.12);
+  box-shadow: 0 10px 30px rgba(5, 34, 56, 0.08);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.worship-feature::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.06) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.worship-feature:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 44px rgba(5, 34, 56, 0.14);
+}
+
+.worship-feature:hover::before {
+  opacity: 1;
+}
+
+.worship-feature__icon {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 18px;
+  display: grid;
+  place-items: center;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.16), rgba(20, 184, 166, 0.06));
+  color: var(--accent-dark);
+}
+
+.worship-feature__icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.worship-feature h3 {
+  font-size: 1.12rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.worship-feature p {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Gallery Section */
+.worship-gallery {
+  padding: 24px 24px 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.worship-gallery__header {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.worship-gallery__header h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  margin: 0;
+}
+
+.worship-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 200px;
+  gap: 14px;
+}
+
+.worship-gallery__item {
+  border-radius: 18px;
+  overflow: hidden;
+  background-image: var(--photo);
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  position: relative;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.worship-gallery__item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(8, 48, 63, 0.4) 100%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.worship-gallery__item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 18px 40px rgba(5, 34, 56, 0.22);
+  z-index: 1;
+}
+
+.worship-gallery__item:hover::after {
+  opacity: 1;
+}
+
+.worship-gallery__item--tall {
+  grid-row: span 2;
+}
+
+.worship-gallery__item--wide {
+  grid-column: span 2;
+}
+
+/* CTA */
+.worship-cta {
+  text-align: center;
+  padding: 48px 24px 56px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.worship-cta p {
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.worship-cta__actions {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── Alabanza Responsive ── */
+
+@media (max-width: 768px) {
+  .worship-hero {
+    min-height: 60vh;
+  }
+
+  .worship-hero__content {
+    padding: 32px 20px;
+  }
+
+  .worship-features {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .worship-feature {
+    padding: 24px 20px;
+    text-align: left;
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 16px;
+    row-gap: 2px;
+    align-items: center;
+  }
+
+  .worship-feature__icon {
+    margin: 0;
+    width: 52px;
+    height: 52px;
+    grid-row: span 2;
+  }
+
+  .worship-feature h3 {
+    margin: 0;
+    align-self: end;
+  }
+
+  .worship-feature p {
+    align-self: start;
+  }
+
+  .worship-gallery__grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 170px;
+    gap: 10px;
+  }
+
+  .worship-gallery__item--tall {
+    grid-row: span 2;
+  }
+
+  .worship-gallery__item--wide {
+    grid-column: span 1;
+  }
+
+  .worship-info {
+    padding: 36px 16px;
+    gap: 30px;
+  }
+
+  .worship-gallery {
+    padding: 16px 16px 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .worship-hero {
+    min-height: 55vh;
+    border-radius: 0;
+  }
+
+  .worship-hero__content {
+    padding: 24px 16px;
+    gap: 12px;
+  }
+
+  .worship-hero__tag {
+    font-size: 0.7rem;
+    padding: 6px 14px;
+  }
+
+  .worship-gallery__grid {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 140px;
+  }
+
+  .worship-gallery__item--tall {
+    grid-row: span 1;
+  }
+
+  .worship-cta {
+    padding: 36px 16px 44px;
+  }
+
+  .worship-cta p {
+    font-size: 1.15rem;
+  }
+}
+
+/* ── Lightbox ── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(5, 20, 30, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.lightbox[aria-hidden="false"] {
+  opacity: 1;
+  visibility: visible;
+}
+
+.lightbox__img {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 12px;
+  object-fit: contain;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  transform: scale(0.92);
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.35s ease;
+}
+
+.lightbox[aria-hidden="false"] .lightbox__img {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 1.8rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+  line-height: 1;
+}
+
+.lightbox__close:hover {
+  background: rgba(255, 255, 255, 0.22);
+  transform: scale(1.08);
+}
+
+.lightbox__prev,
+.lightbox__next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: white;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.lightbox__prev { left: 18px; }
+.lightbox__next { right: 18px; }
+
+.lightbox__prev:hover,
+.lightbox__next:hover {
+  background: rgba(255, 255, 255, 0.22);
+  transform: translateY(-50%) scale(1.08);
+}
+
+.lightbox__prev svg,
+.lightbox__next svg {
+  width: 22px;
+  height: 22px;
+}
+
+.lightbox__counter {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+@media (max-width: 600px) {
+  .lightbox__img {
+    max-width: 96vw;
+    max-height: 75vh;
+    border-radius: 8px;
+  }
+
+  .lightbox__prev,
+  .lightbox__next {
+    width: 40px;
+    height: 40px;
+  }
+
+  .lightbox__prev { left: 8px; }
+  .lightbox__next { right: 8px; }
+
+  .lightbox__close {
+    top: 10px;
+    right: 12px;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+  }
+}

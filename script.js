@@ -1827,3 +1827,52 @@ primeVideoEarly();
 
 // Reintentos frecuentes: cada 5 minutos refresca el video
 setInterval(updateLatestVideo, 300000);
+
+/* ═══════════════ Lightbox for worship gallery ═══════════════ */
+(function () {
+  const lightbox = document.getElementById('lightbox');
+  if (!lightbox) return;
+
+  const img = lightbox.querySelector('.lightbox__img');
+  const counter = lightbox.querySelector('.lightbox__counter');
+  const closeBtn = lightbox.querySelector('.lightbox__close');
+  const prevBtn = lightbox.querySelector('.lightbox__prev');
+  const nextBtn = lightbox.querySelector('.lightbox__next');
+  const items = Array.from(document.querySelectorAll('.worship-gallery__item[data-src]'));
+  let current = 0;
+
+  function show(index) {
+    current = (index + items.length) % items.length;
+    img.src = items[current].dataset.src;
+    counter.textContent = (current + 1) + ' / ' + items.length;
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function hide() {
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  items.forEach(function (item, i) {
+    item.addEventListener('click', function () { show(i); });
+    item.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(i); }
+    });
+  });
+
+  closeBtn.addEventListener('click', hide);
+  prevBtn.addEventListener('click', function () { show(current - 1); });
+  nextBtn.addEventListener('click', function () { show(current + 1); });
+
+  lightbox.addEventListener('click', function (e) {
+    if (e.target === lightbox) hide();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (lightbox.getAttribute('aria-hidden') !== 'false') return;
+    if (e.key === 'Escape') hide();
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+  });
+})();
