@@ -1666,7 +1666,7 @@ if (calendarDaysElement) {
 
 function initScrollReveal() {
   const candidates = document.querySelectorAll(
-    'section, .hero, .card, .gallery__item, .evento-card, .visit, .footer__col'
+    'section, .hero, .card, .gallery__item, .evento-card, .visit, .footer__col, .reveal'
   );
 
   if (!candidates.length) return;
@@ -1692,9 +1692,10 @@ function initScrollReveal() {
   );
 
   candidates.forEach((el, index) => {
-    el.classList.add('reveal');
-    // Pequeño retraso escalonado para que la animación se sienta más fluida
-    el.style.setProperty('--reveal-delay', `${index * 40}ms`);
+    if (!el.classList.contains('reveal')) {
+      el.classList.add('reveal');
+      el.style.setProperty('--reveal-delay', `${index * 40}ms`);
+    }
     observer.observe(el);
   });
 }

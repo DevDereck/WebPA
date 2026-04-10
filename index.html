@@ -55,36 +55,58 @@
         id="inicio"
         class="hero"
       >
-        <div class="hero__badge">
-          <p class="overline" data-i18n="hero.badge.nextServiceLabel">Próximo servicio</p>
-          <h3 id="nextService">Cargando...</h3>
-          <p class="muted" data-i18n="hero.badge.location">Primer Piso Ferretería Rugama, Mercedes Norte, Heredia, CR</p>
-        </div>
         <div class="hero__content">
-          <p class="hero__welcome">Bienvenido a</p>
-          <h1>Iglesia Cristiana <br>Piedra Angular</h1>
-          <p class="lead" data-i18n="hero.lead">
+          <p class="hero__welcome hero-fade" style="--fade-order: 0">Bienvenido a</p>
+          <h1 class="hero-fade" style="--fade-order: 1">Iglesia Cristiana <br>Piedra Angular</h1>
+          <p class="lead hero-fade" style="--fade-order: 2" data-i18n="hero.lead">
             «Porque de él, y por él, y para él, son todas las cosas. ¡A él sea la gloria por los siglos!» — Romanos 11:36
           </p>
+          <div class="hero__actions hero-fade" style="--fade-order: 3">
+            <a class="btn btn--hero-primary" href="#ubicacion">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Visítanos
+            </a>
+            <a class="btn btn--hero-secondary" href="#sobre">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Próximo servicio
+            </a>
+          </div>
+        </div>
+        <div class="hero__scroll-hint" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
         </div>
       </section>
 
       <section id="sobre" class="section">
         <div class="section__header">
           <p class="eyebrow" data-i18n="sobre.eyebrow">Quiénes somos</p>
-          <h2 data-i18n="sobre.title">Somos Iglesia y aunque no sea perfecta somos la familia de Dios</h2>
+          <h2 data-i18n="sobre.title">Somos Iglesia y aunque no sea perfecta somos <span class="text-accent">la familia de Dios</span></h2>
           <p class="lead" data-i18n="sobre.lead">
             Creamos espacios para encontrarnos con Jesús, crecer en Su Palabra y servir con creatividad y excelencia en cada etapa.
           </p>
         </div>
 
-        <div class="grid grid--3">
-          <article class="card about-card">
+        <div class="grid grid--about">
+          <article class="card about-card about-card--service reveal" style="--reveal-delay: 0s">
+            <div class="about-card__icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            </div>
+            <p class="overline">Próximo servicio</p>
+            <h3 id="nextService">Cargando...</h3>
+            <p class="muted" data-i18n="hero.badge.location">Primer Piso Ferretería Rugama, Mercedes Norte, Heredia, CR</p>
+          </article>
+
+          <article class="card about-card reveal" style="--reveal-delay: 0.08s">
+            <div class="about-card__icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/></svg>
+            </div>
             <h3>Nuestra misión</h3>
             <p>
               Alcanzar y transformar vidas a la imagen de Cristo mediante la enseñanza de la Palabra de Dios.
             </p>
-            <ul class="list">
+            <ul class="about-list">
               <li>Fidelidad a la Palabra.</li>
               <li>Hacedores de la Palabra de Dios.</li>
               <li>Excelencia en la adoración y el servicio.</li>
@@ -92,10 +114,13 @@
             </ul>
           </article>
 
-          <article class="card about-card">
+          <article class="card about-card reveal" style="--reveal-delay: 0.16s">
+            <div class="about-card__icon about-card__icon--cross">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V2"/><path d="M4 8h16"/></svg>
+            </div>
             <h3>Lo que creemos</h3>
             <p>
-              Biblia, oración, comunidad, discipulado, solo Cristo.
+              Nuestra fe se fundamenta en la Biblia como Palabra de Dios, la oración constante y la vida en comunidad.
             </p>
             <div class="tags">
               <span>Misiones</span>
@@ -107,10 +132,9 @@
               <span>Fidelidad</span>
               <span>Biblia</span>
             </div>
-
           </article>
 
-          <article class="about__strip about-card" style="--strip-img: url('assets/qs1.jpg')">
+          <article class="about__strip about-card reveal" style="--strip-img: url('assets/qs1.jpg'); --reveal-delay: 0.24s">
             <div class="about__overlay">
               <p class="eyebrow">Momentos</p>
               <h3>Historias de fe y comunidad</h3>
@@ -126,7 +150,7 @@
       <section id="ministerios" class="section section--alt">
         <div class="section__header">
           <p class="eyebrow" data-i18n="ministerios.eyebrow">Vida de la iglesia</p>
-          <h2 data-i18n="ministerios.title">Ministerios para cada paso de fe</h2>
+          <h2 data-i18n="ministerios.title">Ministerios para cada <span class="text-accent">paso de fe</span></h2>
           <p class="lead" data-i18n="ministerios.lead">
             Conecta con tu llamado: alabanza, discipulado, jóvenes, misiones y
             más.
@@ -135,78 +159,81 @@
         <div class="grid grid--3">
           <article
             class="card ministry"
-            data-ministry="Alabanza"
-            data-horario="Jueves · 7:00 PM"
-            data-contacto="alabanza@piedraangular.org"
             style="--ministry-img: url('assets/adoracion1.jpg')"
           >
             <div class="badge">Alabanza</div>
             <h3>Adoración</h3>
             <p>Honrar y exaltar el nombre de Jesús.</p>
-            <a class="btn btn--text" href="alabanza.html">Ver detalles</a>
+            <span class="ministry__schedule">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Jueves · 7:00 p.m.
+            </span>
+            <a class="btn btn--text" href="alabanza.html">Conocer más</a>
           </article>
           <article
             class="card ministry"
-            data-ministry="PETRA"
-            data-horario="Sábados · 4:30 PM"
-            data-contacto="juventud@piedraangular.org"
             style="--ministry-img: url('assets/petra6.jpg')"
           >
             <div class="badge">Jóvenes</div>
             <h3>PETRA</h3>
-            <p>
-              Encuentros creativos que impulsan la fe y liderazgo de los
-              jóvenes.
-            </p>
-            <a class="btn btn--text" href="petra.html">Ver detalles</a>
+            <p>Encuentros creativos que impulsan la fe y liderazgo de los jóvenes.</p>
+            <span class="ministry__schedule">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Sábados · 4:30 p.m.
+            </span>
+            <a class="btn btn--text" href="petra.html">Conocer más</a>
           </article>
           <article
             class="card ministry"
-            data-ministry="Niños"
-            data-horario="Domingo · 9:30 AM"
-            data-contacto="ninos@piedraangular.org"
             style="--ministry-img: url('assets/rockids2.jpg')"
           >
             <div class="badge">Niños</div>
             <h3>RocKids</h3>
             <p>Ambientes seguros y divertidos para descubrir a Jesús.</p>
-            <a class="btn btn--text" href="rockids.html">Ver detalles</a>
+            <span class="ministry__schedule">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Domingo · 9:30 a.m.
+            </span>
+            <a class="btn btn--text" href="rockids.html">Conocer más</a>
           </article>
           <article
             class="card ministry"
-            data-ministry="Discipulado"
-            data-horario="Jueves · 7:00 PM"
-            data-contacto="discipulado@piedraangular.org"
             style="--ministry-img: url('assets/hero.jpg')"
           >
             <div class="badge">Discipulado</div>
             <h3>Discipulado</h3>
             <p>Formación, consejería y espacios para nuevos en la fe.</p>
-            <a class="btn btn--text" href="discipulado.html">Ver detalles</a>
+            <span class="ministry__schedule">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Jueves · 7:00 p.m.
+            </span>
+            <a class="btn btn--text" href="discipulado.html">Conocer más</a>
           </article>
           <article
             class="card ministry"
-            data-ministry="Misiones"
-            data-horario="Sábados· 10:30 AM"
-            data-contacto="misiones@piedraangular.org"
             style="--ministry-img: url('assets/evangelismo2.jpg')"
           >
             <div class="badge">Misiones</div>
             <h3>Misiones</h3>
             <p>Proyectos locales y globales para llevar la Palabra de Dios.</p>
-            <a class="btn btn--text" href="misiones.html">Ver detalles</a>
+            <span class="ministry__schedule">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Sábados · 10:30 a.m.
+            </span>
+            <a class="btn btn--text" href="misiones.html">Conocer más</a>
           </article>
           <article
             class="card ministry"
-            data-ministry="Damas"
-            data-horario="Viernes · 7:00 PM"
-            data-contacto="Damas@piedraangular.org"
             style="--ministry-img: url('assets/piedraspreciosas1.jpg')"
           >
             <div class="badge">Damas</div>
             <h3>Piedras Preciosas</h3>
             <p>Reunión de mujeres adultas, compartir y aprendizaje juntas.</p>
-            <a class="btn btn--text" href="piedras-preciosas.html">Ver detalles</a>
+            <span class="ministry__schedule">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Viernes · 7:00 p.m.
+            </span>
+            <a class="btn btn--text" href="piedras-preciosas.html">Conocer más</a>
           </article>
         </div>
       </section>
@@ -214,7 +241,7 @@
       <section id="galeria" class="section">
         <div class="section__header">
           <p class="eyebrow" data-i18n="galeria.eyebrow">Momentos</p>
-          <h2 data-i18n="galeria.title">Nuestra vida en comunidad</h2>
+          <h2 data-i18n="galeria.title">Nuestra vida <span class="text-accent">en comunidad</span></h2>
           <p class="lead" data-i18n="galeria.lead">
             Cada encuentro es una oportunidad para crecer, servir y celebrar juntos.
           </p>
