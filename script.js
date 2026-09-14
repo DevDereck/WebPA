@@ -1422,7 +1422,6 @@ const eventsData = {
   '2026-09-20': { title: 'Ensayo Coro', time: '12:00PM', description: 'Ensayo de coro' },
   '2026-09-23': { title: 'Discipulado', time: '7:00PM', description: 'Reunión de discipulado' },
   '2026-09-24': { title: 'Música', time: '7:00PM', description: 'Ensayo de música' },
-  '2026-09-24-extra': { title: 'Matrimonios', time: 'Por definir', description: 'Reunión del ministerio de matrimonios' },
   '2026-09-26': { title: 'PETRA y Danza', time: 'PETRA: 4:30PM - Danza: 1:30PM', description: 'Reunión de jóvenes PETRA y ensayo de danza' },
   '2026-09-27': { title: 'Evangelismo', time: '5:00PM', description:'Evangelismo' },
   '2026-09-30': { title: 'Discipulado', time: '7:00PM', description: 'Reunión de discipulado' },
@@ -1486,16 +1485,51 @@ const eventsData = {
 
 };
 
-// Devuelve el evento para una fecha concreta
-// Solo usa los eventos definidos manualmente en eventsData
-function getEventForDate(year, monthZeroBased, day) {
-  const dateStr = `${year}-${String(monthZeroBased + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+// Horarios oficiales para que la vista y la descarga mantengan la misma información.
+Object.entries(eventsData).forEach(([dateStr, eventData]) => {
+  const title = eventData.title;
 
-  if (eventsData[dateStr]) {
-    return { dateStr, ...eventsData[dateStr] };
+  if (title === 'PETRA y Danza') {
+    delete eventsData[dateStr];
+    eventsData[`${dateStr}-petra`] = {
+      title: 'PETRA',
+      time: '4:30PM - 7:00PM',
+      description: 'Reunión de jóvenes PETRA'
+    };
+    eventsData[`${dateStr}-danza`] = {
+      title: 'Danza',
+      time: '1:30PM - 2:30PM',
+      description: 'Ensayo de danza'
+    };
+    return;
   }
 
-  return null;
+  if (title === 'PETRA') eventData.time = '4:30PM - 7:00PM';
+  if (title === 'Danza') eventData.time = '1:30PM - 2:30PM';
+  if (title === 'Música' || title === 'Música y Visitación') eventData.time = '7:00PM - 9:00PM';
+  if (title === 'Oración') eventData.time = '7:00PM - 8:00PM';
+  if (title === 'Discipulado') eventData.time = '7:00PM - 8:00PM';
+  if (title === 'Oración y Visitación') eventData.time = '7:00PM - 9:00PM';
+  if (title === 'Piedras Preciosas') eventData.time = '6:30PM - 9:00PM';
+  if (title === 'Instituto') eventData.time = '8:00AM - 3:00PM';
+  if (/Ensayo Coro|Ensayo Teatro Negro/.test(title)) eventData.time = '12:00PM - 1:00PM';
+  if (title === 'Evangelismo') eventData.time = '5:00PM - 7:00PM';
+  if (title === 'Culto de Acción de Gracias') eventData.time = '5:00PM - 7:00PM';
+  if (/Núcleo|Florece|Paseo Familiar|Tarde Navideña/.test(title)) eventData.time = 'Todo el día';
+});
+
+// Devuelve el evento para una fecha concreta
+// Solo usa los eventos definidos manualmente en eventsData
+function getEventsForDate(year, monthZeroBased, day) {
+  const datePrefix = `${year}-${String(monthZeroBased + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+  return Object.entries(eventsData)
+    .filter(([dateStr]) => dateStr === datePrefix || dateStr.startsWith(`${datePrefix}-`))
+    .map(([dateStr, eventData]) => ({ dateStr: datePrefix, ...eventData }));
+}
+
+function getEventForDate(year, monthZeroBased, day) {
+  return getEventsForDate(year, monthZeroBased, day)[0] || null;
 }
 
 let currentCalendarDate = new Date();
@@ -1508,7 +1542,10 @@ const modalClose = document.querySelector('.modal__close');
 function parseEventTimes(timeText) {
   if (!timeText || /por definir/i.test(timeText)) return [];
 
-  return [...timeText.matchAll(/(\d{1,2}):(\d{2})\s*(AM|PM)/gi)].map((match) => {
+  const matches = [...timeText.matchAll(/(\d{1,2}):(\d{2})\s*(AM|PM)/gi)];
+  if (!matches.length) return [];
+
+  const times = matches.map((match) => {
     let hours = parseInt(match[1], 10);
     const minutes = parseInt(match[2], 10);
     const suffix = match[3].toUpperCase();
@@ -1518,6 +1555,23 @@ function parseEventTimes(timeText) {
 
     return { hours, minutes };
   });
+
+  const hasLabeledActivities = /(?:EBV|PETRA|Danza|Culto Navideño|Posadas|Discipulado|Oración):/i.test(timeText);
+  return hasLabeledActivities ? times : [times[0]];
+}
+
+function getEventDurationMinutes(eventData) {
+  const title = eventData.title;
+  if (/Núcleo|Florece|Paseo Familiar|Tarde Navideña/.test(title)) return null;
+  if (title === 'PETRA') return 150;
+  if (title === 'Danza' || /Ensayo Coro|Ensayo Teatro Negro/.test(title)) return 60;
+  if (title === 'Oración' || title === 'Discipulado') return 60;
+  if (title === 'Música' || title === 'Música y Visitación') return 120;
+  if (title === 'Oración y Visitación') return 120;
+  if (title === 'Piedras Preciosas') return 150;
+  if (title === 'Instituto') return 420;
+  if (title === 'Evangelismo' || title === 'Culto de Acción de Gracias') return 120;
+  return 60;
 }
 
 function formatCalendarDate(date) {
@@ -1540,8 +1594,9 @@ function escapeIcsText(text) {
 function buildIcsEvents(dateStr, eventData) {
   const [year, month, day] = dateStr.split('-').map((n) => parseInt(n, 10));
   const times = parseEventTimes(eventData.time);
+  const durationMinutes = getEventDurationMinutes(eventData);
 
-  if (!times.length) {
+  if (!times.length || durationMinutes === null) {
     const nextDay = new Date(year, month - 1, day + 1);
     return [[
       'BEGIN:VEVENT',
@@ -1557,7 +1612,7 @@ function buildIcsEvents(dateStr, eventData) {
 
   return times.map((time, index) => {
     const start = new Date(year, month - 1, day, time.hours, time.minutes);
-    const end = new Date(start.getTime() + 60 * 60 * 1000);
+    const end = new Date(start.getTime() + durationMinutes * 60 * 1000);
     return [
       'BEGIN:VEVENT',
       `UID:${dateStr}-${encodeURIComponent(eventData.title)}-${index}@piedraangular`,
