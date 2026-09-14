@@ -107,14 +107,12 @@ foreach ($inspect as $entry) {
     $firstLive = ['entry' => $entry, 'flags' => $flags];
     continue;
   }
-  if (!$flags['isLive']) {
-    send_json(array_merge(['channelId' => $channelId, 'source' => 'finished'], $entry), 200);
-  }
 }
 
 if ($firstLive) {
   send_json(array_merge(['channelId' => $channelId, 'source' => 'live'], $firstLive['entry']), 200);
 }
 
+// Si no hay live activo, devolvemos el stream/archivo más reciente del canal.
 $fallback = $entries[0];
-send_json(array_merge(['channelId' => $channelId, 'source' => 'upcoming-fallback'], $fallback), 200);
+send_json(array_merge(['channelId' => $channelId, 'source' => 'latest-stream'], $fallback), 200);

@@ -1821,9 +1821,7 @@ async function updateLatestVideo() {
     return true;
   };
 
-  const fallbackToLive = () => setVideo(YT_LIVE_EMBED);
-
-  // Usa el último video válido mientras intenta actualizar
+  // Usa el último video/stream válido mientras intenta actualizar
   if (lastVideoCache.id && Date.now() - lastVideoCache.ts < 10 * 60 * 1000) {
     setVideo(lastVideoCache.id);
   }
@@ -1878,8 +1876,11 @@ async function updateLatestVideo() {
     // Si todo falla, queda el caché previo si existía
   }
 
-  // Fallback garantizado al stream del canal si nada funcionó
-  fallbackToLive();
+  // Si nada responde, no forzamos un live stream inexistente.
+  // Dejamos el último video/stream cargado en caché si existe.
+  if (lastVideoCache.id && Date.now() - lastVideoCache.ts < 10 * 60 * 1000) {
+    setVideo(lastVideoCache.id);
+  }
 }
 
 function onDomReady() {
