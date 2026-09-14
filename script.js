@@ -1524,11 +1524,12 @@ function parseEventTime(timeText) {
 }
 
 function formatCalendarDate(date) {
-  return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
+  const pad = (value) => String(value).padStart(2, '0');
+  return `${date.getFullYear()}${pad(date.getMonth() + 1)}${pad(date.getDate())}T${pad(date.getHours())}${pad(date.getMinutes())}${pad(date.getSeconds())}`;
 }
 
 function formatIcsDate(date) {
-  return formatCalendarDate(date).replace('Z', '');
+  return formatCalendarDate(date);
 }
 
 function escapeIcsText(text) {
