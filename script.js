@@ -930,7 +930,7 @@ async function initControl() {
   if (logoutBtn) {
     logoutBtn.addEventListener('click', () => {
       setLoggedIn(null);
-      window.location.href = 'admin.html';
+window.location.href = 'admin.html';
     });
   }
 }
@@ -1934,12 +1934,30 @@ setInterval(updateLatestVideo, 300000);
   const closeBtn = lightbox.querySelector('.lightbox__close');
   const prevBtn = lightbox.querySelector('.lightbox__prev');
   const nextBtn = lightbox.querySelector('.lightbox__next');
-  const items = Array.from(document.querySelectorAll('.worship-gallery__item[data-src], .missions-gallery-strip img[data-src]'));
+  // Capturar la URL de cada imagen al cargar. NO usar dataset.src después:
+  // el lazy-loader borra data-src cuando la imagen entra en pantalla y eso
+  // rompía la imagen del lightbox (src quedaba en undefined).
+  const items = Array.from(
+    document.querySelectorAll('.worship-gallery__item[data-src], .missions-gallery-strip img')
+  )
+    .map(function (el) {
+      const src = el.hasAttribute('data-src')
+        ? el.getAttribute('data-src')
+        : el.getAttribute('src') || el.currentSrc || '';
+      return {
+        el: el,
+        src: src,
+        alt: el.getAttribute('alt') || 'Imagen ampliada'
+      };
+    })
+    .filter(function (item) { return item.src; });
   let current = 0;
 
   function show(index) {
+    if (!items.length) return;
     current = (index + items.length) % items.length;
-    img.src = items[current].dataset.src;
+    img.src = items[current].src;
+    img.alt = items[current].alt;
     counter.textContent = (current + 1) + ' / ' + items.length;
     lightbox.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -1951,8 +1969,8 @@ setInterval(updateLatestVideo, 300000);
   }
 
   items.forEach(function (item, i) {
-    item.addEventListener('click', function () { show(i); });
-    item.addEventListener('keydown', function (e) {
+    item.el.addEventListener('click', function () { show(i); });
+    item.el.addEventListener('keydown', function (e) {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(i); }
     });
   });

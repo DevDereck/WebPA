@@ -446,9 +446,9 @@ main {
   gap: 0;
   padding: 100px 42px 60px;
   min-height: 92vh;
-  background: url('assets/General.jpg');
+  background: url('assets/hero4.jpg');
   background-size: cover;
-  background-position: center;
+  background-position: center 60%;
   background-attachment: fixed;
   border-radius: 0;
   margin: -24px -24px 0;
@@ -458,24 +458,23 @@ main {
   text-align: center;
 }
 
-/* Overlay cinematográfico multicapa */
+/* Overlay cinematográfico multicapa profundo */
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(175deg, rgba(5, 34, 56, 0.72) 0%, rgba(5, 34, 56, 0.35) 40%, rgba(11, 138, 134, 0.45) 100%),
-    radial-gradient(ellipse at 20% 80%, rgba(5, 34, 56, 0.5), transparent 60%),
-    radial-gradient(ellipse at 80% 20%, rgba(20, 184, 166, 0.18), transparent 50%);
+    linear-gradient(180deg, rgba(2, 8, 14, 0.85) 0%, rgba(2, 8, 14, 0.5) 50%, rgba(2, 8, 14, 0.95) 100%),
+    radial-gradient(ellipse at 20% 80%, rgba(8, 183, 170, 0.15), transparent 60%);
   pointer-events: none;
 }
 
-/* Vignette sutil */
+/* Vignette oscuro dramático */
 .hero::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 50%, rgba(5, 34, 56, 0.4) 100%);
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.85) 100%);
   pointer-events: none;
 }
 
@@ -524,44 +523,39 @@ main {
 }
 
 .hero__welcome {
-  color: var(--accent);
-  font-size: clamp(1rem, 1.8vw, 1.2rem);
-  font-weight: 700;
-  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: clamp(0.85rem, 1.5vw, 1.05rem);
+  font-weight: 500;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  margin: 0 0 4px;
-  text-shadow: 0 1px 10px rgba(5, 34, 56, 0.3);
+  margin: 0 0 16px;
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
 }
 
 .hero h1 {
-  font-size: clamp(2.4rem, 5.5vw, 3.8rem);
-  line-height: 1.1;
+  font-size: clamp(2.8rem, 6.5vw, 4.8rem);
+  line-height: 1.05;
   color: #ffffff;
-  text-shadow: 0 3px 20px rgba(5, 34, 56, 0.45);
+  text-shadow: 0 5px 30px rgba(0, 0, 0, 0.6);
   margin: 0;
-  font-weight: 900;
-  letter-spacing: -0.01em;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .hero .lead {
-  color: rgba(255, 255, 255, 0.82);
-  text-shadow: 0 1px 10px rgba(5, 34, 56, 0.3);
-  max-width: 520px;
-  margin: 8px 0 0;
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 2px 15px rgba(0, 0, 0, 0.5);
+  max-width: 600px;
+  margin: 24px 0 0;
   font-style: italic;
-  font-size: 1.08rem;
-  line-height: 1.65;
+  font-size: 1.15rem;
+  line-height: 1.6;
   position: relative;
+  font-weight: 300;
 }
 
 .hero .lead::before {
-  content: '';
-  display: block;
-  width: 50px;
-  height: 3px;
-  background: var(--accent);
-  border-radius: 3px;
-  margin: 0 auto 14px;
+  display: none;
 }
 
 .hero__actions {
@@ -575,98 +569,63 @@ main {
 /* ── Hero primary CTA ── */
 .hero__actions .btn--hero-primary,
 .hero__actions .btn--hero-primary:visited {
-  padding: 17px 40px;
-  font-size: 1.06rem;
-  font-weight: 800;
-  letter-spacing: 0.03em;
-  border-radius: 999px;
-  background: linear-gradient(135deg, #08b7aa 0%, #0ec5b5 40%, #18dbc9 100%);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow:
-    0 2px 8px rgba(8, 183, 170, 0.35),
-    0 10px 32px rgba(8, 183, 170, 0.22),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.3s ease;
+  padding: 16px 36px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #02080e;
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-}
-
-/* Shimmer sweep */
-.hero__actions .btn--hero-primary::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    105deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.25) 50%,
-    transparent 70%
-  );
-  transition: left 0.5s ease;
+  text-shadow: none;
 }
 
 .hero__actions .btn--hero-primary:hover {
-  transform: translateY(-3px) scale(1.04);
-  box-shadow:
-    0 4px 14px rgba(8, 183, 170, 0.45),
-    0 14px 40px rgba(8, 183, 170, 0.28),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
-}
-
-.hero__actions .btn--hero-primary:hover::before {
-  left: 100%;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  background: #f4f4f4;
 }
 
 .hero__actions .btn--hero-primary:active {
-  transform: translateY(-1px) scale(1.01);
-  box-shadow:
-    0 2px 8px rgba(8, 183, 170, 0.35),
-    0 6px 20px rgba(8, 183, 170, 0.18);
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hero__actions .btn--hero-primary::before {
+  display: none;
 }
 
 /* ── Hero secondary CTA ── */
 .hero__actions .btn--hero-secondary,
 .hero__actions .btn--hero-secondary:visited {
-  padding: 17px 40px;
-  font-size: 1.06rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.06);
+  padding: 16px 36px;
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  border-radius: 8px;
+  background: transparent;
   color: #fff;
-  border: 1.5px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow:
-    0 6px 20px rgba(5, 34, 56, 0.1),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.3s ease,
-              background 0.3s ease,
-              border-color 0.3s ease;
-  position: relative;
-  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
 }
 
 .hero__actions .btn--hero-secondary:hover {
-  transform: translateY(-3px) scale(1.04);
-  background: rgba(255, 255, 255, 0.14);
-  border-color: rgba(255, 255, 255, 0.55);
-  box-shadow:
-    0 8px 28px rgba(5, 34, 56, 0.16),
-    0 0 20px rgba(20, 184, 166, 0.12);
+  transform: translateY(-3px);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
 }
 
 .hero__actions .btn--hero-secondary:active {
-  transform: translateY(-1px) scale(1.01);
-  background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 4px 14px rgba(5, 34, 56, 0.12);
+  transform: translateY(0);
+  background: transparent;
+  box-shadow: none;
 }
 
 /* Iconos en los botones hero */
@@ -2224,6 +2183,7 @@ main {
     width: calc(100% + 32px);
     min-height: 85vh;
     background-attachment: scroll;
+    background-position: center 90% !important;
   }
 
   .hero h1 {
@@ -2360,6 +2320,7 @@ main {
     width: calc(100% + 24px);
     min-height: 80vh;
     background-attachment: scroll;
+    background-position: center 80% !important;
   }
 
   .hero h1 {
@@ -2379,6 +2340,7 @@ main {
     font-size: 0.95rem;
     width: 100%;
     max-width: 260px;
+    box-shadow: none !important;
   }
 
   .hero__meta {
@@ -3694,7 +3656,7 @@ main {
 }
 
 /* ══════════════════════════════════════════════════════
-   MISIONES  –  Diseño único 3 secciones
+   MISIONES
    ══════════════════════════════════════════════════════ */
 
 /* ── Hero ── */
@@ -3759,56 +3721,58 @@ main {
 }
 .missions-pill {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
   padding: 12px 28px;
   border-radius: 50px;
-  background: linear-gradient(135deg, rgba(20,184,166,.2), rgba(94,234,212,.1));
+  background: linear-gradient(135deg, var(--accent), #0d9488);
   color: #fff;
   text-decoration: none;
   font-weight: 700;
   font-size: .9rem;
   letter-spacing: .3px;
-  border: 1px solid rgba(94,234,212,.3);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 4px 20px rgba(0,0,0,.15), inset 0 1px 0 rgba(255,255,255,.1);
+  border: 1px solid rgba(94,234,212,.55);
+  box-shadow: 0 4px 20px rgba(0,0,0,.22), inset 0 1px 0 rgba(255,255,255,.2);
   transition: transform .3s cubic-bezier(.22,1,.36,1), background .3s, border-color .3s, box-shadow .3s;
 }
+.missions-pill svg {
+  width: 16px;
+  height: 16px;
+  color: #fff;
+  transition: color .3s;
+}
+.missions-pill:hover svg {
+  color: #fff;
+}
 .missions-pill:hover {
-  background: linear-gradient(135deg, var(--accent), #0d9488);
-  border-color: var(--accent);
+  background: linear-gradient(135deg, #2dd4bf, #14b8a6);
+  border-color: #5eead4;
   color: #fff;
   transform: translateY(-3px);
-  box-shadow: 0 8px 28px rgba(20,184,166,.35), inset 0 1px 0 rgba(255,255,255,.15);
+  box-shadow: 0 8px 28px rgba(20,184,166,.45), inset 0 1px 0 rgba(255,255,255,.25);
 }
 .missions-pill:active {
   transform: translateY(-1px);
-  box-shadow: 0 4px 16px rgba(20,184,166,.25);
+  box-shadow: 0 4px 16px rgba(20,184,166,.35);
 }
 
 /* ── Secciones ── */
 .missions-section {
-  padding: 6rem 2rem;
-  max-width: 1100px;
+  padding: 3rem 2rem 0;
+  max-width: 1200px;
   margin: 0 auto;
   position: relative;
-}
-.missions-section--alt {
-  background: rgba(20,184,166,.03);
-  max-width: 100%;
-  padding-left: 2rem;
-  padding-right: 2rem;
-}
-.missions-section--alt > * {
-  max-width: 1100px;
-  margin-left: auto;
-  margin-right: auto;
 }
 /* ── Intro (badge + header horizontal) ── */
 .missions-section__intro {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: flex-start;
   gap: 1.5rem;
-  margin-bottom: 3rem;
+  margin: 0 auto 3rem;
+  max-width: 100%;
+  padding-left: clamp(0rem, 1.5vw, 1.25rem);
 }
 .missions-section__badge {
   width: 60px;
@@ -3820,6 +3784,7 @@ main {
   justify-content: center;
   flex-shrink: 0;
   color: #fff;
+  box-shadow: 0 10px 24px rgba(20,184,166,.3), inset 0 1px 0 rgba(255,255,255,.25);
 }
 .missions-section__badge svg {
   width: 28px;
@@ -3827,6 +3792,8 @@ main {
 }
 .missions-section__header {
   text-align: left;
+  flex: 1;
+  max-width: 100%;
 }
 .missions-section__header .eyebrow {
   display: block;
@@ -3841,10 +3808,11 @@ main {
   font-size: clamp(1.6rem, 3.5vw, 2.4rem);
   color: var(--ink);
   margin-bottom: .6rem;
+  max-width: 100%;
 }
 .missions-section__header p {
   color: var(--muted);
-  max-width: 620px;
+  max-width: 1000px;
   font-size: 1.05rem;
   line-height: 1.7;
 }
@@ -3965,13 +3933,13 @@ main {
 
 /* ── World section (missionaries) ── */
 .missions-world {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2.5rem;
+  display: flex;
+  justify-content: center;
   align-items: center;
   margin-bottom: 3rem;
 }
 .missions-world__globe {
+  width: 100%;
   display: flex;
   justify-content: center;
 }
@@ -3980,87 +3948,11 @@ main {
   max-width: 440px;
   aspect-ratio: 1;
   position: relative;
+  margin: 0 auto;
 }
 .globe-container svg {
   width: 100%;
   height: 100%;
-}
-
-/* ── Missionary cards ── */
-.missions-cards {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-}
-.missionary-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  padding: 1.5rem 1.5rem 1.25rem;
-  background: var(--card);
-  border-radius: var(--radius);
-  border: 1px solid rgba(20,184,166,.08);
-  overflow: hidden;
-  transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s;
-}
-.missionary-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(8,48,63,.1);
-}
-.missionary-card__accent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--accent), #0d9488);
-  border-radius: var(--radius) var(--radius) 0 0;
-}
-.missionary-card__location {
-  display: inline-flex;
-  align-items: center;
-  gap: .35rem;
-  font-size: .78rem;
-  font-weight: 600;
-  color: var(--accent);
-  background: rgba(20,184,166,.06);
-  padding: 5px 12px;
-  border-radius: 50px;
-  margin-bottom: .85rem;
-  width: fit-content;
-}
-.missionary-card__location svg {
-  width: 14px;
-  height: 14px;
-}
-.missionary-card__name {
-  font-size: 1.2rem;
-  font-weight: 800;
-  color: var(--ink);
-  margin-bottom: .4rem;
-}
-.missionary-card__desc {
-  color: var(--muted);
-  font-size: .86rem;
-  line-height: 1.6;
-  flex: 1;
-  margin-bottom: 1rem;
-}
-.missionary-card__tag {
-  display: inline-flex;
-  align-items: center;
-  gap: .4rem;
-  font-size: .76rem;
-  color: var(--muted);
-  font-weight: 500;
-  border-top: 1px solid rgba(20,184,166,.08);
-  padding-top: .75rem;
-}
-.missionary-card__tag svg {
-  width: 14px;
-  height: 14px;
-  color: var(--accent);
-  opacity: .7;
 }
 
 /* ── Stats ── */
@@ -4217,38 +4109,49 @@ main {
 .missions-cta__btn {
   display: inline-flex;
   align-items: center;
-  gap: .55rem;
-  padding: 14px 32px;
-  border-radius: 50px;
-  font-weight: 600;
+  justify-content: center;
+  gap: .6rem;
+  min-height: 52px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-weight: 700;
   font-size: .95rem;
+  letter-spacing: .02em;
   text-decoration: none;
-  transition: all .3s;
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease, border-color .2s ease, background .2s ease;
   cursor: pointer;
+  box-shadow: 0 8px 20px rgba(15, 118, 110, 0.18);
+}
+.missions-cta__btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+}
+.missions-cta__btn:focus-visible {
+  outline: 3px solid rgba(94, 234, 212, 0.7);
+  outline-offset: 3px;
 }
 .missions-cta__btn svg {
   width: 18px;
   height: 18px;
 }
 .missions-cta__btn--primary {
-  background: linear-gradient(135deg, var(--accent), #0d9488);
+  background: linear-gradient(135deg, #14b8a6, #0d9488);
   color: #fff;
-  box-shadow: 0 4px 20px rgba(20,184,166,.35);
+  box-shadow: 0 10px 24px rgba(20,184,166,.32);
 }
 .missions-cta__btn--primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(20,184,166,.45);
+  box-shadow: 0 16px 30px rgba(20,184,166,.4);
 }
 .missions-cta__btn--ghost {
-  background: rgba(255,255,255,.06);
-  color: rgba(255,255,255,.85);
-  border: 1px solid rgba(255,255,255,.15);
+  background: rgba(255,255,255,.04);
+  color: #e6f9f7;
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 8px 18px rgba(0,0,0,.12);
 }
 .missions-cta__btn--ghost:hover {
-  background: rgba(255,255,255,.12);
+  background: rgba(255,255,255,.08);
   border-color: rgba(255,255,255,.3);
   color: #fff;
-  transform: translateY(-2px);
 }
 
 /* ── Responsive Misiones ── */
@@ -4261,18 +4164,18 @@ main {
   }
   .missions-section__intro {
     flex-direction: column;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start;
+    text-align: left;
     gap: 1rem;
   }
   .missions-section__header {
-    text-align: center;
+    text-align: left;
   }
   .missions-section__header p {
     font-size: .95rem;
     line-height: 1.65;
     max-width: 520px;
-    margin: 0 auto;
+    margin: 0;
   }
   .missions-section__badge {
     width: 50px;
@@ -4296,13 +4199,10 @@ main {
     height: 260px;
   }
   .missions-world {
-    grid-template-columns: 1fr;
-  }
-  .missions-cards {
-    max-width: 100%;
+    justify-content: flex-start;
   }
   .globe-container {
-    max-width: 340px;
+    max-width: 300px;
   }
   .missions-gallery-strip {
     grid-template-columns: repeat(2, 1fr);
