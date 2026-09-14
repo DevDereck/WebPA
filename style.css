@@ -1414,6 +1414,36 @@ main {
   color: var(--ink);
 }
 
+.eventos-sidebar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.eventos-sidebar__header h3 {
+  margin-bottom: 0;
+}
+
+.eventos-sidebar__download {
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  padding: 9px 13px;
+  background: transparent;
+  color: var(--accent-dark);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.eventos-sidebar__download:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
 .eventos-sidebar__link {
   display: inline-flex;
   margin-top: 16px;
@@ -1584,6 +1614,52 @@ main {
 
 .modal__body p {
   margin: 0 0 8px 0;
+}
+
+.modal__calendar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 18px;
+  padding: 12px 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--accent), #0d9488);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(20,184,166,.22);
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+
+.modal__calendar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.modal__calendar-actions .modal__calendar-btn {
+  margin-top: 0;
+}
+
+.modal__calendar-btn--secondary {
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent-dark);
+  box-shadow: none;
+}
+
+.modal__calendar-btn--secondary:hover {
+  background: rgba(20, 184, 166, 0.1);
+  color: var(--accent-dark);
+  box-shadow: none;
+}
+
+.modal__calendar-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(20,184,166,.28);
+  filter: brightness(1.04);
 }
 
 #modalTime {

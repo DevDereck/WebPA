@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -346,7 +346,10 @@
           </div>
           
           <div class="eventos-sidebar">
-            <h3>Eventos Próximos</h3>
+            <div class="eventos-sidebar__header">
+              <h3>Eventos Próximos</h3>
+              <button type="button" id="downloadCalendar" class="eventos-sidebar__download">Descargar</button>
+            </div>
             <div class="eventos-list" id="eventosList"></div>
             <button type="button" id="toggleEventosSidebar" class="eventos-sidebar__link">Ver todos los eventos</button>
           </div>
@@ -362,6 +365,9 @@
             <p id="modalDate" class="muted"></p>
             <p id="modalTime" class="muted"></p>
             <p id="modalDescription" class="lead"></p>
+            <div class="modal__calendar-actions">
+              <a id="downloadEvent" class="modal__calendar-btn" href="#">Descargar</a>
+            </div>
           </div>
         </div>
       </div>

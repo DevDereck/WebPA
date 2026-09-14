@@ -1505,6 +1505,81 @@ const modal = document.getElementById('eventoModal');
 const modalOverlay = document.querySelector('.modal__overlay');
 const modalClose = document.querySelector('.modal__close');
 
+function parseEventTime(timeText) {
+  if (!timeText || /por definir|por definir/i.test(timeText)) {
+    return null;
+  }
+
+  const match = timeText.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+  if (!match) return null;
+
+  let hours = parseInt(match[1], 10);
+  const minutes = parseInt(match[2], 10);
+  const suffix = match[3].toUpperCase();
+
+  if (suffix === 'PM' && hours < 12) hours += 12;
+  if (suffix === 'AM' && hours === 12) hours = 0;
+
+  return { hours, minutes };
+}
+
+function formatCalendarDate(date) {
+  return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, 'Z');
+}
+
+function formatIcsDate(date) {
+  return formatCalendarDate(date).replace('Z', '');
+}
+
+function escapeIcsText(text) {
+  return String(text || '')
+    .replace(/\\/g, '\\\\')
+    .replace(/;/g, '\\;')
+    .replace(/,/g, '\\,')
+    .replace(/\r?\n/g, '\\n');
+}
+
+function buildIcsEvent(dateStr, eventData) {
+  const [year, month, day] = dateStr.split('-').map((n) => parseInt(n, 10));
+  const time = parseEventTime(eventData.time);
+  const start = time
+    ? new Date(year, month - 1, day, time.hours, time.minutes)
+    : new Date(year, month - 1, day);
+  const end = new Date(start.getTime() + 60 * 60 * 1000);
+  const dateLines = time
+    ? `DTSTART:${formatIcsDate(start)}\nDTEND:${formatIcsDate(end)}`
+    : `DTSTART;VALUE=DATE:${dateStr.replace(/-/g, '')}\nDTEND;VALUE=DATE:${formatIcsDate(end).slice(0, 8)}`;
+
+  return [
+    'BEGIN:VEVENT',
+    `UID:${dateStr}-${encodeURIComponent(eventData.title)}@piedraangular`,
+    dateLines,
+    `SUMMARY:${escapeIcsText(eventData.title)}`,
+    `DESCRIPTION:${escapeIcsText(eventData.description)}`,
+    `LOCATION:${escapeIcsText('Iglesia Cristiana Piedra Angular')}`,
+    'END:VEVENT'
+  ].join('\n');
+}
+
+function downloadIcsFile(events, fileName) {
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Iglesia Cristiana Piedra Angular//Calendario//ES',
+    'CALSCALE:GREGORIAN',
+    ...events.map((event) => buildIcsEvent(event.dateStr, event)),
+    'END:VCALENDAR'
+  ].join('\n');
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(link.href);
+}
+
 function openModal(dateStr, eventData) {
   if (!modal) return;
   const [y, m, d] = dateStr.split('-').map((n) => parseInt(n, 10));
@@ -1515,6 +1590,7 @@ function openModal(dateStr, eventData) {
   const modalTitle = document.getElementById('modalTitle');
   const modalDate = document.getElementById('modalDate');
   const modalDesc = document.getElementById('modalDescription');
+  const downloadEvent = document.getElementById('downloadEvent');
   if (modalTitle) modalTitle.textContent = eventData.title;
   if (modalDate) modalDate.textContent = `${dayOfWeek[date.getDay()]}, ${date.getDate()} de ${monthNames[date.getMonth()]}`;
   const modalTimeEl = document.getElementById('modalTime');
@@ -1530,6 +1606,12 @@ function openModal(dateStr, eventData) {
     `;
   }
   if (modalDesc) modalDesc.textContent = eventData.description;
+  if (downloadEvent) {
+    downloadEvent.onclick = (event) => {
+      event.preventDefault();
+      downloadIcsFile([{ dateStr, ...eventData }], `${dateStr}-${eventData.title.replace(/\s+/g, '-').toLowerCase()}.ics`);
+    };
+  }
   
   modal.classList.add('is-open');
   modal.setAttribute('aria-hidden', 'false');
@@ -1751,6 +1833,13 @@ if (calendarDaysElement) {
       toggleBtn.textContent = showingAllSidebarEvents
         ? 'Ver menos eventos'
         : 'Ver todos los eventos';
+    });
+  }
+
+  const downloadCalendar = document.getElementById('downloadCalendar');
+  if (downloadCalendar) {
+    downloadCalendar.addEventListener('click', () => {
+      downloadIcsFile(getAllEventsArray(), 'calendario-iglesia-piedra-angular.ics');
     });
   }
 }
