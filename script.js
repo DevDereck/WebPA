@@ -1505,22 +1505,19 @@ const modal = document.getElementById('eventoModal');
 const modalOverlay = document.querySelector('.modal__overlay');
 const modalClose = document.querySelector('.modal__close');
 
-function parseEventTime(timeText) {
-  if (!timeText || /por definir|por definir/i.test(timeText)) {
-    return null;
-  }
+function parseEventTimes(timeText) {
+  if (!timeText || /por definir/i.test(timeText)) return [];
 
-  const match = timeText.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
-  if (!match) return null;
+  return [...timeText.matchAll(/(\d{1,2}):(\d{2})\s*(AM|PM)/gi)].map((match) => {
+    let hours = parseInt(match[1], 10);
+    const minutes = parseInt(match[2], 10);
+    const suffix = match[3].toUpperCase();
 
-  let hours = parseInt(match[1], 10);
-  const minutes = parseInt(match[2], 10);
-  const suffix = match[3].toUpperCase();
+    if (suffix === 'PM' && hours < 12) hours += 12;
+    if (suffix === 'AM' && hours === 12) hours = 0;
 
-  if (suffix === 'PM' && hours < 12) hours += 12;
-  if (suffix === 'AM' && hours === 12) hours = 0;
-
-  return { hours, minutes };
+    return { hours, minutes };
+  });
 }
 
 function formatCalendarDate(date) {
@@ -1540,26 +1537,38 @@ function escapeIcsText(text) {
     .replace(/\r?\n/g, '\\n');
 }
 
-function buildIcsEvent(dateStr, eventData) {
+function buildIcsEvents(dateStr, eventData) {
   const [year, month, day] = dateStr.split('-').map((n) => parseInt(n, 10));
-  const time = parseEventTime(eventData.time);
-  const start = time
-    ? new Date(year, month - 1, day, time.hours, time.minutes)
-    : new Date(year, month - 1, day);
-  const end = new Date(start.getTime() + 60 * 60 * 1000);
-  const dateLines = time
-    ? `DTSTART:${formatIcsDate(start)}\nDTEND:${formatIcsDate(end)}`
-    : `DTSTART;VALUE=DATE:${dateStr.replace(/-/g, '')}\nDTEND;VALUE=DATE:${formatIcsDate(end).slice(0, 8)}`;
+  const times = parseEventTimes(eventData.time);
 
-  return [
-    'BEGIN:VEVENT',
-    `UID:${dateStr}-${encodeURIComponent(eventData.title)}@piedraangular`,
-    dateLines,
-    `SUMMARY:${escapeIcsText(eventData.title)}`,
-    `DESCRIPTION:${escapeIcsText(eventData.description)}`,
-    `LOCATION:${escapeIcsText('Iglesia Cristiana Piedra Angular')}`,
-    'END:VEVENT'
-  ].join('\n');
+  if (!times.length) {
+    const nextDay = new Date(year, month - 1, day + 1);
+    return [[
+      'BEGIN:VEVENT',
+      `UID:${dateStr}-${encodeURIComponent(eventData.title)}@piedraangular`,
+      `DTSTART;VALUE=DATE:${dateStr.replace(/-/g, '')}`,
+      `DTEND;VALUE=DATE:${formatIcsDate(nextDay).slice(0, 8)}`,
+      `SUMMARY:${escapeIcsText(eventData.title)}`,
+      `DESCRIPTION:${escapeIcsText(eventData.description)}`,
+      `LOCATION:${escapeIcsText('Iglesia Cristiana Piedra Angular')}`,
+      'END:VEVENT'
+    ].join('\n')];
+  }
+
+  return times.map((time, index) => {
+    const start = new Date(year, month - 1, day, time.hours, time.minutes);
+    const end = new Date(start.getTime() + 60 * 60 * 1000);
+    return [
+      'BEGIN:VEVENT',
+      `UID:${dateStr}-${encodeURIComponent(eventData.title)}-${index}@piedraangular`,
+      `DTSTART;TZID=America/Costa_Rica:${formatIcsDate(start)}`,
+      `DTEND;TZID=America/Costa_Rica:${formatIcsDate(end)}`,
+      `SUMMARY:${escapeIcsText(eventData.title)}`,
+      `DESCRIPTION:${escapeIcsText(eventData.description)}`,
+      `LOCATION:${escapeIcsText('Iglesia Cristiana Piedra Angular')}`,
+      'END:VEVENT'
+    ].join('\n');
+  });
 }
 
 function downloadIcsFile(events, fileName) {
@@ -1568,7 +1577,8 @@ function downloadIcsFile(events, fileName) {
     'VERSION:2.0',
     'PRODID:-//Iglesia Cristiana Piedra Angular//Calendario//ES',
     'CALSCALE:GREGORIAN',
-    ...events.map((event) => buildIcsEvent(event.dateStr, event)),
+    'X-WR-TIMEZONE:America/Costa_Rica',
+    ...events.flatMap((event) => buildIcsEvents(event.dateStr, event)),
     'END:VCALENDAR'
   ].join('\n');
   const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
@@ -1707,11 +1717,17 @@ const monthShort = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep
 function getAllEventsArray() {
   return Object.entries(eventsData)
     .map(([dateStr, data]) => {
-      const [y, m, d] = dateStr.split('-').map((n) => parseInt(n, 10));
+      const dateMatch = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})/);
+      if (!dateMatch) return null;
+
+      const [, yearText, monthText, dayText] = dateMatch;
+      const y = parseInt(yearText, 10);
+      const m = parseInt(monthText, 10);
+      const d = parseInt(dayText, 10);
       const date = new Date(y, m - 1, d);
       date.setHours(0, 0, 0, 0);
       return {
-        dateStr,
+        dateStr: `${yearText}-${monthText}-${dayText}`,
         year: y,
         month: m - 1,
         day: d,
@@ -1721,6 +1737,7 @@ function getAllEventsArray() {
         date,
       };
     })
+    .filter(Boolean)
     .sort((a, b) => a.date - b.date);
 }
 
