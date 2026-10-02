@@ -16,7 +16,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
     <link rel="manifest" href="site.webmanifest" />
     <meta name="theme-color" content="#1ab5b5" />
-    <link rel="stylesheet" href="style.css?v=2" />
+    <link rel="stylesheet" href="style.css?v=3" />
   </head>
   <body>
     <header class="topbar">
@@ -159,88 +159,69 @@
           <p class="eyebrow" data-i18n="ministerios.eyebrow">Vida de la iglesia</p>
           <h2 data-i18n="ministerios.title">Ministerios para cada <span class="text-accent">paso de fe</span></h2>
           <p class="lead" data-i18n="ministerios.lead">
-            Conecta con tu llamado: alabanza, discipulado, jóvenes, misiones y
-            más.
+            Conecta con tu llamado: alabanza, discipulado, jóvenes, misiones, audio, multimedia y danza.
           </p>
         </div>
-        <div class="grid grid--3">
-          <article
-            class="card ministry"
-            style="--ministry-img: url('assets/adoracion1.jpg')"
-          >
-            <div class="badge">Alabanza</div>
-            <h3>Adoración</h3>
-            <p>Honrar y exaltar el nombre de Jesús.</p>
-            <span class="ministry__schedule">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              Jueves · 7:00 p.m.
-            </span>
-            <a class="btn btn--text" href="alabanza.html">Conocer más</a>
+        <div class="grid grid--3 ministry-grid">
+          <article class="card ministry" style="--ministry-img: url('assets/adoracion1.jpg')">
+            <div class="ministry__visual" aria-hidden="true"></div>
+            <div class="ministry__body"><h3>Adoración</h3><p>Honrar y exaltar el nombre de Jesús.</p>
+              <span class="ministry__schedule"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Jueves · 7:00 p.m.</span>
+              <a class="btn btn--text" href="alabanza.html" aria-label="Conocer más sobre Alabanza">Conocer más<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+            </div>
           </article>
-          <article
-            class="card ministry"
-            style="--ministry-img: url('assets/petra6.jpg')"
-          >
-            <div class="badge">Jóvenes</div>
-            <h3>PETRA</h3>
-            <p>Encuentros creativos que impulsan la fe y liderazgo de los jóvenes.</p>
-            <span class="ministry__schedule">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              Sábados · 4:30 p.m.
-            </span>
-            <a class="btn btn--text" href="petra.html">Conocer más</a>
+          <article class="card ministry" style="--ministry-img: url('assets/petra6.jpg')">
+            <div class="ministry__visual" aria-hidden="true"></div>
+            <div class="ministry__body"><h3>PETRA</h3><p>Encuentros creativos que impulsan la fe y liderazgo de los jóvenes.</p>
+              <span class="ministry__schedule"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Sábados · 4:30 p.m.</span>
+              <a class="btn btn--text" href="petra.html" aria-label="Conocer más sobre PETRA">Conocer más<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+            </div>
           </article>
-          <article
-            class="card ministry"
-            style="--ministry-img: url('assets/rockids2.jpg')"
-          >
-            <div class="badge">Niños</div>
-            <h3>RocKids</h3>
-            <p>Ambientes seguros y divertidos para descubrir a Jesús.</p>
-            <span class="ministry__schedule">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              Domingo · 9:30 a.m.
-            </span>
-            <a class="btn btn--text" href="rockids.html">Conocer más</a>
+          <article class="card ministry" style="--ministry-img: url('assets/rockids2.jpg')">
+            <div class="ministry__visual" aria-hidden="true"></div>
+            <div class="ministry__body"><h3>RocKids</h3><p>Ambientes seguros y divertidos para descubrir a Jesús.</p>
+              <span class="ministry__schedule"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Domingo · 9:30 a.m.</span>
+              <a class="btn btn--text" href="rockids.html" aria-label="Conocer más sobre RocKids">Conocer más<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+            </div>
           </article>
-          <article
-            class="card ministry"
-            style="--ministry-img: url('assets/hero.jpg')"
-          >
-            <div class="badge">Discipulado</div>
-            <h3>Discipulado</h3>
-            <p>Formación, consejería y espacios para nuevos en la fe.</p>
-            <span class="ministry__schedule">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              Jueves · 7:00 p.m.
-            </span>
-            <a class="btn btn--text" href="discipulado.html">Conocer más</a>
+          <article class="card ministry" style="--ministry-img: url('assets/hero.jpg')">
+            <div class="ministry__visual" aria-hidden="true"></div>
+            <div class="ministry__body"><h3>Discipulado</h3><p>Formación, consejería y espacios para nuevos en la fe.</p>
+              <span class="ministry__schedule"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Jueves · 7:00 p.m.</span>
+              <a class="btn btn--text" href="discipulado.html" aria-label="Conocer más sobre Discipulado">Conocer más<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+            </div>
           </article>
-          <article
-            class="card ministry"
-            style="--ministry-img: url('assets/evangelismo2.jpg')"
-          >
-            <div class="badge">Misiones</div>
-            <h3>Misiones</h3>
-            <p>Proyectos locales y globales para llevar la Palabra de Dios.</p>
-            <span class="ministry__schedule">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              Sábados · 10:30 a.m.
-            </span>
-            <a class="btn btn--text" href="misiones.html">Conocer más</a>
+          <article class="card ministry" style="--ministry-img: url('assets/evangelismo2.jpg')">
+            <div class="ministry__visual" aria-hidden="true"></div>
+            <div class="ministry__body"><h3>Misiones</h3><p>Proyectos locales y globales para llevar la Palabra de Dios.</p>
+              <span class="ministry__schedule"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Sábados · 10:30 a.m.</span>
+              <a class="btn btn--text" href="misiones.html" aria-label="Conocer más sobre Misiones">Conocer más<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+            </div>
           </article>
-          <article
-            class="card ministry"
-            style="--ministry-img: url('assets/piedraspreciosas1.jpg')"
-          >
-            <div class="badge">Damas</div>
-            <h3>Piedras Preciosas</h3>
-            <p>Reunión de mujeres adultas, compartir y aprendizaje juntas.</p>
-            <span class="ministry__schedule">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              Viernes · 7:00 p.m.
-            </span>
-            <a class="btn btn--text" href="piedras-preciosas.html">Conocer más</a>
+          <article class="card ministry" style="--ministry-img: url('assets/piedraspreciosas1.jpg')">
+            <div class="ministry__visual" aria-hidden="true"></div>
+            <div class="ministry__body"><h3>Piedras Preciosas</h3><p>Reunión de mujeres adultas, compartir y aprendizaje juntas.</p>
+              <span class="ministry__schedule"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Viernes · 7:00 p.m.</span>
+              <a class="btn btn--text" href="piedras-preciosas.html" aria-label="Conocer más sobre Piedras Preciosas">Conocer más<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+            </div>
+          </article>
+          <article class="card ministry" style="--ministry-img: url('assets/adoracion2.jpg')">
+            <div class="ministry__visual" aria-hidden="true"></div>
+            <div class="ministry__body"><h3>Audio</h3><p>Sonido claro y cuidado técnico para acompañar cada reunión y actividad de la iglesia.</p>
+              <a class="btn btn--text" href="audio.html" aria-label="Conocer más sobre Audio">Conocer más<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+            </div>
+          </article>
+          <article class="card ministry" style="--ministry-img: url('assets/multimedia3.jpeg')">
+            <div class="ministry__visual" aria-hidden="true"></div>
+            <div class="ministry__body"><h3>Multimedia</h3><p>Recursos visuales que comunican el mensaje y guardan cada historia de nuestra comunidad.</p>
+              <a class="btn btn--text" href="multimedia.html" aria-label="Conocer más sobre Multimedia">Conocer más<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+            </div>
+          </article>
+          <article class="card ministry" style="--ministry-img: url('assets/danza2.jpg')">
+            <div class="ministry__visual" aria-hidden="true"></div>
+            <div class="ministry__body"><h3>Danza</h3><p>Movimiento, expresión y creatividad al servicio de la adoración a Dios.</p>
+              <a class="btn btn--text" href="danza.html" aria-label="Conocer más sobre Danza">Conocer más<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></a>
+            </div>
           </article>
         </div>
       </section>
@@ -417,6 +398,9 @@
               <option>Discípulado</option>
               <option>Misiones-Evangelismo</option>
               <option>Damas</option>
+              <option>Audio</option>
+              <option>Multimedia</option>
+              <option>Danza</option>
               <option>Solo Información</option>
             </select>
 
