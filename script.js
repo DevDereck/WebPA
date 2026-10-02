@@ -2047,6 +2047,9 @@ async function updateLatestVideo() {
 
 function onDomReady() {
   updateLatestVideo();
+  if (document.querySelector('.video-player iframe')) {
+    window.setInterval(updateLatestVideo, 60 * 1000);
+  }
   initScrollReveal();
   initCheckin();
   initAsistencia();

@@ -954,53 +954,374 @@ main {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
-/* Grid de 4 para sección sobre (servicio + misión + creemos + foto) */
-.grid--about {
+/* Composición editorial de la sección "Quiénes somos" */
+#sobre .grid--about {
   display: grid;
-  grid-template-columns: 260px 1fr 1fr 1fr;
-  gap: 18px;
+  grid-template-columns: minmax(260px, 0.92fr) minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: repeat(2, minmax(250px, auto));
+  gap: 16px;
+  align-items: stretch;
 }
 
-/* Card de próximo servicio */
-.about-card--service {
-  background: linear-gradient(160deg, var(--accent-dark), var(--accent-strong));
-  color: #fff;
-  border: none;
-  text-align: center;
+#sobre .about-card {
+  min-width: 0;
+  padding: clamp(22px, 2.2vw, 32px);
+  border-radius: 18px;
+  box-shadow: 0 12px 34px rgba(5, 34, 56, 0.07);
+}
+
+#sobre .about-card--service {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  align-items: flex-start;
   justify-content: center;
+  gap: 26px;
+  padding: clamp(28px, 3vw, 42px);
+  border: 0;
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, rgba(6, 48, 62, 0.97), rgba(5, 116, 109, 0.96)),
+    var(--accent-dark);
+  color: #fff;
+  text-align: left;
+}
+
+#sobre .about-card--service::after {
+  position: absolute;
+  z-index: -1;
+  right: -18%;
+  bottom: 12%;
+  width: 86%;
+  height: 1px;
+  background: rgba(191, 246, 236, 0.44);
+  box-shadow: 0 12px 0 rgba(191, 246, 236, 0.16), 0 -12px 0 rgba(191, 246, 236, 0.16);
+  content: '';
+  transform: rotate(-42deg);
+}
+
+#sobre .about-card--service .about-card__icon {
+  width: 60px;
+  height: 60px;
+  flex: 0 0 60px;
+  margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 17px;
+  background: rgba(229, 255, 249, 0.14);
+  color: #d8fff5;
+}
+
+#sobre .about-card--service:hover .about-card__icon {
+  background: rgba(229, 255, 249, 0.22);
+}
+
+#sobre .service-content {
+  display: grid;
+  gap: 12px;
+  max-width: 360px;
+}
+
+#sobre .about-card--service .overline {
+  margin: 0;
+  color: #9de9dc;
+  font-size: 0.78rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+#sobre .about-card--service h3 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1.45rem, 2vw, 1.9rem);
+  line-height: 1.25;
+}
+
+#sobre .about-card--service .muted {
+  margin: 0;
+  color: rgba(239, 255, 251, 0.78);
+  font-size: 0.94rem;
+  line-height: 1.55;
+}
+
+#sobre .about-card--service:hover {
+  box-shadow: 0 18px 44px rgba(5, 65, 69, 0.24);
+}
+
+#sobre .about-card--mission {
+  grid-column: 2;
+  grid-row: 1;
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  grid-template-areas:
+    "icon title"
+    "copy copy"
+    "values values";
+  align-content: start;
+  gap: 0 16px;
+  overflow: hidden;
+  border: 1px solid rgba(14, 163, 154, 0.16);
+  background: linear-gradient(155deg, #fff 0%, #f2faf8 100%);
+  color: var(--ink);
+}
+
+#sobre .about-card--mission::before,
+#sobre .about-card--beliefs::before {
+  position: absolute;
+  top: 0;
+  right: 28px;
+  left: 28px;
+  height: 3px;
+  background: linear-gradient(90deg, #18b6a7, #a5eee0 72%, transparent);
+  content: '';
+}
+
+#sobre .about-card--mission .about-card__icon,
+#sobre .about-card--beliefs .about-card__icon {
+  grid-area: icon;
+  width: 56px;
+  height: 56px;
+  margin: 0;
+  border-radius: 16px;
+}
+
+#sobre .about-card--mission .about-card__icon {
+  border: 1px solid rgba(14, 163, 154, 0.12);
+  background: #e4f5f2;
+  color: #078d85;
+}
+
+#sobre .about-card--mission h3,
+#sobre .about-card--beliefs h3 {
+  grid-area: title;
+  align-self: center;
+  margin: 0;
+  font-size: clamp(1.25rem, 1.7vw, 1.5rem);
+  line-height: 1.25;
+}
+
+#sobre .about-card--mission h3 {
+  color: #0a3544;
+}
+
+#sobre .about-card--mission p,
+#sobre .about-card--beliefs p {
+  grid-area: copy;
+  margin: 22px 0 0;
+  line-height: 1.65;
+}
+
+#sobre .about-card--mission p {
+  color: #496571;
+}
+
+#sobre .about-card--mission .about-list {
+  grid-area: values;
+  margin: 20px 0 0;
+  gap: 0;
+  border-top: 1px solid rgba(14, 163, 154, 0.16);
+}
+
+#sobre .about-card--mission .about-list li {
   align-items: center;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid rgba(14, 163, 154, 0.14);
+  color: #496571;
+  font-size: 0.94rem;
 }
 
-.about-card--service .about-card__icon {
-  background: rgba(255, 255, 255, 0.18);
+#sobre .about-card--mission .about-list li::before {
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  border: 1px solid rgba(14, 163, 154, 0.12);
+  background-color: rgba(20, 184, 166, 0.1);
+}
+
+#sobre .about-card--beliefs {
+  grid-column: 3;
+  grid-row: 1;
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  grid-template-areas:
+    "icon title"
+    "copy copy"
+    "tags tags";
+  align-content: start;
+  gap: 0 16px;
+  overflow: hidden;
+  border: 1px solid rgba(180, 238, 225, 0.18);
+  background: linear-gradient(145deg, #073b4a, #075f5b);
+  color: #f2fffb;
+}
+
+#sobre .about-card--beliefs .about-card__icon {
+  border: 1px solid rgba(214, 255, 245, 0.22);
+  background: rgba(220, 255, 247, 0.12);
+  color: #9aeee0;
+}
+
+#sobre .about-card--beliefs h3 {
   color: #fff;
 }
 
-.about-card--service:hover .about-card__icon {
-  background: rgba(255, 255, 255, 0.28);
+#sobre .about-card--beliefs p {
+  color: rgba(239, 255, 251, 0.78);
 }
 
-.about-card--service .overline {
-  color: rgba(255, 255, 255, 0.8);
+#sobre .about-card--beliefs .tags {
+  grid-area: tags;
+  gap: 9px;
+  margin: 22px 0 0;
+}
+
+#sobre .about-card--beliefs .tags span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 11px;
+  border: 1px solid rgba(220, 255, 247, 0.22);
+  border-radius: 9px;
+  background: rgba(220, 255, 247, 0.12);
+  color: #d8fff5;
+  font-size: 0.86rem;
+}
+
+#sobre .about-card--beliefs .tags span::before {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border-radius: 50%;
+  background: #9aeee0;
+  content: '';
+}
+
+#sobre .about__strip {
+  grid-column: 2 / 4;
+  grid-row: 2;
+  min-height: 250px;
+  border-radius: 18px;
+  background-image:
+    linear-gradient(90deg, rgba(4, 31, 47, 0.82), rgba(4, 31, 47, 0.35) 62%, rgba(4, 31, 47, 0.12)),
+    var(--strip-img);
+  background-position: center 43%;
+  box-shadow: 0 12px 34px rgba(5, 34, 56, 0.1);
+}
+
+#sobre .about__overlay {
+  padding: clamp(22px, 3vw, 36px);
+  gap: 10px;
+  background: linear-gradient(90deg, rgba(4, 31, 47, 0.18), transparent 78%);
+}
+
+#sobre .about__overlay .eyebrow {
   margin: 0;
+  color: #6ce0cb;
 }
 
-.about-card--service h3 {
-  color: #fff;
-  font-size: 1.05rem;
-  margin: 0;
-  line-height: 1.35;
+#sobre .about__overlay h3 {
+  max-width: 520px;
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
 }
 
-.about-card--service .muted {
-  color: rgba(255, 255, 255, 0.82);
-  font-size: 0.84rem;
-  line-height: 1.4;
-  margin: 0;
+#sobre .about__overlay .muted {
+  max-width: 520px;
+  line-height: 1.5;
 }
 
-.about-card--service:hover {
-  box-shadow: 0 16px 44px rgba(11, 138, 134, 0.3);
+#sobre .about__overlay .btn {
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+@media (max-width: 1100px) {
+  #sobre .grid--about {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+  }
+
+  #sobre .about-card--service {
+    grid-column: 1;
+    grid-row: 1;
+    min-height: 360px;
+  }
+
+  #sobre .about-card--mission {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  #sobre .about-card--beliefs {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  #sobre .about__strip {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+@media (max-width: 680px) {
+  #sobre .grid--about {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  #sobre .grid--about > * {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  #sobre .about-card {
+    padding: 22px;
+  }
+
+  #sobre .about-card--mission,
+  #sobre .about-card--beliefs {
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 0 13px;
+  }
+
+  #sobre .about-card--mission .about-card__icon,
+  #sobre .about-card--beliefs .about-card__icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  #sobre .about-card--mission p,
+  #sobre .about-card--beliefs p {
+    margin-top: 18px;
+  }
+
+  #sobre .about-card--mission .about-list,
+  #sobre .about-card--beliefs .tags {
+    margin-top: 16px;
+  }
+
+  #sobre .about-card--beliefs .tags {
+    gap: 7px;
+  }
+
+  #sobre .about-card--beliefs .tags span {
+    padding: 7px 9px;
+    font-size: 0.82rem;
+  }
+
+  #sobre .about-card--service {
+    min-height: 270px;
+    gap: 20px;
+    padding: 26px;
+  }
+
+  #sobre .about__strip {
+    min-height: 320px;
+  }
 }
 
 #ministerios .grid.grid--3 {
